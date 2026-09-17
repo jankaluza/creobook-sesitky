@@ -1,0 +1,27 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Generated outputs (keep directory structure via .gitkeep)
+output/pages/*.pdf
+output/booklet/*.pdf
+output/preview/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Temp
+tmp/
+*.tmp

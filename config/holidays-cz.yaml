@@ -1,0 +1,46 @@
+# Czech public holidays (státní svátky a ostatní svátky)
+# Fixed-date holidays use month/day. Easter-relative holidays use day
+# offset from Easter Sunday (negative = before).
+
+locale: cs
+
+fixed:
+  - month: 1
+    day: 1
+    name: Den obnovy samostatného českého státu
+  - month: 5
+    day: 1
+    name: Svátek práce
+  - month: 5
+    day: 8
+    name: Den vítězství
+  - month: 7
+    day: 5
+    name: Den slovanských věrozvěstů Cyrila a Metoděje
+  - month: 7
+    day: 6
+    name: Den upálení mistra Jana Husa
+  - month: 9
+    day: 28
+    name: Den české státnosti
+  - month: 10
+    day: 28
+    name: Den vzniku samostatného československého státu
+  - month: 11
+    day: 17
+    name: Den boje za svobodu a demokracii
+  - month: 12
+    day: 24
+    name: Štědrý den
+  - month: 12
+    day: 25
+    name: 1. svátek vánoční
+  - month: 12
+    day: 26
+    name: 2. svátek vánoční
+
+easter_relative:
+  - offset: -2
+    name: Velký pátek
+  - offset: 1
+    name: Velikonoční pondělí

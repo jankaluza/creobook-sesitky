@@ -1,0 +1,52 @@
+[project]
+name = "creobook-templates"
+version = "0.1.0"
+description = "Generate printable CreoBook notebook inserts and calendars (A5 pages, A4 booklet imposition)"
+readme = "README.md"
+requires-python = ">=3.13"
+license = { text = "MIT" }
+authors = [{ name = "CreoBook" }]
+dependencies = [
+    "typer>=0.15.0",
+    "pydantic>=2.10.0",
+    "pypdf>=5.1.0",
+    "pyyaml>=6.0.2",
+    "typst==0.13.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+]
+
+[project.scripts]
+creobook = "creobook.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/creobook"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"templates" = "creobook/templates"
+"config" = "creobook/config"
+"assets" = "creobook/assets"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/templates",
+    "/config",
+    "/assets",
+    "/tests",
+    "/README.md",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.uv]
+package = true
