@@ -42,9 +42,9 @@
       columns: cols,
       column-gutter: col-gutter,
       align: center,
-      text(size: 6pt, fill: light, "týd"),
+      text(size: 6pt, fill: muted, "týd"),
       ..weekday-names.enumerate().map(((i, name)) => {
-        let fill = if i >= 5 { weekend-color } else { muted }
+        let fill = if i >= 5 { ink } else { muted }
         text(size: 7pt, weight: "bold", fill: fill, upper(name))
       }),
     )
@@ -69,12 +69,13 @@
             column-gutter: col-gutter,
             rows: (row-h - 1mm,),
             align: (center + top, left + top, left + top, left + top, left + top, left + top, left + top, left + top),
-            text(size: 6pt, fill: light, str(week.iso_week)),
+            text(size: 6pt, fill: muted, str(week.iso_week)),
             ..week.days.map(day => {
-              let bg = if day.holiday and day.in_month {
-                rgb(theme.colors.holiday_bg)
+              // Laser-safe: no pale fills — mark holidays/weekends with black strokes
+              let cell-stroke = if day.holiday and day.in_month {
+                mm(theme.lines.rule_width_mm) + ink
               } else if day.weekend and day.in_month {
-                rgb(theme.colors.weekend_bg)
+                mm(theme.lines.rule_width_mm) * 0.85 + ink
               } else {
                 none
               }
@@ -82,7 +83,8 @@
                 width: 100%,
                 height: 100%,
                 inset: (x: 0.6mm, y: 0.5mm),
-                fill: bg,
+                fill: none,
+                stroke: cell-stroke,
                 radius: 0.3mm,
                 clip: true,
               )[
@@ -94,7 +96,7 @@
                 )
                 #if day.holiday and day.in_month {
                   h(0.8mm)
-                  text(size: 5.5pt, fill: accent, "★")
+                  text(size: 5.5pt, fill: ink, "★")
                 }
               ]
             }),
@@ -102,7 +104,7 @@
           #place(bottom + left)[
             #line(
               length: 100%,
-              stroke: mm(theme.lines.rule_width_mm) * 0.7 + rule-color,
+              stroke: mm(theme.lines.rule_width_mm) + rule-color,
             )
           ]
         ]
@@ -111,7 +113,12 @@
   ]
 }
 
-#show: creobook-page.with(show-header: false, show-footer: true)
+#show: creobook-page.with(
+  show-header: false,
+  show-footer: true,
+  title: data.at("title", default: none),
+  subtitle: data.at("subtitle", default: none),
+)
 
 #for (i, month-data) in months.enumerate() {
   if i > 0 { pagebreak() }

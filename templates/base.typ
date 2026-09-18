@@ -37,14 +37,16 @@
   ]
 }
 
-#let page-footer(page-label: none) = context {
+#let page-footer(page-label: none, subtitle: none) = context {
+  let brand = theme.brand.name
+  let brand-line = if subtitle != none { brand + " · " + subtitle } else { brand }
   block(width: 100%)[
     #line(length: 100%, stroke: mm(theme.lines.rule_width_mm) + rule-color)
     #v(1.2mm)
     #grid(
       columns: (1fr, auto),
       align: (left + horizon, right + horizon),
-      text(size: 6.5pt, fill: light, theme.brand.name),
+      text(size: 6.5pt, fill: light, brand-line),
       text(
         size: 6.5pt,
         fill: light,
@@ -74,7 +76,9 @@
     header: if show-header {
       page-header(title: title, subtitle: subtitle)
     } else { none },
-    footer: if show-footer { page-footer() } else { none },
+    footer: if show-footer {
+      page-footer(subtitle: subtitle)
+    } else { none },
     header-ascent: 3mm,
     footer-descent: 2mm,
   )

@@ -83,6 +83,29 @@ def test_booklet_pads_to_multiple_of_four(tmp_path, theme):
     assert check_a4_landscape_sheets(out).ok
 
 
+def test_repeating_insert_booklet_numbered_pages(tmp_path, theme):
+    """Twenty numbered A5 pages impose to a 5-sheet booklet (10 sides)."""
+    from creobook.imposition import BOOKLET_A5_PAGES
+
+    src = tmp_path / "linky.pdf"
+    compile_page("ruled", src, theme=theme, page_count=BOOKLET_A5_PAGES, spacing_mm=7.0)
+    assert check_page_count(src, BOOKLET_A5_PAGES).ok
+    out = tmp_path / "linky-booklet.pdf"
+    impose_booklet(src, out, theme=theme, fold_guide=False)
+    assert check_page_count(out, 10).ok
+    assert check_a4_landscape_sheets(out).ok
+
+
+def test_single_page_booklet_pads_to_one_sheet(tmp_path, theme):
+    src = tmp_path / "one.pdf"
+    compile_page("ruled", src, theme=theme, page_count=1, spacing_mm=7.0)
+    assert check_page_count(src, 1).ok
+    out = tmp_path / "one-booklet.pdf"
+    impose_booklet(src, out, theme=theme, fold_guide=False)
+    assert check_page_count(out, 2).ok  # pad to 4 A5 → 1 sheet × 2 sides
+    assert check_a4_landscape_sheets(out).ok
+
+
 @pytest.mark.parametrize(
     "page_type,kwargs",
     [

@@ -41,34 +41,34 @@ class MarginsTheme(BaseModel):
 
 
 class ColorsTheme(BaseModel):
-    ink: str = "#1a1a1a"
-    muted: str = "#6e6e6e"
-    light: str = "#b3b3b3"
-    rule: str = "#c4c4c4"
-    accent: str = "#555555"
-    weekend: str = "#4a4a4a"
-    holiday: str = "#2e2e2e"
-    adjacent: str = "#9a9a9a"
+    ink: str = "#000000"
+    muted: str = "#1a1a1a"
+    light: str = "#333333"
+    rule: str = "#000000"
+    accent: str = "#000000"
+    weekend: str = "#000000"
+    holiday: str = "#000000"
+    adjacent: str = "#444444"
     background: str = "#ffffff"
-    fold_guide: str = "#d4d4d4"
-    header: str = "#5a5a5a"
-    holiday_bg: str = "#ececec"
-    weekend_bg: str = "#f6f6f6"
+    fold_guide: str = "#666666"
+    header: str = "#000000"
+    holiday_bg: str = "#ffffff"
+    weekend_bg: str = "#ffffff"
 
 
 class FontsTheme(BaseModel):
-    family: str = "DejaVu Sans"
+    family: str = "Inter"
     directory: str = "assets/fonts"
 
 
 class LinesTheme(BaseModel):
-    rule_width_mm: float = 0.15
-    grid_width_mm: float = 0.12
-    dot_diameter_mm: float = 0.45
-    margin_line_width_mm: float = 0.25
-    fold_guide_width_mm: float = 0.12
+    rule_width_mm: float = 0.35
+    grid_width_mm: float = 0.35
+    dot_diameter_mm: float = 0.65
+    margin_line_width_mm: float = 0.45
+    fold_guide_width_mm: float = 0.35
     checkbox_size_mm: float = 3.5
-    checkbox_stroke_mm: float = 0.25
+    checkbox_stroke_mm: float = 0.40
 
 
 class DefaultsTheme(BaseModel):

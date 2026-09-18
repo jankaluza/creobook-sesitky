@@ -32,17 +32,22 @@ def build_page_data(
     theme: Theme,
     *,
     title: str | None = None,
+    subtitle: str | None = None,
     spacing_mm: float | None = None,
     margin_line: bool = False,
     rows: int | None = None,
     page_count: int = 1,
     extra: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    from creobook.names import get_page_name
+
     defaults = theme.defaults
+    name = get_page_name(page_type, margin_line=margin_line)
     data: dict[str, Any] = {
         "page_type": page_type,
         "theme": theme.to_typst_dict(),
         "title": title or theme.brand.name,
+        "subtitle": subtitle if subtitle is not None else name.subtitle,
         "page_count": page_count,
         "margin_line": margin_line,
         "spacing_mm": spacing_mm
@@ -130,7 +135,35 @@ def compile_calendar(
     calendar_data: dict[str, Any] | None = None,
 ) -> Path:
     from creobook.calendar import build_calendar_data
+    from creobook.names import get_page_name
 
     theme = (theme or load_theme()).with_accent(accent)
     data = calendar_data or build_calendar_data(year, theme=theme, accent=accent)
+    data.setdefault("title", theme.brand.name)
+    data.setdefault("subtitle", get_page_name("calendar").subtitle)
     return compile_template("calendar.typ", data, output_pdf, theme=theme)
+
+
+def compile_planner(
+    year: int,
+    quarter: int,
+    output_pdf: Path | str,
+    *,
+    theme: Theme | None = None,
+    accent: str | None = None,
+    locale: str = "cs-CZ",
+    show_holidays: bool = True,
+    planner_data: dict[str, Any] | None = None,
+) -> Path:
+    from creobook.planner import build_planner_data
+
+    theme = (theme or load_theme()).with_accent(accent)
+    data = planner_data or build_planner_data(
+        year,
+        quarter,
+        locale=locale,
+        theme=theme,
+        accent=accent,
+        show_holidays=show_holidays,
+    )
+    return compile_template("planner.typ", data, output_pdf, theme=theme)

@@ -12,6 +12,10 @@ from creobook.theme import Theme, load_theme
 
 MM_TO_PT = 72.0 / 25.4
 
+# Default notebook insert booklet: 5 physical A4 sheets → 20 A5 pages after folding.
+BOOKLET_SHEETS = 5
+BOOKLET_A5_PAGES = BOOKLET_SHEETS * 4
+
 
 def mm_to_pt(mm: float) -> float:
     return mm * MM_TO_PT
@@ -92,6 +96,10 @@ def impose_booklet(
 
     Preserves vector content by embedding source pages (pypdf page merge).
     Adds blank pages until the count is divisible by 4.
+
+    For repeating notebook inserts, render ``BOOKLET_A5_PAGES`` (20) sequential
+    A5 pages with correct page numbers, then impose — do not rely on duplicating
+    a single page.
     """
     theme = theme or load_theme()
     input_path = Path(input_pdf)

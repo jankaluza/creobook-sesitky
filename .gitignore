@@ -15,6 +15,7 @@ venv/
 output/pages/*.pdf
 output/booklet/*.pdf
 output/preview/
+build/*.pdf
 
 # OS / editor
 .DS_Store

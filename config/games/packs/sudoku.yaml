@@ -1,0 +1,109 @@
+id: sudoku
+title: CreoBook Sudoku
+subtitle: Stránky plné sudoku různé obtížnosti · 6 A4 listů
+description: >
+  Sešit plný sudoku — na každé stránce tolik mřížek, kolik se vejde
+  (6× 4×4, 4× 6×6, 2× 9×9). Tisk jako A4 booklet — 6 listů, duplex,
+  krátká hrana, 100 %.
+sheets: 6
+difficulty: mixed
+seed: 20260917
+answers: true
+language: cs
+
+pages:
+  - kind: cover
+    title: CreoBook Sudoku
+
+  # Easy 4×4 — 6 puzzles per page / 2×3 (4 pages)
+  - kind: sudoku
+    title: Sudoku 4×4 · snadné
+    difficulty: easy
+    params: { size: 4, fill: true }
+  - kind: sudoku
+    title: Sudoku 4×4 · snadné
+    difficulty: easy
+    params: { size: 4, fill: true }
+  - kind: sudoku
+    title: Sudoku 4×4 · snadné
+    difficulty: easy
+    params: { size: 4, fill: true }
+  - kind: sudoku
+    title: Sudoku 4×4 · snadné
+    difficulty: easy
+    params: { size: 4, fill: true }
+
+  # Medium 6×6 — 4 puzzles per page / 2×2 (5 pages)
+  - kind: sudoku
+    title: Sudoku 6×6 · střední
+    difficulty: medium
+    params: { size: 6, fill: true }
+  - kind: sudoku
+    title: Sudoku 6×6 · střední
+    difficulty: medium
+    params: { size: 6, fill: true }
+  - kind: sudoku
+    title: Sudoku 6×6 · střední
+    difficulty: medium
+    params: { size: 6, fill: true }
+  - kind: sudoku
+    title: Sudoku 6×6 · střední
+    difficulty: medium
+    params: { size: 6, fill: true }
+  - kind: sudoku
+    title: Sudoku 6×6 · střední
+    difficulty: medium
+    params: { size: 6, fill: true }
+
+  # Hard 9×9 — 2 puzzles per page / 1×2 (6 pages)
+  - kind: sudoku
+    title: Sudoku 9×9 · těžké
+    difficulty: hard
+    params: { size: 9, fill: true }
+  - kind: sudoku
+    title: Sudoku 9×9 · těžké
+    difficulty: hard
+    params: { size: 9, fill: true }
+  - kind: sudoku
+    title: Sudoku 9×9 · těžké
+    difficulty: hard
+    params: { size: 9, fill: true }
+  - kind: sudoku
+    title: Sudoku 9×9 · těžké
+    difficulty: hard
+    params: { size: 9, fill: true }
+  - kind: sudoku
+    title: Sudoku 9×9 · těžké
+    difficulty: hard
+    params: { size: 9, fill: true }
+  - kind: sudoku
+    title: Sudoku 9×9 · těžké
+    difficulty: hard
+    params: { size: 9, fill: true }
+
+  - kind: bonus
+    title: Bonus — sudoku 9×9 · těžké
+    difficulty: hard
+    params: { game: sudoku, size: 9 }
+
+  # Split solution bands so answer grids stay readable
+  - kind: solutions
+    title: Řešení 4×4 (str. 2–3)
+    params: { from: 2, to: 3 }
+  - kind: solutions
+    title: Řešení 4×4 (str. 4–5)
+    params: { from: 4, to: 5 }
+  - kind: solutions
+    title: Řešení 6×6 (str. 6–7)
+    params: { from: 6, to: 7 }
+  - kind: solutions
+    title: Řešení 6×6 (str. 8–10)
+    params: { from: 8, to: 10 }
+  - kind: solutions
+    title: Řešení 9×9 (str. 11–13)
+    params: { from: 11, to: 13 }
+  - kind: solutions
+    title: Řešení 9×9 (str. 14–17)
+    params: { from: 14, to: 17 }
+  - kind: back
+    title: CreoBook

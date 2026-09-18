@@ -40,17 +40,18 @@ preview pdf:
 
 # Generate sample PDFs for visual inspection
 samples year=YEAR: install
-    uv run creobook page ruled --spacing 7 -o output/pages/ruled.pdf
-    uv run creobook page ruled --spacing 7 --margin-line -o output/pages/ruled-margin.pdf
-    uv run creobook page dotted --spacing 5 -o output/pages/dotted.pdf
-    uv run creobook page grid --spacing 5 -o output/pages/grid.pdf
-    uv run creobook page blank -o output/pages/blank.pdf
-    uv run creobook page checklist -o output/pages/checklist.pdf
-    uv run creobook page cornell -o output/pages/cornell.pdf
-    uv run creobook calendar --year {{year}} -o output/pages/calendar-{{year}}.pdf
-    uv run creobook booklet output/pages/calendar-{{year}}.pdf -o output/booklet/calendar-{{year}}-booklet.pdf
-    uv run creobook booklet output/pages/ruled.pdf -o output/booklet/ruled-booklet.pdf
-    -uv run creobook preview output/pages/calendar-{{year}}.pdf --dpi 72
+    uv run creobook page ruled --spacing 7 -n 20
+    uv run creobook page ruled --spacing 7 --margin-line -n 20
+    uv run creobook page dotted --spacing 5 -n 20
+    uv run creobook page grid --spacing 5 -n 20
+    uv run creobook page blank -n 20
+    uv run creobook page checklist -n 20
+    uv run creobook page cornell -n 20
+    uv run creobook calendar --year {{year}}
+    uv run creobook booklet output/pages/creobook-kalendar-a5.pdf
+    uv run creobook booklet output/pages/creobook-linky-a5.pdf
+    -uv run creobook web-preview output/pages/creobook-linky-a5.pdf --dpi 72
+    -uv run creobook web-preview output/pages/creobook-kalendar-a5.pdf --dpi 72
 
 # Show pinned versions
 versions:

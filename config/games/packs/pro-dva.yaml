@@ -1,0 +1,67 @@
+id: pro-dva
+title: CreoBook Hry pro dva
+subtitle: Papírové hry pro dva hráče
+description: >
+  Sešit her pro dva — piškvorky, lodě, čtverečky a další klasiky
+  na A5 stránkách. Tisk jako A4 booklet.
+sheets: 4
+difficulty: mixed
+seed: 20260917
+answers: false
+language: cs
+
+pages:
+  - kind: cover
+    title: CreoBook Hry pro dva
+  - kind: rules
+    title: Pravidla her
+  - kind: two_player
+    title: Piškvorky
+    variant: piskvorky
+    params: { variant: piskvorky }
+  - kind: two_player
+    title: Piškvorky — další partie
+    variant: piskvorky
+    params: { variant: piskvorky }
+  - kind: two_player
+    title: Lodě — flotila a střely
+    variant: lode
+    params: { variant: lode }
+  - kind: two_player
+    title: Lodě — záložní mřížky
+    variant: lode
+    params: { variant: lode }
+  - kind: two_player
+    title: Čtverečky
+    variant: ctverecky
+    params: { variant: ctverecky }
+  - kind: two_player
+    title: Čtverečky — další hra
+    variant: ctverecky
+    params: { variant: ctverecky }
+  - kind: two_player
+    title: Papírový fotbal
+    variant: fotbal
+    params: { variant: fotbal }
+  - kind: two_player
+    title: Papírový fotbal — odveta
+    variant: fotbal
+    params: { variant: fotbal }
+  - kind: two_player
+    title: Šibenice
+    variant: sibenice
+    params: { variant: sibenice }
+  - kind: two_player
+    title: Kategorie
+    variant: kategorie
+    params: { variant: kategorie }
+  - kind: two_player
+    title: Kategorie — další kolo
+    variant: kategorie
+    params: { variant: kategorie }
+  - kind: free_grid
+    title: Volná mřížka
+  - kind: score_table
+    title: Tabulka skóre
+  - kind: back
+    title: CreoBook

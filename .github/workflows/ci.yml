@@ -37,12 +37,14 @@ jobs:
 
       - name: Generate sample PDFs
         run: |
-          uv run creobook page ruled --spacing 7
+          uv run creobook page ruled --spacing 7 -n 20
           uv run creobook calendar --year 2026
-          uv run creobook booklet output/pages/calendar-2026.pdf
+          uv run creobook booklet output/pages/creobook-kalendar-a5.pdf
 
       - name: Preview smoke
-        run: uv run creobook preview output/pages/calendar-2026.pdf --dpi 36
+        run: |
+          uv run creobook preview output/pages/creobook-kalendar-a5.pdf --dpi 36
+          uv run creobook web-preview output/pages/creobook-linky-a5.pdf --dpi 36
 
       - name: Upload sample artefacts
         uses: actions/upload-artifact@v4

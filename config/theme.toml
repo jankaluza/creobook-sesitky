@@ -11,34 +11,37 @@ top_mm = 11.0
 bottom_mm = 11.0
 
 [colors]
-# Grayscale-friendly palette; accent is configurable
-ink = "#1a1a1a"
-muted = "#6e6e6e"
-light = "#b3b3b3"
-rule = "#c4c4c4"
-accent = "#555555"
-weekend = "#4a4a4a"
-holiday = "#2e2e2e"
-adjacent = "#9a9a9a"
+# High-contrast black & white for reliable laser printing.
+# Avoid light grays — many lasers drop anything softer than ~40% black.
+ink = "#000000"
+muted = "#1a1a1a"
+light = "#333333"
+rule = "#000000"
+accent = "#000000"
+weekend = "#000000"
+holiday = "#000000"
+adjacent = "#444444"
 background = "#ffffff"
-fold_guide = "#d4d4d4"
-header = "#5a5a5a"
-holiday_bg = "#ececec"
-weekend_bg = "#f6f6f6"
+fold_guide = "#666666"
+header = "#000000"
+# No pale fills (they often fail to print); templates use strokes instead
+holiday_bg = "#ffffff"
+weekend_bg = "#ffffff"
 
 [fonts]
-family = "DejaVu Sans"
+family = "Inter"
 # Relative to project root
 directory = "assets/fonts"
 
 [lines]
-rule_width_mm = 0.15
-grid_width_mm = 0.12
-dot_diameter_mm = 0.45
-margin_line_width_mm = 0.25
-fold_guide_width_mm = 0.12
+# Slightly heavier strokes so thin rules survive toner / resolution limits
+rule_width_mm = 0.35
+grid_width_mm = 0.35
+dot_diameter_mm = 0.65
+margin_line_width_mm = 0.45
+fold_guide_width_mm = 0.35
 checkbox_size_mm = 3.5
-checkbox_stroke_mm = 0.25
+checkbox_stroke_mm = 0.40
 
 [defaults]
 ruled_spacing_mm = 7.0

@@ -7,6 +7,7 @@
 #let rule-stroke = mm(theme.lines.rule_width_mm) + rule-color
 #let accent-stroke = mm(theme.lines.margin_line_width_mm) + accent
 #let title = data.at("title", default: none)
+#let subtitle = data.at("subtitle", default: none)
 
 #let cornell-body() = {
   block(width: 100%, height: 1fr)[
@@ -68,7 +69,7 @@
   ]
 }
 
-#show: creobook-page.with(title: title, subtitle: "cornell")
+#show: creobook-page.with(title: title, subtitle: subtitle)
 
 #for page-i in range(count) {
   if page-i > 0 { pagebreak() }

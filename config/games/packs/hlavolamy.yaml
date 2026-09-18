@@ -1,0 +1,64 @@
+id: hlavolamy
+title: CreoBook Hlavolamy
+subtitle: Tužkové hádanky pro celou rodinu
+description: >
+  Sešit hlavolamů CreoBook — sudoku, bludiště, osmisměrky a další hry
+  k tisku na A5. Vytištěno jako A4 booklet (duplex, krátká hrana).
+sheets: 4
+difficulty: mixed
+seed: 20260917
+answers: true
+language: cs
+
+pages:
+  - kind: cover
+    title: CreoBook Hlavolamy
+  - kind: instructions
+    title: Jak hrát
+  - kind: sudoku
+    title: Sudoku 4×4
+    difficulty: easy
+    params: { size: 4 }
+  - kind: sudoku
+    title: Sudoku 6×6
+    difficulty: medium
+    params: { size: 6 }
+  - kind: maze
+    title: Bludiště — snadné
+    difficulty: easy
+  - kind: maze
+    title: Bludiště — střední
+    difficulty: medium
+  - kind: word_search
+    title: Osmisměrka — zvířata
+    difficulty: easy
+    theme: zvířata
+    params: { theme: zvířata }
+  - kind: nonogram
+    title: Nonogram
+    difficulty: easy
+    params: { size: 5 }
+  - kind: connect_dots
+    title: Spojovačka
+    difficulty: easy
+  - kind: spot_difference
+    title: Najdi rozdíly
+    difficulty: easy
+  - kind: cipher
+    title: Šifra
+    difficulty: easy
+  - kind: bonus
+    title: Bonus — sudoku 9×9
+    difficulty: hard
+    params: { game: sudoku, size: 9 }
+  - kind: solutions
+    title: Řešení (3–5)
+    params: { from: 3, to: 5 }
+  - kind: solutions
+    title: Řešení (6–8)
+    params: { from: 6, to: 8 }
+  - kind: solutions
+    title: Řešení (9–12)
+    params: { from: 9, to: 12 }
+  - kind: back
+    title: CreoBook

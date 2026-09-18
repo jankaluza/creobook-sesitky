@@ -47,7 +47,7 @@
             dx: c * spacing - diam / 2,
             dy: r * spacing - diam / 2,
           )[
-            #circle(radius: diam / 2, fill: rule-color, stroke: none)
+            #circle(radius: diam / 2, fill: ink, stroke: none)
           ]
         }
       }
@@ -80,20 +80,30 @@
 
 #let checklist-rows(n) = {
   let box-size = mm(theme.lines.checkbox_size_mm)
-  let stroke = mm(theme.lines.checkbox_stroke_mm) + muted
+  let stroke = mm(theme.lines.checkbox_stroke_mm) + ink
   let row-h = mm(theme.defaults.ruled_spacing_mm)
-  for i in range(n) {
-    block(width: 100%, height: row-h, inset: (bottom: 1mm))[
-      #grid(
-        columns: (box-size, 3mm, 1fr),
-        align: (horizon, horizon, horizon),
-        square(size: box-size, stroke: stroke),
-        [],
-        line(
-          length: 100%,
-          stroke: mm(theme.lines.rule_width_mm) + rule-color,
-        ),
-      )
+  let gap = 3mm
+  // Checkbox centered in the writing band above each rule so each box
+  // clearly belongs to the line beneath it.
+  layout(size => {
+    let n-fit = calc.min(n, calc.max(1, calc.floor(size.height / row-h)))
+    let line-w = size.width - box-size - gap
+    box(width: size.width, height: size.height)[
+      #for i in range(1, n-fit + 1) {
+        let y = i * row-h
+        place(
+          top + left,
+          dy: y - row-h / 2 - box-size / 2,
+        )[
+          #square(size: box-size, stroke: stroke)
+        ]
+        place(top + left, dx: box-size + gap, dy: y)[
+          #line(
+            length: line-w,
+            stroke: mm(theme.lines.rule_width_mm) + rule-color,
+          )
+        ]
+      }
     ]
-  }
+  })
 }
