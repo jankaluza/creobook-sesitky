@@ -154,10 +154,11 @@ def test_edition_date_formatting():
 
 
 def test_booklet_page_structure_and_difficulties():
-    pages, meta = build_word_search_booklet_pages(seed=20270101)
+    pages, meta = build_word_search_booklet_pages(seed=20270101, edition_label="č. 2")
     assert len(pages) == 24
     assert pages[0]["kind"] == "ws_cover"
     assert pages[0]["data"]["edition_date"] == "01. 01. 2027"
+    assert pages[0]["data"]["edition_label"] == "č. 2"
     assert meta["edition_date"] == "01. 01. 2027"
     puzzles = [p for p in pages if p["kind"] == "word_search"]
     assert sum(1 for p in puzzles if p["difficulty"] == "easy") == 6

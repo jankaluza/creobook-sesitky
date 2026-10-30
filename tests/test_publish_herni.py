@@ -19,6 +19,13 @@ sys.modules["publish_herni"] = publish_herni
 spec.loader.exec_module(publish_herni)
 
 
+def test_booklet_number_matches_the_product_name():
+    assert publish_herni.booklet_number(2) == "č. 2"
+    assert publish_herni.product_name("Sudoku", 2) == "Sudoku č. 2"
+    assert publish_herni.product_name("Osmisměrky", 2).endswith(publish_herni.booklet_number(2))
+    assert publish_herni.product_name("Bludiště", 2).endswith(publish_herni.booklet_number(2))
+
+
 def test_plan_edition_increments_when_the_seed_is_new():
     products = [
         {"id": 205, "name": "Sudoku č. 1", "slug": "sudoku-c-1", "date_created": "2026-09-01T08:00:00"},

@@ -86,10 +86,11 @@ def test_difficulty_ordering_averages():
 
 
 def test_booklet_structure():
-    pages, meta = build_maze_booklet_pages(seed=20270101)
+    pages, meta = build_maze_booklet_pages(seed=20270101, edition_label="č. 2")
     assert len(pages) == 24
     assert pages[0]["kind"] == "maze_cover"
     assert pages[0]["data"]["edition_date"] == "01. 01. 2027"
+    assert pages[0]["data"]["edition_label"] == "č. 2"
     mazes = [p for p in pages if p["kind"] == "maze"]
     assert len(mazes) == 18
     assert sum(1 for p in mazes if p["difficulty"] == "easy") == 6

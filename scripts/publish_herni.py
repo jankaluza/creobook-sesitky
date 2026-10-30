@@ -68,7 +68,7 @@ class Series:
     key: str
     title: str
     slug_prefix: str
-    generate: Callable[[int, Path], Path]
+    generate: Callable[[int, Path, str], Path]
 
 
 @dataclass(frozen=True)
@@ -82,6 +82,15 @@ class Edition:
     @property
     def updates_existing(self) -> bool:
         return self.update_id is not None
+
+
+def booklet_number(number: int) -> str:
+    """Zápis čísla v názvu produktu, například „č. 2“ v „Sudoku č. 2“."""
+    return f"č. {number}"
+
+
+def product_name(title: str, number: int) -> str:
+    return f"{title} {booklet_number(number)}"
 
 
 def today_seed(today: date | None = None) -> int:
@@ -386,7 +395,7 @@ def product_payload(
     image_id: int,
     seed: int,
 ) -> dict[str, Any]:
-    name = f"{edition.series.title} č. {edition.number}"
+    name = product_name(edition.series.title, edition.number)
     categories = [{"id": cat["id"]} for cat in source.get("categories") or [] if cat.get("id")]
     if not categories:
         raise SystemExit(f"Produkt „{edition.source_name}“ nemá kategorie ke zkopírování.")
@@ -426,13 +435,19 @@ def product_payload(
     }
 
 
-def generate_sudoku(seed: int, output: Path) -> Path:
+def generate_sudoku(seed: int, output: Path, edition_label: str) -> Path:
     from creobook.games.booklet import compile_games_booklet
     from creobook.games.models import BookletBuildOptions
 
     pages = output.with_name(output.stem + "-pages.pdf")
     result = compile_games_booklet(
-        BookletBuildOptions(pack_id="sudoku", sheets=6, seed=seed, answers=True),
+        BookletBuildOptions(
+            pack_id="sudoku",
+            sheets=6,
+            seed=seed,
+            answers=True,
+            edition_label=edition_label,
+        ),
         pages,
         impose=True,
         booklet_output=output,
@@ -440,7 +455,7 @@ def generate_sudoku(seed: int, output: Path) -> Path:
     return result["booklet"]
 
 
-def generate_word_search(seed: int, output: Path) -> Path:
+def generate_word_search(seed: int, output: Path, edition_label: str) -> Path:
     from creobook.games.word_search_booklet import compile_word_search_booklet
 
     result = compile_word_search_booklet(
@@ -451,11 +466,12 @@ def generate_word_search(seed: int, output: Path) -> Path:
         hard=6,
         solutions=True,
         output=output,
+        edition_label=edition_label,
     )
     return result["booklet"]
 
 
-def generate_maze(seed: int, output: Path) -> Path:
+def generate_maze(seed: int, output: Path, edition_label: str) -> Path:
     from creobook.games.maze_booklet import compile_maze_booklet
 
     result = compile_maze_booklet(
@@ -465,6 +481,7 @@ def generate_maze(seed: int, output: Path) -> Path:
         hard=6,
         solutions=True,
         output=output,
+        edition_label=edition_label,
     )
     return result["booklet"]
 
@@ -541,7 +558,8 @@ def main(argv: list[str] | None = None) -> int:
     preview_dir.mkdir(parents=True, exist_ok=True)
 
     for edition in editions:
-        name = f"{edition.series.title} č. {edition.number}"
+        name = product_name(edition.series.title, edition.number)
+        label = booklet_number(edition.number)
         pdf = booklet_dir / f"creobook-{seed}-{edition.series.slug_prefix}.pdf"
         pages = pages_pdf_for(pdf)
         preview = preview_dir / f"{pdf.stem}.png"
@@ -549,7 +567,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"{edition.source_name} → {name} (seed {seed}, {action})")
         if not args.no_generate:
             print(f"  generuji {pdf.name}")
-            edition.series.generate(seed, pdf)
+            edition.series.generate(seed, pdf, label)
             print(f"  PDF: {pdf}")
         elif args.dry_run:
             print("  nahrání přeskočeno (--dry-run)")

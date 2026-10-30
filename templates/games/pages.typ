@@ -4,9 +4,18 @@
 #import "math_grade2.typ": render-math-grade2, render-math-grade2-answers
 #import "math_sets.typ": render-math-set, render-math-set-answers
 
+#let edition-number(page) = {
+  let label = page.data.at("edition_label", default: "")
+  if label != "" {
+    v(2mm)
+    text(size: 16pt, weight: "bold", fill: ink, label)
+  }
+}
+
 #let render-cover(page) = {
   align(center + horizon)[
     #text(size: 28pt, weight: "bold", fill: ink, page.title)
+    #edition-number(page)
     #v(6mm)
     #text(size: 12pt, fill: muted, page.instructions)
     #v(12mm)
@@ -241,6 +250,7 @@
 
 #let render-maze-cover(page) = {
   text(size: 26pt, weight: "bold", fill: ink, page.title)
+  edition-number(page)
   v(2mm)
   text(size: 11pt, fill: muted, page.data.at("pack_subtitle", default: ""))
   v(4mm)
@@ -412,6 +422,7 @@
 
 #let render-ws-cover(page) = {
   text(size: 26pt, weight: "bold", fill: ink, page.title)
+  edition-number(page)
   v(2mm)
   text(size: 11pt, fill: muted, page.data.at("pack_subtitle", default: page.instructions))
   v(4mm)

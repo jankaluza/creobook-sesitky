@@ -12,7 +12,8 @@ from creobook.games.booklet import (
     compile_single_game,
     load_pack,
 )
-from creobook.games.models import BookletBuildOptions, Difficulty
+from creobook.compiler import compile_template
+from creobook.games.models import BookletBuildOptions, Difficulty, PackConfig, PageSpec
 from creobook.imposition import booklet_spreads, pad_page_count
 from creobook.theme import load_theme
 from creobook.validation import (
@@ -96,6 +97,51 @@ def test_sudoku_pack_pdf(tmp_path, theme):
     )
     assert check_a5_pages(one).ok
     assert check_page_count(one, 1).ok
+
+
+def test_cover_stores_the_same_number_as_the_product_name():
+    pack = PackConfig(
+        id="sudoku",
+        title="CreoBook Sudoku",
+        pages=[PageSpec(kind="cover", title="CreoBook Sudoku")],
+        sheets=1,
+    )
+    pages = build_booklet_pages(pack, sheets=1, seed=1, edition_label="č. 2")
+    assert pages[0]["kind"] == "cover"
+    assert pages[0]["data"]["edition_label"] == "č. 2"
+
+
+def test_covers_print_the_product_number(tmp_path, theme):
+    pages = [
+        {
+            "kind": kind,
+            "title": title,
+            "instructions": "Podtitul",
+            "difficulty": "easy",
+            "data": {"edition_label": label, "pack_subtitle": "Podtitul", "legend": []},
+            "answer": {},
+        }
+        for kind, title, label in (
+            ("cover", "CreoBook Sudoku", "č. 2"),
+            ("ws_cover", "OSMISMĚRKY", "č. 3"),
+            ("maze_cover", "BLUDIŠTĚ", "č. 4"),
+        )
+    ]
+    pdf = tmp_path / "covers.pdf"
+    compile_template(
+        "games/booklet.typ",
+        {
+            "page_type": "games_booklet",
+            "pages": pages,
+            "theme": theme.to_typst_dict(),
+            "title": "Sešitky",
+        },
+        pdf,
+        theme=theme,
+    )
+    texts = extract_page_text(pdf)
+    for text, label in zip(texts, ("č. 2", "č. 3", "č. 4"), strict=True):
+        assert label in text
 
 
 def test_hard_sudoku_page_holds_two_puzzles(tmp_path):

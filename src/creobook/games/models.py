@@ -77,3 +77,4 @@ class BookletBuildOptions(BaseModel):
     seed: int | None = None
     answers: bool | None = None
     accent: str | None = None
+    edition_label: str | None = None

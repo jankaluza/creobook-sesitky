@@ -99,6 +99,7 @@ def build_word_search_booklet_pages(
     stats: GenerationStats | None = None,
     preferred_theme: str | None = None,
     edition_date: date | None = None,
+    edition_label: str | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     if language != "cs":
         raise ValueError("Only Czech (cs) vocabulary is currently supported")
@@ -178,6 +179,7 @@ def build_word_search_booklet_pages(
             "hard": hard,
             "grid_diacritics": grid_diacritics,
             "edition_date": edition_cs,
+            "edition_label": edition_label or "",
             "legend": [
                 {"label": "LEHKÁ", "marker": "●○○", "detail": "10×10 · jen doprava a dolů"},
                 {"label": "STŘEDNÍ", "marker": "●●○", "detail": "13×13 · všechny směry"},
@@ -306,6 +308,7 @@ def compile_word_search_booklet(
     impose: bool = True,
     preferred_theme: str | None = None,
     edition_date: date | None = None,
+    edition_label: str | None = None,
 ) -> dict[str, Path]:
     theme = theme or load_theme()
     stats = GenerationStats()
@@ -322,6 +325,7 @@ def compile_word_search_booklet(
         stats=stats,
         preferred_theme=preferred_theme,
         edition_date=edition,
+        edition_label=edition_label,
     )
 
     json_path = Path(json_output) if json_output else (

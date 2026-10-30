@@ -56,6 +56,7 @@ def build_maze_booklet_pages(
     maze_style: str = "rectangular",
     solutions: bool = True,
     edition_date: date | None = None,
+    edition_label: str | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     if locale not in {"cs", "cs-CZ"}:
         raise ValueError("Only Czech locale (cs / cs-CZ) is supported")
@@ -114,6 +115,7 @@ def build_maze_booklet_pages(
             "pack_title": "BLUDIŠTĚ",
             "pack_subtitle": "Lehká, střední a těžká",
             "edition_date": edition_cs,
+            "edition_label": edition_label or "",
             "legend": [
                 {"label": "LEHKÁ", "marker": "●○○", "detail": "12×16 · kratší cesta"},
                 {"label": "STŘEDNÍ", "marker": "●●○", "detail": "18×24 · více odboček"},
@@ -242,6 +244,7 @@ def compile_maze_booklet(
     theme: Theme | None = None,
     impose: bool = True,
     edition_date: date | None = None,
+    edition_label: str | None = None,
 ) -> dict[str, Path]:
     theme = theme or load_theme()
     edition = edition_date or edition_date_from_seed(seed)
@@ -255,6 +258,7 @@ def compile_maze_booklet(
         maze_style=maze_style,
         solutions=solutions,
         edition_date=edition,
+        edition_label=edition_label,
     )
 
     json_path = Path(json_output) if json_output else (

@@ -139,6 +139,7 @@ def build_booklet_pages(
     difficulty: Difficulty | None = None,
     seed: int | None = None,
     answers: bool | None = None,
+    edition_label: str | None = None,
 ) -> list[dict[str, Any]]:
     sheets = sheets if sheets is not None else pack.sheets
     difficulty = difficulty if difficulty is not None else pack.difficulty
@@ -232,6 +233,8 @@ def build_booklet_pages(
 
     assert len(pages_out) == target
     assert pad_page_count(len(pages_out)) == len(pages_out)
+    if edition_label and pages_out and pages_out[0].kind == "cover":
+        pages_out[0].data["edition_label"] = edition_label
 
     return [p.model_dump(mode="json") for p in pages_out]
 
@@ -248,6 +251,7 @@ def build_booklet_data(
         difficulty=options.difficulty,
         seed=options.seed,
         answers=options.answers,
+        edition_label=options.edition_label,
     )
     return {
         "page_type": "games_booklet",
