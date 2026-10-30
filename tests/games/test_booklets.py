@@ -20,6 +20,7 @@ from creobook.validation import (
     check_a5_pages,
     check_content_within_media_box,
     check_page_count,
+    extract_page_text,
 )
 
 
@@ -95,6 +96,22 @@ def test_sudoku_pack_pdf(tmp_path, theme):
     )
     assert check_a5_pages(one).ok
     assert check_page_count(one, 1).ok
+
+
+def test_hard_sudoku_page_holds_two_puzzles(tmp_path):
+    one = tmp_path / "hard9.pdf"
+    compile_single_game(
+        "sudoku",
+        one,
+        seed=20260917,
+        difficulty=Difficulty.hard,
+        params={"size": 9, "fill": True},
+    )
+    assert check_page_count(one, 1).ok
+    assert check_a5_pages(one).ok
+    text = extract_page_text(one)[0]
+    assert "š.1" in text
+    assert "š.2" in text
 
 
 def test_single_game_pages(tmp_path, theme):

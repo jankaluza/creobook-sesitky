@@ -114,8 +114,8 @@
   let cell = if count == 1 {
     if n == 9 { 5.5mm } else if n == 6 { 7mm } else { 8mm }
   } else if n == 9 {
-    // 2× stacked 9×9 — large enough to write in
-    8.0mm
+    // Two stacked 9×9 on one A5 page. 7.8mm and above push the second puzzle over.
+    7.5mm
   } else if n == 6 {
     // 2×2 grid of 6×6
     8.5mm
@@ -138,7 +138,7 @@
   if cols == 1 {
     for (i, card) in cards.enumerate() {
       card
-      if i + 1 < cards.len() { v(3mm) }
+      if i + 1 < cards.len() { v(if n == 9 { 1.5mm } else { 3mm }) }
     }
   } else {
     grid(
