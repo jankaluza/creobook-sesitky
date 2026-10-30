@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Vygeneruje nové vydání sudoku, osmisměrek a bludišť a nahraje je do e-shopu.
 
-Najde v kategorii Herní nejvyšší číslo každého sešitku, vygeneruje PDF
-s dnešním seedem (YYYYMMDD) a založí nový produkt se stejným popisem,
-krátkým popisem, obrázkem a kategoriemi jako dosavadní nejvyšší vydání.
+Najde v kategorii Herní nejvyšší číslo každého sešitku a vygeneruje PDF
+s dnešním seedem (YYYYMMDD). Náhled produktu je prostřední stránka sešitku.
+Když už produkt se stejným seedem existuje, přepíše jeho PDF a náhled.
+Jinak založí další číslo se stejným popisem, krátkým popisem a kategoriemi.
 
 Přihlášení je heslo aplikace WordPress (Uživatelé → Profil → Hesla aplikací):
 
@@ -27,6 +28,8 @@ import argparse
 import base64
 import json
 import re
+import shutil
+import subprocess
 import sys
 from dataclasses import dataclass
 from datetime import date
@@ -42,8 +45,10 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 HERNI_CATEGORY_ID = 23
+SEED_META = "_creobook_seed"
 TITLE_NUMBER = re.compile(r" č\. (\d+)\s*$")
 SLUG_NUMBER = re.compile(r"-(\d+)$")
+PREVIEW_DPI = 144
 
 # Meta, která patří ke starému PDF nebo k ceně. Nový soubor se nastaví zvlášť.
 SKIP_META = {
@@ -72,6 +77,11 @@ class Edition:
     number: int
     source_id: int
     source_name: str
+    update_id: int | None = None
+
+    @property
+    def updates_existing(self) -> bool:
+        return self.update_id is not None
 
 
 def today_seed(today: date | None = None) -> int:
@@ -92,7 +102,52 @@ def edition_number(name: str, slug: str, title: str, slug_prefix: str) -> int | 
     return None
 
 
-def next_edition(products: list[dict[str, Any]], series: Series) -> Edition:
+def seed_day(seed: int) -> str | None:
+    """``20261030`` → ``2026-10-30``. Jiný seed datum není."""
+    text = str(seed)
+    if len(text) != 8 or not text.isdigit():
+        return None
+    try:
+        parsed = date(int(text[:4]), int(text[4:6]), int(text[6:8]))
+    except ValueError:
+        return None
+    return parsed.isoformat()
+
+
+def edition_sku(series: Series, seed: int) -> str:
+    return f"{series.slug_prefix}-{seed}"
+
+
+def stored_seed(product: dict[str, Any], series: Series) -> int | None:
+    """Seed uložený v meta nebo v SKU ``sudoku-c-20261030``."""
+    for item in product.get("meta_data") or []:
+        if str(item.get("key") or "") != SEED_META:
+            continue
+        value = str(item.get("value") or "")
+        if value.isdigit():
+            return int(value)
+    sku = str(product.get("sku") or "")
+    prefix = f"{series.slug_prefix}-"
+    if sku.startswith(prefix):
+        suffix = sku[len(prefix) :]
+        if len(suffix) == 8 and suffix.isdigit():
+            return int(suffix)
+    return None
+
+
+def created_on_seed_day(product: dict[str, Any], seed: int) -> bool:
+    day = seed_day(seed)
+    if day is None:
+        return False
+    for key in ("date_created", "date_created_gmt"):
+        if str(product.get(key) or "").startswith(day):
+            return True
+    return False
+
+
+def series_products(
+    products: list[dict[str, Any]], series: Series
+) -> list[tuple[int, dict[str, Any]]]:
     found: list[tuple[int, dict[str, Any]]] = []
     for product in products:
         number = edition_number(
@@ -103,18 +158,88 @@ def next_edition(products: list[dict[str, Any]], series: Series) -> Edition:
         )
         if number is not None:
             found.append((number, product))
+    return found
+
+
+def plan_edition(products: list[dict[str, Any]], series: Series, seed: int) -> Edition:
+    """Další číslo, nebo aktualizace posledního produktu se stejným seedem."""
+    found = series_products(products, series)
     if not found:
         raise SystemExit(
             f"V kategorii Herní není žádný produkt „{series.title} č. N“. "
-            "Skript nemá z čeho zkopírovat popis a obrázek."
+            "Skript nemá z čeho zkopírovat popis."
         )
-    number, source = max(found, key=lambda item: item[0])
+    same_seed = [item for item in found if stored_seed(item[1], series) == seed]
+    if same_seed:
+        number, product = max(same_seed, key=lambda item: item[0])
+        return _edition_update(series, number, product)
+    number, latest = max(found, key=lambda item: item[0])
+    if stored_seed(latest, series) is None and created_on_seed_day(latest, seed):
+        return _edition_update(series, number, latest)
     return Edition(
         series=series,
         number=number + 1,
-        source_id=int(source["id"]),
-        source_name=str(source.get("name") or ""),
+        source_id=int(latest["id"]),
+        source_name=str(latest.get("name") or ""),
     )
+
+
+def _edition_update(series: Series, number: int, product: dict[str, Any]) -> Edition:
+    return Edition(
+        series=series,
+        number=number,
+        source_id=int(product["id"]),
+        source_name=str(product.get("name") or ""),
+        update_id=int(product["id"]),
+    )
+
+
+def middle_page_number(page_count: int) -> int:
+    """1-based prostřední stránka. U sudého počtu ta bližší k začátku."""
+    if page_count < 1:
+        raise ValueError("PDF nemá žádnou stránku")
+    return (page_count + 1) // 2
+
+
+def pages_pdf_for(booklet: Path) -> Path:
+    return booklet.with_name(booklet.stem + "-pages.pdf")
+
+
+def render_middle_page(pdf: Path, output: Path, *, dpi: int = PREVIEW_DPI) -> int:
+    """PNG prostřední stránky sešitku v pořadí čtení."""
+    from pypdf import PdfReader
+
+    if shutil.which("pdftoppm") is None:
+        raise SystemExit("Chybí pdftoppm. Na serveru ho dodá balíček poppler-utils.")
+    page_count = len(PdfReader(str(pdf)).pages)
+    page = middle_page_number(page_count)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    prefix = output.with_suffix("")
+    try:
+        subprocess.run(
+            [
+                "pdftoppm",
+                "-png",
+                "-r",
+                str(dpi),
+                "-f",
+                str(page),
+                "-l",
+                str(page),
+                "-singlefile",
+                str(pdf),
+                str(prefix),
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except subprocess.CalledProcessError as exc:
+        detail = (exc.stderr or exc.stdout or "").strip()
+        raise SystemExit(f"Náhled stránky {page} se nepodařilo vykreslit: {detail}") from exc
+    if not output.is_file():
+        raise SystemExit(f"pdftoppm nevytvořil {output.name}.")
+    return page
 
 
 class Shop:
@@ -206,55 +331,81 @@ class Shop:
             raise SystemExit(f"Produkt {product_id} se nepodařilo načíst.")
         return product
 
-    def upload_pdf(self, pdf: Path, filename: str) -> str:
-        payload = pdf.read_bytes()
+    def upload_media(self, path: Path, filename: str, content_type: str) -> dict[str, Any]:
         media, _headers = self.request(
             "POST",
             "/wp-json/wp/v2/media",
-            body=payload,
+            body=path.read_bytes(),
             headers={
-                "Content-Type": "application/pdf",
+                "Content-Type": content_type,
                 "Content-Disposition": f'attachment; filename="{filename}"',
             },
             auth=True,
             timeout=180,
         )
-        if not isinstance(media, dict) or not media.get("source_url"):
-            raise SystemExit(f"Nahrání {filename} nevrátilo adresu souboru.")
-        return str(media["source_url"])
+        if not isinstance(media, dict) or not media.get("id") or not media.get("source_url"):
+            raise SystemExit(f"Nahrání {filename} nevrátilo soubor v knihovně médií.")
+        return media
 
-    def create_product(self, data: dict[str, Any]) -> dict[str, Any]:
-        created, _headers = self.request(
-            "POST",
-            "/wp-json/wc/v3/products",
+    def upload_pdf(self, pdf: Path, filename: str) -> str:
+        return str(self.upload_media(pdf, filename, "application/pdf")["source_url"])
+
+    def upload_png(self, png: Path, filename: str) -> int:
+        return int(self.upload_media(png, filename, "image/png")["id"])
+
+    def save_product(self, data: dict[str, Any], product_id: int | None = None) -> dict[str, Any]:
+        path = "/wp-json/wc/v3/products"
+        if product_id is not None:
+            path += f"/{product_id}"
+        saved, _headers = self.request(
+            "PUT" if product_id is not None else "POST",
+            path,
             body=json.dumps(data).encode("utf-8"),
             headers={"Content-Type": "application/json"},
             auth=True,
         )
-        if not isinstance(created, dict):
-            raise SystemExit("Vytvoření produktu nevrátilo záznam.")
-        return created
+        if not isinstance(saved, dict):
+            action = "Aktualizace" if product_id is not None else "Vytvoření"
+            raise SystemExit(f"{action} produktu nevrátila záznam.")
+        return saved
 
 
-def product_payload(source: dict[str, Any], edition: Edition, file_url: str) -> dict[str, Any]:
+def seed_meta_entry(source: dict[str, Any], seed: int) -> dict[str, Any]:
+    entry: dict[str, Any] = {"key": SEED_META, "value": str(seed)}
+    for item in source.get("meta_data") or []:
+        if str(item.get("key") or "") == SEED_META and item.get("id"):
+            entry["id"] = item["id"]
+            break
+    return entry
+
+
+def product_payload(
+    source: dict[str, Any],
+    edition: Edition,
+    file_url: str,
+    image_id: int,
+    seed: int,
+) -> dict[str, Any]:
     name = f"{edition.series.title} č. {edition.number}"
-    images = [{"id": image["id"]} for image in source.get("images") or [] if image.get("id")]
     categories = [{"id": cat["id"]} for cat in source.get("categories") or [] if cat.get("id")]
-    if not images:
-        raise SystemExit(f"Produkt „{edition.source_name}“ nemá obrázek ke zkopírování.")
     if not categories:
         raise SystemExit(f"Produkt „{edition.source_name}“ nemá kategorie ke zkopírování.")
     meta = []
     for item in source.get("meta_data") or []:
         key = str(item.get("key") or "")
-        if not key or key in SKIP_META:
+        if not key or key in SKIP_META or key == SEED_META:
             continue
         if "somdn" in key.lower() or "download" in key.lower():
-            meta.append({"key": key, "value": item.get("value")})
+            copied = {"key": key, "value": item.get("value")}
+            if item.get("id"):
+                copied["id"] = item["id"]
+            meta.append(copied)
+    meta.append(seed_meta_entry(source, seed))
     price = str(source.get("regular_price") or "0")
-    payload: dict[str, Any] = {
+    return {
         "name": name,
         "slug": f"{edition.series.slug_prefix}-{edition.number}",
+        "sku": edition_sku(edition.series, seed),
         "type": source.get("type") or "simple",
         "status": "publish",
         "catalog_visibility": source.get("catalog_visibility") or "visible",
@@ -267,14 +418,12 @@ def product_payload(source: dict[str, Any], edition: Edition, file_url: str) -> 
         "download_limit": source.get("download_limit", -1),
         "download_expiry": source.get("download_expiry", -1),
         "categories": categories,
-        "images": images,
+        "images": [{"id": image_id}],
         "manage_stock": False,
         "stock_status": "instock",
         "sold_individually": bool(source.get("sold_individually", False)),
+        "meta_data": meta,
     }
-    if meta:
-        payload["meta_data"] = meta
-    return payload
 
 
 def generate_sudoku(seed: int, output: Path) -> Path:
@@ -380,32 +529,48 @@ def main(argv: list[str] | None = None) -> int:
     series_list = selected_series(args.only)
     base_url, user, password = credentials_from_env()
     shop = Shop(base_url, user, password)
-    authenticated = bool(user and password) and not args.dry_run
-    if not args.dry_run and not authenticated:
+    can_auth = bool(user and password)
+    if not args.dry_run and not can_auth:
         shop.require_auth()
 
-    products = shop.list_herni_products(authenticated=authenticated)
-    editions = [next_edition(products, series) for series in series_list]
+    products = shop.list_herni_products(authenticated=can_auth)
+    editions = [plan_edition(products, series, seed) for series in series_list]
     booklet_dir = ROOT / "output" / "booklet"
     booklet_dir.mkdir(parents=True, exist_ok=True)
+    preview_dir = ROOT / "output" / "preview"
+    preview_dir.mkdir(parents=True, exist_ok=True)
 
     for edition in editions:
         name = f"{edition.series.title} č. {edition.number}"
         pdf = booklet_dir / f"creobook-{seed}-{edition.series.slug_prefix}.pdf"
-        print(f"{edition.source_name} → {name} (seed {seed})")
+        pages = pages_pdf_for(pdf)
+        preview = preview_dir / f"{pdf.stem}.png"
+        action = "aktualizuji" if edition.updates_existing else "nový produkt"
+        print(f"{edition.source_name} → {name} (seed {seed}, {action})")
         if not args.no_generate:
             print(f"  generuji {pdf.name}")
             edition.series.generate(seed, pdf)
             print(f"  PDF: {pdf}")
+        elif args.dry_run:
+            print("  nahrání přeskočeno (--dry-run)")
+            continue
+        if not pdf.is_file() or not pages.is_file():
+            raise SystemExit(
+                f"Chybí {pdf.name} nebo {pages.name}. Spusťte skript bez --no-generate."
+            )
+        page = render_middle_page(pages, preview)
+        print(f"  náhled: {preview.name}, stránka {page}")
         if args.dry_run:
             print("  nahrání přeskočeno (--dry-run)")
             continue
-        if not pdf.is_file():
-            raise SystemExit(f"Chybí PDF {pdf}. Spusťte skript bez --no-generate.")
         source = shop.get_product(edition.source_id)
         file_url = shop.upload_pdf(pdf, f"{edition.series.slug_prefix}-{edition.number}.pdf")
-        created = shop.create_product(product_payload(source, edition, file_url))
-        print(f"  produkt: {created.get('permalink')}")
+        image_id = shop.upload_png(preview, f"{edition.series.slug_prefix}-{edition.number}.png")
+        saved = shop.save_product(
+            product_payload(source, edition, file_url, image_id, seed),
+            edition.update_id,
+        )
+        print(f"  produkt: {saved.get('permalink')}")
     return 0
 
 

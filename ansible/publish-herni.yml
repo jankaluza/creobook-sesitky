@@ -54,6 +54,7 @@
         name:
           - ca-certificates
           - curl
+          - poppler-utils
           - tzdata
         state: present
         update_cache: true
