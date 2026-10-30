@@ -1,0 +1,21 @@
+[Unit]
+Description=Pregenerovat herni sesitky a nahrat je na creobook.cz
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User={{ creobook_user }}
+Group={{ creobook_user }}
+WorkingDirectory={{ creobook_root }}
+Environment=HOME={{ creobook_home }}
+EnvironmentFile=/etc/creobook/herni.env
+ExecStart={{ creobook_root }}/.venv/bin/python {{ creobook_root }}/scripts/publish_herni.py
+TimeoutStartSec=45min
+Nice=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=creobook-herni
+
+[Install]
+WantedBy=multi-user.target

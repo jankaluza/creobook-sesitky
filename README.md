@@ -36,8 +36,8 @@ All lengths are configured in millimetres in `config/theme.toml` (margins, colou
 
 ```bash
 # Ruled / dotted / grid / blank / checklist / Cornell
-uv run creobook page ruled --spacing 7
-uv run creobook page ruled --spacing 7 --margin-line
+uv run creobook page ruled --spacing 8
+uv run creobook page ruled --spacing 8 --margin-line
 uv run creobook page dotted --spacing 5
 uv run creobook page grid --spacing 5
 uv run creobook page blank
@@ -87,12 +87,14 @@ Modular one-quarter planner that fits under a single CreoBook elastic.
 
 ```bash
 uv run creobook planner quarter --year 2027 --quarter 1
+uv run creobook planner upcoming --count 4          # next 4 from today
+uv run creobook planner upcoming --from 20260918    # or pin an anchor date
 ```
 
 Options: `--locale cs-CZ`, `--accent-color`, `--show-holidays` / `--no-show-holidays`,
 `--fold-guide` / `--no-fold-guide`, `--output`.
 
-Outputs:
+Outputs (per quarter):
 
 - `output/pages/creobook-quarterly-planner-2027-q1-a5.pdf` — 28 sequential A5 pages
 - `output/booklet/creobook-quarterly-planner-2027-q1-a4.pdf` — 14-side imposed booklet
@@ -163,6 +165,212 @@ using today’s date as both the filename infix and the default `--seed` (overri
 
 Logical pages are always a multiple of four (`sheets × 4`). Imposition stays a separate step from puzzle generation.
 
+### Czech word-search booklet (OSMISMĚRKY)
+
+Dedicated 24-page A5 booklet with 6 easy + 6 medium + 6 hard thematic puzzles and
+5 solution pages (6 physical A4 sheets after duplex printing).
+
+```bash
+uv run creobook game word-search \
+  --language cs \
+  --easy 6 \
+  --medium 6 \
+  --hard 6 \
+  --seed 20270101
+```
+
+Outputs:
+
+- `output/pages/creobook-<DATE>-osmismerky-cs-a5.pdf` — 24 sequential A5 pages
+  (or `<output-stem>-pages.pdf` when `--output` is set)
+- `output/booklet/creobook-<DATE>-osmismerky.pdf` — 12 A4 landscape sides
+- `generated/word-search-cs-seed-<seed>.json` — reproducible puzzle JSON
+
+`make games` builds today’s edition with `DATE` / `SEED` (default `$(date +%Y%m%d)`),
+same dated filename pattern as sudoku (`creobook-<DATE>-osmismerky.pdf`).
+
+The title page shows `Vydání: DD. MM. YYYY` (from the seed when it is `YYYYMMDD`).
+
+Options: `--grid-diacritics` / `--no-grid-diacritics` (default off),
+`--solutions` / `--no-solutions`, `--fold-guide` / `--no-fold-guide`, `--output`.
+
+Curated Czech noun vocabulary lives in `data/word-search/cs-nouns.yaml`
+(common nouns only, with normalized grid forms such as `židle` → `ZIDLE`).
+
+#### Printing OSMISMĚRKY
+
+1. Open `output/booklet/creobook-<DATE>-osmismerky.pdf`.
+2. Paper: **A4**, orientation: **landscape**.
+3. **Duplex**, flip on the **short edge**.
+4. Scale: **100% / actual size** (do not use fit-to-page or the printer’s booklet mode).
+5. Keep all six sheets in printed order, nest them, fold in half, and insert under one CreoBook elastic.
+
+### Czech maze booklet (BLUDIŠTĚ)
+
+Dedicated 24-page A5 booklet with 6 easy + 6 medium + 6 hard perfect mazes and
+5 solution pages (6 physical A4 sheets).
+
+```bash
+uv run creobook game maze \
+  --easy 6 \
+  --medium 6 \
+  --hard 6 \
+  --seed 20270101
+```
+
+Outputs:
+
+- `output/pages/creobook-<DATE>-bludiste-a5.pdf` — 24 sequential A5 pages
+- `output/booklet/creobook-<DATE>-bludiste.pdf` — 12 A4 landscape sides
+- `generated/maze-cs-seed-<seed>.json` — maze topology + metrics
+
+Grids: easy 12×16, medium 18×24, hard 26×34. Difficulty uses scored metrics
+(solution length, turns, dead ends, branch depth, decision points), not cell size alone.
+
+`make games` also builds `creobook-<DATE>-bludiste.pdf` with today’s seed.
+
+#### Printing BLUDIŠTĚ
+
+Same as OSMISMĚRKY: A4 landscape, duplex short-edge, 100% scale, nest six sheets.
+
+### Czech crossword booklet (KŘÍŽOVKY)
+
+Dedicated 24-page A5 booklet: cover, **20** Czech crosswords with a highlighted
+**tajenka** column, and **3** solution pages (6 physical A4 sheets after duplex
+printing). Content and labels are in Czech.
+
+```bash
+uv run creobook game crossword \
+  --obtiznost mixed \
+  --tema mixed \
+  --seed 20270101 \
+  --preview
+```
+
+Options (Czech labels in CLI help):
+
+| Option | Meaning |
+| --- | --- |
+| `--obtiznost` / `--difficulty` | `easy`, `medium`, `hard`, or `mixed` (7+7+6) |
+| `--tema` / `--theme` | `animals`, `nature`, `everyday`, `school`, `mixed` (or Czech title) |
+| `--seed` | Deterministic edition seed (`YYYYMMDD` also sets the cover date) |
+| `--preview` | PNG of the cover (needs Poppler `pdftoppm`) |
+| `--output` | Print-ready imposed A4 PDF |
+| `--pages-output` | Sequential A5 PDF |
+
+Outputs:
+
+- `output/pages/creobook-<DATE>-krizovky-a5.pdf` — 24 sequential A5 pages
+- `output/booklet/creobook-<DATE>-krizovky.pdf` — 12 A4 landscape sides
+- `generated/crossword-cs-seed-<seed>.json` — reproducible puzzle JSON
+
+Curated clues and tajenky live in `data/crossword/cs-clues.yaml`
+(regenerate with `uv run python scripts/build_crossword_dataset.py` if you edit
+the builder script). Answers keep Czech diacritics; **CH** occupies two cells.
+
+#### Printing KŘÍŽOVKY
+
+1. Open `output/booklet/creobook-<DATE>-krizovky.pdf`.
+2. Paper: **A4**, orientation: **landscape**.
+3. **Duplex**, flip on the **short edge**.
+4. Scale: **100% / actual size** (do not use fit-to-page or the printer’s booklet mode).
+5. Keep all six sheets in printed order, nest them, fold in half, and insert under one CreoBook elastic.
+6. Verify orientation with one sheet first — printer settings vary.
+
+`make games` also builds `creobook-<DATE>-krizovky.pdf` with today’s seed.
+
+### Czech maths booklet (Matematika – 1. třída)
+
+Thirty-two A5 exercise pages for Grade 1 (numbers 0–20): eight topics × four
+practice variants each. No cover and no answers inside the child booklet — title
+and a name field are on page 1. Crossing-ten calculations appear only in a
+marked **Výzva navíc** section on the topic-6 pages.
+
+```bash
+uv run creobook game math-grade1 --seed 20261008 --preview
+```
+
+Outputs:
+
+- `output/pages/creobook-<DATE>-matematika-1trida-a5.pdf` — 32 sequential A5 pages
+- `output/booklet/creobook-<DATE>-matematika-1trida.pdf` — 16 A4 landscape sides (8 sheets)
+- `…-odpovedi.pdf` — parent answer key (separate from the booklet)
+- `generated/math-grade1-seed-<seed>.json`
+
+Imposition for 32 pages: `(32,1), (2,31), …, (16,17)`. Print A4 landscape, duplex,
+flip on the **short edge**, 100% scale; nest all eight sheets and fold.
+
+`make games` also builds `creobook-<DATE>-matematika-1trida.pdf`.
+
+### Czech maths booklet (Matematika – 2. třída)
+
+Twenty A5 exercise pages for Grade 2 (numbers 0–100). The eight topics are the
+same as before, and each exercise type appears twice. There is no cover: the
+title and a name line are at the top of page 1, and every page has tasks.
+Multiplication and division use the Czech school signs · and :. Tables 6–9
+appear only in a marked **Výzva navíc** block. Answers are a separate parent key.
+
+```bash
+uv run creobook game math-grade2 --seed 20261026 --preview
+```
+
+Outputs:
+
+- `output/pages/creobook-<DATE>-matematika-2trida-a5.pdf` — 20 sequential A5 pages
+- `output/booklet/creobook-<DATE>-matematika-2trida.pdf` — 10 A4 landscape sides (5 sheets)
+- `…-odpovedi.pdf` — parent answer key (not part of the twenty pages)
+- `generated/math-grade2-seed-<seed>.json`
+- `output/preview/creobook-<DATE>-matematika-2trida-a5-p1.png` … `p20.png` when `--preview` is used
+
+Print the booklet PDF on A4 **landscape**, duplex, flip on the **short edge**,
+at **100% / actual size**. Do not use fit-to-page or the printer’s booklet mode —
+the pages are already imposed and A5 is not scaled, so the segments on pages 18
+and 19 stay 4 cm and 7 cm. Five sheets, outside in: 20 | 1 (back 2 | 19),
+18 | 3 (back 4 | 17), 16 | 5 (back 6 | 15), 14 | 7 (back 8 | 13), 12 | 9
+(back 10 | 11). Nest them, fold in half, and check the back of one sheet
+before printing the rest.
+
+`make games` also builds `creobook-<DATE>-matematika-2trida.pdf`.
+
+### Three Grade-2 booklets (8 pages each)
+
+Three more booklets, each exactly eight portrait A5 pages. There is no cover:
+the title, subtitle, and a name line sit in the header of page 1. Answers are a
+separate parent key. A new `--seed` keeps the same page structure and changes
+the numbers.
+
+```bash
+uv run creobook game math-set cisla --seed 20261026 --preview
+uv run creobook game math-set nasobilka --seed 20261026 --preview
+uv run creobook game math-set kolem --seed 20261026 --preview
+```
+
+| Sešit | Podtitul | Soubor |
+| --- | --- | --- |
+| Čísla do 100 | Sčítání a odčítání · 2. třída | `cisla-do-100` |
+| Násobilka | Násobení a dělení · 2. třída | `nasobilka` |
+| Matematika kolem nás | Čas, peníze a tvary · 2. třída | `matematika-kolem-nas` |
+
+Outputs for seed `20261026`:
+
+- `output/pages/creobook-20261026-<slug>-a5.pdf` — 8 A5 pages in reading order
+- `output/booklet/creobook-20261026-<slug>.pdf` — 2 A4 landscape sheets (4 sides)
+- `output/pages/creobook-20261026-<slug>-odpovedi.pdf` — parent key
+- `generated/math-set-<slug>-seed-20261026.json`
+- `output/preview/creobook-20261026-<slug>-a5-p1.png` … `p8.png` with `--preview`
+
+Print each booklet on A4 **landscape**, duplex, flip on the **short edge**, at
+**100% / actual size**. Do not use fit-to-page or the printer’s booklet mode.
+Two sheets, outside in:
+
+1. outer sheet: front 8 | 1, back 2 | 7
+2. inner sheet: front 6 | 3, back 4 | 5
+
+Nest the inner sheet inside the outer one and fold. Check that the back is
+right-side up after a short-edge flip before printing the rest.
+
+`make games` also builds the three booklet PDFs for `DATE`.
+
 ### Seeds
 
 The same `--seed` always yields the same puzzles (per page slot). Change the seed for a new edition.
@@ -176,7 +384,8 @@ The same `--seed` always yields the same puzzles (per page slot). Change the see
 
 ### Adding Czech word lists
 
-Add `config/games/words/<theme>.yaml`:
+Small theme lists for single-page `games word-search --theme` live in
+`config/games/words/<theme>.yaml`:
 
 ```yaml
 words:
@@ -184,7 +393,7 @@ words:
   - PES
 ```
 
-Use uppercase; Czech diacritics are supported via Inter.
+The full booklet uses the curated noun corpus in `data/word-search/cs-nouns.yaml`.
 
 ## Booklet imposition
 
@@ -260,13 +469,14 @@ just calendar 2027
 just booklet output/pages/creobook-kalendar-a5.pdf
 ```
 
-Or with Make (regenerates all A5 pages, notebook booklets, and dated game packs):
+Or with Make (regenerates all A5 pages, notebook booklets, dated game packs, and the next four quarterly planners):
 
 ```bash
-make                  # YEAR=2026, DATE=$(date +%Y%m%d) by default
-make games            # hlavolamy + pro-dva + sudoku → output/booklet/
-make DATE=20260101    # pin edition date/seed
-make YEAR=2027
+make                  # pages + booklets + games + next 4 planners (YEAR=2026, DATE=today)
+make games            # hlavolamy + pro-dva + sudoku + osmismerky + bludiště → output/booklet/
+make planner          # next 4 quarters from DATE (e.g. Sep → Q3, Q4, Q1, Q2)
+make DATE=20260101    # pin game edition date/seed and planner anchor
+make YEAR=2027        # calendar year override
 make previews
 make clean
 ```

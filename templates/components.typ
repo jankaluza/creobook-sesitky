@@ -7,25 +7,26 @@
     let avail = size.height
     let spacing = mm(spacing-mm)
     let stroke = mm(theme.lines.rule_width_mm) + rule-color
-    let n = calc.max(1, calc.floor(avail / spacing))
+    // Exact spacing steps only. A line at y = i * spacing is drawn only when
+    // a full spacing band fits below it as well — so the last line is never
+    // squeezed against the footer, and every gap is exactly `spacing`.
+    let n = calc.max(0, calc.floor((avail - spacing) / spacing))
     // Margin line measured from page inner edge → convert to content x
     let margin-x = mm(theme.defaults.margin_line_from_inner_mm) - mm(theme.margins.inner_mm)
 
     box(width: size.width, height: avail)[
       #for i in range(1, n + 1) {
         let y = i * spacing
-        if y <= avail {
-          place(top + left, dy: y)[
-            #line(length: 100%, stroke: stroke)
-          ]
-        }
+        place(top + left, dy: y)[
+          #line(length: 100%, stroke: stroke)
+        ]
       }
       #if margin-line {
         place(top + left, dx: margin-x)[
           #line(
             angle: 90deg,
             length: avail,
-            stroke: mm(theme.lines.margin_line_width_mm) + accent,
+            stroke: mm(theme.lines.margin_line_width_mm) + rule-color,
           )
         ]
       }
@@ -86,7 +87,12 @@
   // Checkbox centered in the writing band above each rule so each box
   // clearly belongs to the line beneath it.
   layout(size => {
-    let n-fit = calc.min(n, calc.max(1, calc.floor(size.height / row-h)))
+    // Same fitting rule as ruled-lines: only full row-h steps, with a
+    // full row of clearance below the last line.
+    let n-fit = calc.min(
+      n,
+      calc.max(0, calc.floor((size.height - row-h) / row-h)),
+    )
     let line-w = size.width - box-size - gap
     box(width: size.width, height: size.height)[
       #for i in range(1, n-fit + 1) {

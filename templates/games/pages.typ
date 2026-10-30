@@ -1,5 +1,8 @@
 #import "../base.typ": *
 #import "common.typ": game-header, difficulty-label
+#import "math_grade1.typ": render-math-grade1, render-math-grade1-answers
+#import "math_grade2.typ": render-math-grade2, render-math-grade2-answers
+#import "math_sets.typ": render-math-set, render-math-set-answers
 
 #let render-cover(page) = {
   align(center + horizon)[
@@ -148,64 +151,254 @@
 }
 
 #let render-maze(page, show-answer: false) = {
-  game-header(
-    page.title,
-    difficulty: difficulty-label(page.difficulty),
-    instructions: if show-answer { "Řešení — vyznačená cesta" } else { page.instructions },
-  )
-  let rows = page.data.rows
-  let cols = page.data.cols
-  let cell = calc.min(12mm, 110mm / cols)
-  let path = if show-answer { page.answer.path } else { () }
-  let path-set = path.map(p => str(p.at(0)) + "," + str(p.at(1)))
-  align(center)[
-    #box(width: cols * cell, height: rows * cell)[
-      #for e in page.data.edges {
-        let x0 = e.x0 * cell
-        let y0 = e.y0 * cell
-        let x1 = e.x1 * cell
-        let y1 = e.y1 * cell
-        if e.y0 == e.y1 {
-          place(dx: x0, dy: y0)[#line(length: cell, stroke: mm(theme.lines.rule_width_mm) + ink)]
-        } else {
-          place(dx: x0, dy: y0)[#line(angle: 90deg, length: cell, stroke: mm(theme.lines.rule_width_mm) + ink)]
+  // Keep one maze per A5 page — do not let markers/labels spill onto a blank page.
+  block(width: 100%, breakable: false)[
+    #let num = page.data.at("maze_number", default: none)
+    #let marker = page.data.at("difficulty_marker", default: none)
+    #let label-cs = page.data.at("difficulty_label_cs", default: difficulty-label(page.difficulty))
+    #let header-right = if marker != none { label-cs + " · " + marker } else { difficulty-label(page.difficulty) }
+    #let title = if num != none { "Bludiště " + str(num) } else { page.title }
+    #game-header(
+      title,
+      difficulty: header-right,
+      instructions: if show-answer { "Řešení — vyznačená cesta" } else { page.instructions },
+    )
+    #let rows = page.data.rows
+    #let cols = page.data.cols
+    #let wall-pt = page.data.at("wall_pt", default: 0.7) * 1pt
+    // Content height ≈ 176mm; header+checkbox ≈ 28mm → grid ≤ ~145mm.
+    // Keep START/CÍL labels inside the grid box so they never force a page break.
+    #let max-w = 124mm
+    #let max-h = 145mm
+    #let cell = calc.min(max-w / cols, max-h / rows)
+    #let path = if show-answer { page.answer.path } else { () }
+    #let start = page.data.start
+    #let goal = page.data.goal
+    #let label-size = calc.min(5.5pt, cell * 0.28)
+    #align(center)[
+      #box(width: cols * cell, height: rows * cell, clip: true)[
+        // Solution path under walls
+        #if path.len() > 1 {
+          for i in range(path.len() - 1) {
+            let a = path.at(i)
+            let b = path.at(i + 1)
+            let x0 = a.at(1) * cell + cell / 2
+            let y0 = a.at(0) * cell + cell / 2
+            let x1 = b.at(1) * cell + cell / 2
+            let y1 = b.at(0) * cell + cell / 2
+            place(dx: calc.min(x0, x1), dy: calc.min(y0, y1))[
+              #line(
+                start: (0pt, 0pt),
+                end: (calc.abs(x1 - x0), calc.abs(y1 - y0)),
+                stroke: (paint: luma(55%), thickness: calc.max(1.1pt, cell * 0.18), cap: "round"),
+              )
+            ]
+          }
         }
-      }
-      #for p in path {
-        place(dx: p.at(1) * cell + cell * 0.35, dy: p.at(0) * cell + cell * 0.35)[
-          #circle(radius: cell * 0.12, fill: ink)
+        #for e in page.data.edges {
+          let x0 = e.x0 * cell
+          let y0 = e.y0 * cell
+          if e.y0 == e.y1 {
+            place(dx: x0, dy: y0)[#line(length: cell, stroke: wall-pt + ink)]
+          } else {
+            place(dx: x0, dy: y0)[#line(angle: 90deg, length: cell, stroke: wall-pt + ink)]
+          }
+        }
+        // START marker (outlined circle) + label inside cell
+        #place(
+          dx: start.at(1) * cell + cell * 0.22,
+          dy: start.at(0) * cell + cell * 0.12,
+        )[
+          #circle(radius: cell * 0.18, stroke: wall-pt + ink, fill: none)
         ]
-      }
-      #place(dx: 1mm, dy: 1mm)[#text(size: 6pt, weight: "bold", "START")]
-      #place(dx: (cols - 1) * cell + 0.5mm, dy: (rows - 1) * cell + cell - 3.5mm)[
-        #text(size: 6pt, weight: "bold", "CÍL")
+        #place(
+          dx: start.at(1) * cell + cell * 0.05,
+          dy: start.at(0) * cell + cell * 0.55,
+        )[
+          #text(size: label-size, weight: "bold", "START")
+        ]
+        // CÍL marker (filled square) + label inside cell
+        #place(
+          dx: goal.at(1) * cell + cell * 0.28,
+          dy: goal.at(0) * cell + cell * 0.12,
+        )[
+          #rect(width: cell * 0.40, height: cell * 0.40, fill: ink, stroke: none)
+        ]
+        #place(
+          dx: goal.at(1) * cell + cell * 0.08,
+          dy: goal.at(0) * cell + cell * 0.58,
+        )[
+          #text(size: label-size, weight: "bold", "CÍL")
+        ]
       ]
     ]
+    #v(1.5mm)
+    #box(width: 2.8mm, height: 2.8mm, stroke: mm(theme.lines.checkbox_stroke_mm) + ink)
+    #h(1mm)
+    #text(size: 6.5pt, fill: muted, "vyřešeno")
   ]
 }
 
+#let render-maze-cover(page) = {
+  text(size: 26pt, weight: "bold", fill: ink, page.title)
+  v(2mm)
+  text(size: 11pt, fill: muted, page.data.at("pack_subtitle", default: ""))
+  v(4mm)
+  line(length: 100%, stroke: mm(theme.lines.rule_width_mm) * 1.2 + accent)
+  v(3mm)
+  text(size: 8.5pt, page.instructions)
+  v(4mm)
+  text(size: 9pt, weight: "bold", "Obtížnost")
+  v(2mm)
+  for item in page.data.at("legend", default: ()) {
+    grid(
+      columns: (22mm, 14mm, 1fr),
+      column-gutter: 2mm,
+      align: (left + horizon, left + horizon, left + horizon),
+      text(size: 8pt, weight: "bold", item.label),
+      text(size: 9pt, item.marker),
+      text(size: 7.5pt, fill: muted, item.detail),
+    )
+    v(1.5mm)
+  }
+  v(6mm)
+  text(size: 9pt, weight: "bold")[
+    Vydání: #page.data.at("edition_date", default: "")
+  ]
+  v(1fr)
+  align(center)[
+    #text(size: 8pt, fill: muted, theme.brand.name + " · " + theme.brand.tagline)
+    #v(1mm)
+    #text(size: 7pt, fill: light, "A5 · 6 listů A4 booklet · duplex · krátká hrana")
+  ]
+}
+
+#let render-maze-solutions(page) = {
+  game-header(page.title, instructions: page.instructions)
+  let items = page.data.at("items", default: ())
+  if items.len() == 0 {
+    text(size: 9pt, fill: muted, "Řešení nejsou zahrnuta.")
+  } else {
+    let n-items = items.len()
+    let sol-cols = if n-items == 1 { 1 } else { 2 }
+    let col-spec = if sol-cols == 1 { (1fr,) } else { (1fr, 1fr) }
+    block(width: 100%, breakable: false)[
+      #grid(
+        columns: col-spec,
+        column-gutter: 2.5mm,
+        row-gutter: 2.8mm,
+        ..items.map(item => {
+          let rows = item.data.rows
+          let cols = item.data.cols
+          let max-w = if n-items <= 3 { 110mm } else { 58mm }
+          let max-h = if n-items <= 3 { 52mm } else { 48mm }
+          let cell = calc.min(max-w / cols, max-h / rows)
+          let path = item.answer.path
+          let start = item.data.start
+          let goal = item.data.goal
+          let wall-pt = 0.35pt
+          block(width: 100%, breakable: false)[
+            #text(size: 6.5pt, weight: "bold")[
+              #str(item.puzzle_number). #item.data.difficulty_label_cs
+              #h(1mm)
+              #text(size: 5.5pt, fill: muted, item.data.difficulty_marker)
+            ]
+            #v(0.5mm)
+            #align(center)[
+              #box(width: cols * cell, height: rows * cell)[
+                #if path.len() > 1 {
+                  for i in range(path.len() - 1) {
+                    let a = path.at(i)
+                    let b = path.at(i + 1)
+                    let x0 = a.at(1) * cell + cell / 2
+                    let y0 = a.at(0) * cell + cell / 2
+                    let x1 = b.at(1) * cell + cell / 2
+                    let y1 = b.at(0) * cell + cell / 2
+                    place(dx: calc.min(x0, x1), dy: calc.min(y0, y1))[
+                      #line(
+                        start: (0pt, 0pt),
+                        end: (calc.abs(x1 - x0), calc.abs(y1 - y0)),
+                        stroke: (paint: luma(50%), thickness: calc.max(0.7pt, cell * 0.22), cap: "round"),
+                      )
+                    ]
+                  }
+                }
+                #for e in item.data.edges {
+                  let x0 = e.x0 * cell
+                  let y0 = e.y0 * cell
+                  if e.y0 == e.y1 {
+                    place(dx: x0, dy: y0)[#line(length: cell, stroke: wall-pt + ink)]
+                  } else {
+                    place(dx: x0, dy: y0)[#line(angle: 90deg, length: cell, stroke: wall-pt + ink)]
+                  }
+                }
+                #place(dx: start.at(1)*cell+cell*0.3, dy: start.at(0)*cell+cell*0.3)[
+                  #circle(radius: cell*0.18, stroke: 0.3pt+ink, fill: none)
+                ]
+                #place(dx: goal.at(1)*cell+cell*0.32, dy: goal.at(0)*cell+cell*0.32)[
+                  #rect(width: cell*0.36, height: cell*0.36, fill: ink, stroke: none)
+                ]
+              ]
+            ]
+          ]
+        }),
+      )
+    ]
+  }
+}
+
 #let render-word-search(page, show-answer: false) = {
+  let num = page.data.at("puzzle_number", default: none)
+  let marker = page.data.at("difficulty_marker", default: none)
+  let label-cs = page.data.at("difficulty_label_cs", default: difficulty-label(page.difficulty))
+  let header-right = if marker != none {
+    label-cs + " " + marker
+  } else {
+    difficulty-label(page.difficulty)
+  }
+  let title = if num != none {
+    "Osmisměrka " + str(num) + " · " + page.title
+  } else {
+    page.title
+  }
   game-header(
-    page.title,
-    difficulty: difficulty-label(page.difficulty),
+    title,
+    difficulty: header-right,
     instructions: if show-answer { "Řešení — pozice slov" } else { page.instructions },
   )
-  let grid = page.data.grid
+  let letter-grid = page.data.grid
   let n = page.data.size
-  let cell = calc.min(7mm, 105mm / n)
+  // Fit square grid into available width; leave room for larger word list + footer
+  let max-grid = if n <= 10 { 105mm } else if n <= 13 { 108mm } else { 114mm }
+  let cell = calc.min(8.5mm, max-grid / n)
+  let letter-size = calc.max(8pt, cell * 0.42)
   align(center)[
     #table(
       columns: n * (cell,),
       rows: n * (cell,),
-      stroke: mm(theme.lines.rule_width_mm) * 0.8 + ink,
+      stroke: mm(theme.lines.rule_width_mm) * 0.75 + ink,
       align: center + horizon,
-      ..grid.flatten().map(ch => text(size: cell * 0.4, weight: "medium", ch)),
+      inset: 0pt,
+      ..letter-grid.flatten().map(ch => text(size: letter-size, weight: "medium", ch)),
     )
   ]
-  v(3mm)
-  text(size: 8pt, weight: "bold", "Slova:")
-  v(1mm)
-  text(size: 8pt, page.data.words.join(" · "))
+  v(2.5mm)
+  let cols = int(page.data.at("list_columns", default: 2))
+  let words = page.data.words
+  text(size: 8pt, weight: "bold", "Slova k nalezení")
+  h(2mm)
+  box(width: 2.8mm, height: 2.8mm, stroke: mm(theme.lines.checkbox_stroke_mm) + ink)
+  h(1mm)
+  text(size: 7pt, fill: muted, "hotovo")
+  v(1.4mm)
+  let col-spec = if cols == 3 { (1fr, 1fr, 1fr) } else { (1fr, 1fr) }
+  let word-size = if cols == 3 { 10pt } else { 11pt }
+  grid(
+    columns: col-spec,
+    column-gutter: 2.5mm,
+    row-gutter: 1.4mm,
+    ..words.map(w => text(size: word-size, weight: "medium", w)),
+  )
   if show-answer {
     v(2mm)
     for p in page.answer.placements {
@@ -214,6 +407,126 @@
         #linebreak()
       ]
     }
+  }
+}
+
+#let render-ws-cover(page) = {
+  text(size: 26pt, weight: "bold", fill: ink, page.title)
+  v(2mm)
+  text(size: 11pt, fill: muted, page.data.at("pack_subtitle", default: page.instructions))
+  v(4mm)
+  line(length: 100%, stroke: mm(theme.lines.rule_width_mm) * 1.2 + accent)
+  v(3mm)
+  text(size: 8.5pt, page.instructions)
+  v(4mm)
+  text(size: 9pt, weight: "bold", "Obtížnost")
+  v(2mm)
+  for item in page.data.at("legend", default: ()) {
+    grid(
+      columns: (22mm, 14mm, 1fr),
+      column-gutter: 2mm,
+      align: (left + horizon, left + horizon, left + horizon),
+      text(size: 8pt, weight: "bold", item.label),
+      text(size: 9pt, item.marker),
+      text(size: 7.5pt, fill: muted, item.detail),
+    )
+    v(1.5mm)
+  }
+  v(4mm)
+  text(size: 8pt, fill: muted)[
+    V mřížce bez diakritiky: židle → ZIDLE, kůň → KUN. Písmeno CH zabírá dvě políčka (C + H).
+  ]
+  v(6mm)
+  text(size: 9pt, weight: "bold")[
+    Vydání: #page.data.at("edition_date", default: "")
+  ]
+  v(1fr)
+  align(center)[
+    #text(size: 8pt, fill: muted, theme.brand.name + " · " + theme.brand.tagline)
+    #v(1mm)
+    #text(size: 7pt, fill: light, "A5 · 6 listů A4 booklet · duplex · krátká hrana")
+  ]
+}
+
+#let render-ws-solutions(page) = {
+  game-header(page.title, instructions: page.instructions)
+  let items = page.data.at("items", default: ())
+  if items.len() == 0 {
+    text(size: 9pt, fill: muted, "Řešení nejsou zahrnuta.")
+  } else {
+    let n-items = items.len()
+    // Prefer two columns so hard 16×16 miniatures stay on one page
+    let sol-cols = if n-items == 1 { 1 } else { 2 }
+    let col-spec = if sol-cols == 1 { (1fr,) } else { (1fr, 1fr) }
+    block(width: 100%, breakable: false)[
+      #grid(
+        columns: col-spec,
+        column-gutter: 2.5mm,
+        row-gutter: 2.5mm,
+        ..items.map(item => {
+          let g = item.data.grid
+          let n = g.len()
+          let cell = if n >= 16 {
+            if n-items <= 3 { 3.35mm } else { 3.1mm }
+          } else if n >= 13 {
+            if n-items <= 3 { 3.9mm } else { 3.5mm }
+          } else {
+            if n-items <= 4 { 4.5mm } else { 4.0mm }
+          }
+          let answer-cells = (:)
+          for p in item.answer.placements {
+            for cell-pos in p.at("cells", default: ()) {
+              let key = str(cell-pos.at(0)) + "," + str(cell-pos.at(1))
+              answer-cells.insert(key, true)
+            }
+          }
+          block(width: 100%, breakable: false)[
+            #text(size: 6.5pt, weight: "bold")[
+              #str(item.puzzle_number). #item.data.theme_title
+              #h(1mm)
+              #text(size: 5.5pt, fill: muted, item.data.difficulty_label_cs)
+            ]
+            #v(0.5mm)
+            #align(center)[
+              #table(
+                columns: n * (cell,),
+                rows: n * (cell,),
+                stroke: 0.12mm + ink,
+                align: center + horizon,
+                inset: 0pt,
+                ..{
+                  let cells = ()
+                  for (r, row) in g.enumerate() {
+                    for (c, ch) in row.enumerate() {
+                      let key = str(r) + "," + str(c)
+                      let hit = answer-cells.at(key, default: false)
+                      cells.push(
+                        box(
+                          width: 100%,
+                          height: 100%,
+                          // High-contrast monochrome: answer cells = black fill + white letter
+                          fill: if hit { ink } else { none },
+                          stroke: none,
+                          align(center + horizon)[
+                            #text(
+                              size: calc.max(3.8pt, cell * 0.52),
+                              weight: if hit { "bold" } else { "regular" },
+                              fill: if hit { rgb(theme.colors.background) } else { light },
+                              ch,
+                            )
+                          ],
+                        )
+                      )
+                    }
+                  }
+                  cells
+                },
+              )
+            ]
+          ]
+        }),
+      )
+    ]
   }
 }
 
@@ -595,15 +908,247 @@
   }
 }
 
+#let crossword-grid(grid, tajenka-col, cell, show-letters: false) = {
+  let rows = grid.len()
+  let cols = grid.at(0).len()
+  let thin = mm(theme.lines.rule_width_mm)
+  let thick = mm(theme.lines.margin_line_width_mm)
+  table(
+    columns: cols * (cell,),
+    rows: rows * (cell,),
+    stroke: (x, y) => {
+      let is-taj = x == tajenka-col
+      let w = if is-taj { thick } else { thin }
+      (
+        top: w + ink,
+        left: w + ink,
+        right: if x == cols - 1 or x + 1 == tajenka-col or is-taj { thick + ink } else { 0pt },
+        bottom: if y == rows - 1 { w + ink } else { 0pt },
+      )
+    },
+    align: center + horizon,
+    inset: 0pt,
+    ..{
+      let cells = ()
+      for (r, row) in grid.enumerate() {
+        for (c, ch) in row.enumerate() {
+          let blocked = ch == "#"
+          let is-taj = c == tajenka-col and not blocked
+          let letter = if show-letters and not blocked and ch != "" { ch } else { "" }
+          cells.push(
+            box(
+              width: 100%,
+              height: 100%,
+              fill: if blocked { ink } else { none },
+              stroke: none,
+              {
+                if is-taj and not blocked {
+                  place(top + left, dx: 0.3mm, dy: 0.3mm)[
+                    #rect(
+                      width: cell - 0.6mm,
+                      height: cell - 0.6mm,
+                      stroke: 0.35pt + ink,
+                      fill: none,
+                    )
+                  ]
+                }
+                // Mark tajenka column only on full-size puzzle pages
+                if r == 0 and is-taj and cell >= 5.5mm {
+                  place(top + left, dx: 0.4mm, dy: 0.15mm)[
+                    #text(size: calc.max(4pt, cell * 0.2), weight: "bold", "T")
+                  ]
+                }
+                align(center + horizon)[
+                  #text(
+                    size: calc.max(7pt, cell * 0.42),
+                    weight: "bold",
+                    fill: if blocked { rgb(theme.colors.background) } else { ink },
+                    letter,
+                  )
+                ]
+              },
+            )
+          )
+        }
+      }
+      cells
+    },
+  )
+}
+
+#let render-crossword(page, show-answer: false) = {
+  let num = page.data.at("puzzle_number", default: none)
+  let marker = page.data.at("difficulty_marker", default: none)
+  let label-cs = page.data.at("difficulty_label_cs", default: difficulty-label(page.difficulty))
+  let header-right = if marker != none { label-cs + " · " + marker } else { label-cs }
+  let title = if num != none { "Křížovka " + str(num) } else { page.title }
+  game-header(
+    title,
+    difficulty: header-right,
+    instructions: if show-answer { "Řešení — vyplněná mřížka a tajenka" } else { page.instructions },
+  )
+  let grid-data = if show-answer { page.answer.grid } else { page.data.grid }
+  let rows = page.data.rows
+  let cols = page.data.cols
+  let taj-col = page.data.tajenka_col
+  let max-w = 124mm
+  let max-h = if rows >= 11 { 88mm } else if rows >= 9 { 96mm } else { 105mm }
+  // Generator keeps cols/rows within handwriting-friendly bounds (>= ~6 mm).
+  let cell = calc.min(max-w / cols, max-h / rows, 9mm)
+  align(center)[
+    #crossword-grid(grid-data, taj-col, cell, show-letters: show-answer)
+  ]
+  v(2mm)
+  text(size: 8pt, weight: "bold", "Nápovědy (vodorovně)")
+  h(2mm)
+  text(size: 7pt, fill: muted, page.data.at("ch_note", default: "CH = dvě políčka"))
+  v(1.2mm)
+  let clues = page.data.clues
+  let clue-size = if clues.len() >= 11 { 8.5pt } else if clues.len() >= 9 { 9.5pt } else { 10.5pt }
+  let mid = calc.ceil(clues.len() / 2)
+  let left = clues.slice(0, mid)
+  let right = clues.slice(mid)
+  grid(
+    columns: (1fr, 1fr),
+    column-gutter: 3mm,
+    row-gutter: 0.8mm,
+    {
+      for item in left {
+        block(below: 0.7mm)[
+          #text(size: clue-size)[
+            #text(weight: "bold", str(item.num) + ".")
+            #h(0.8mm)
+            #item.clue
+            #text(size: clue-size - 1pt, fill: muted, " (" + str(item.length) + ")")
+          ]
+        ]
+      }
+    },
+    {
+      for item in right {
+        block(below: 0.7mm)[
+          #text(size: clue-size)[
+            #text(weight: "bold", str(item.num) + ".")
+            #h(0.8mm)
+            #item.clue
+            #text(size: clue-size - 1pt, fill: muted, " (" + str(item.length) + ")")
+          ]
+        ]
+      }
+    },
+  )
+  if show-answer {
+    v(2mm)
+    text(size: 9pt, weight: "bold")[
+      Tajenka: #page.answer.tajenka
+    ]
+  }
+}
+
+#let render-cw-cover(page) = {
+  text(size: 22pt, weight: "bold", fill: ink, page.title)
+  v(2mm)
+  text(size: 11pt, fill: muted, page.data.at("pack_subtitle", default: ""))
+  v(4mm)
+  line(length: 100%, stroke: mm(theme.lines.rule_width_mm) * 1.2 + accent)
+  v(3mm)
+  text(size: 8.5pt, page.instructions)
+  v(4mm)
+  text(size: 9pt, weight: "bold", "Obtížnost")
+  v(2mm)
+  for item in page.data.at("legend", default: ()) {
+    grid(
+      columns: (22mm, 14mm, 1fr),
+      column-gutter: 2mm,
+      align: (left + horizon, left + horizon, left + horizon),
+      text(size: 8pt, weight: "bold", item.label),
+      text(size: 9pt, item.marker),
+      text(size: 7.5pt, fill: muted, item.detail),
+    )
+    v(1.5mm)
+  }
+  v(3mm)
+  text(size: 8pt, fill: muted)[
+    Tajenka se čte ve zvýrazněném sloupci shora dolů. Mezery v tajence se do mřížky
+    nezapisují. Písmeno CH zabírá dvě políčka (C + H).
+  ]
+  v(4mm)
+  text(size: 8pt, fill: muted, page.data.at("print_hint", default: ""))
+  v(5mm)
+  text(size: 9pt, weight: "bold")[
+    Vydání: #page.data.at("edition_date", default: "")
+  ]
+  v(1fr)
+  align(center)[
+    #text(size: 8pt, fill: muted, theme.brand.name + " · " + theme.brand.tagline)
+    #v(1mm)
+    #text(size: 7pt, fill: light, "A5 · 6 listů A4 booklet · duplex · krátká hrana")
+  ]
+}
+
+#let render-cw-solutions(page) = {
+  game-header(page.title, instructions: page.instructions)
+  let items = page.data.at("items", default: ())
+  if items.len() == 0 {
+    text(size: 9pt, fill: muted, "Řešení nejsou zahrnuta.")
+  } else {
+    let n-items = items.len()
+    let sol-cols = if n-items <= 3 { 1 } else { 2 }
+    let col-spec = if sol-cols == 1 { (1fr,) } else { (1fr, 1fr) }
+    block(width: 100%, breakable: false)[
+      #grid(
+        columns: col-spec,
+        column-gutter: 2.5mm,
+        row-gutter: 2.2mm,
+        ..items.map(item => {
+          let g = item.answer.grid
+          let rows = g.len()
+          let cols = g.at(0).len()
+          let taj = item.data.tajenka_col
+          let max-w = if sol-cols == 1 { 110mm } else { 58mm }
+          let max-h = if n-items <= 4 { 28mm } else if n-items <= 7 { 22mm } else { 18mm }
+          let cell = calc.min(max-w / cols, max-h / rows, 4.2mm)
+          block(width: 100%, breakable: false)[
+            #text(size: 6.5pt, weight: "bold")[
+              #str(item.puzzle_number).
+              #item.data.difficulty_label_cs
+              #h(1mm)
+              #text(size: 5.5pt, fill: muted, item.data.difficulty_marker)
+            ]
+            #v(0.4mm)
+            #align(center)[
+              #crossword-grid(g, taj, cell, show-letters: true)
+            ]
+            #v(0.4mm)
+            #text(size: 6pt, weight: "bold")[
+              Tajenka: #item.answer.tajenka
+            ]
+          ]
+        }),
+      )
+    ]
+  }
+}
+
 #let render-page(page) = {
   let k = page.kind
   if k == "cover" { render-cover(page) }
+  else if k == "ws_cover" { render-ws-cover(page) }
+  else if k == "maze_cover" { render-maze-cover(page) }
+  else if k == "cw_cover" { render-cw-cover(page) }
   else if k == "back" { render-back(page) }
   else if k == "instructions" { render-instructions(page) }
   else if k == "rules" { render-rules(page) }
   else if k == "sudoku" { render-sudoku(page) }
   else if k == "maze" { render-maze(page) }
   else if k == "word_search" { render-word-search(page) }
+  else if k == "crossword" { render-crossword(page) }
+  else if k == "math_grade1" { render-math-grade1(page) }
+  else if k == "math_grade1_answers" { render-math-grade1-answers(page) }
+  else if k == "math_grade2" { render-math-grade2(page) }
+  else if k == "math_grade2_answers" { render-math-grade2-answers(page) }
+  else if k == "math_set" { render-math-set(page) }
+  else if k == "math_set_answers" { render-math-set-answers(page) }
   else if k == "nonogram" { render-nonogram(page) }
   else if k == "connect_dots" { render-connect-dots(page) }
   else if k == "spot_difference" { render-spot(page) }
@@ -611,6 +1156,9 @@
   else if k == "two_player" { render-two-player(page) }
   else if k == "bonus" { render-sudoku(page) }
   else if k == "solutions" { render-solutions(page) }
+  else if k == "ws_solutions" { render-ws-solutions(page) }
+  else if k == "maze_solutions" { render-maze-solutions(page) }
+  else if k == "cw_solutions" { render-cw-solutions(page) }
   else if k == "free_grid" { render-free-grid(page) }
   else if k == "score_table" { render-score(page) }
   else { text("Unknown page: " + k) }

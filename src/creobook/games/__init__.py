@@ -3,6 +3,7 @@
 from creobook.games import (
     cipher,
     connect_dots,
+    crossword,
     maze,
     nonogram,
     spot_difference,
@@ -17,6 +18,7 @@ _ = (
     sudoku,
     maze,
     word_search,
+    crossword,
     nonogram,
     connect_dots,
     spot_difference,

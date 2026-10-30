@@ -85,6 +85,28 @@ def next_quarter(year: int, quarter: int) -> tuple[int, int]:
     return year, quarter + 1
 
 
+def calendar_quarter(d: date) -> tuple[int, int]:
+    """Return ``(year, quarter)`` for the calendar quarter containing ``d``."""
+    return d.year, (d.month - 1) // 3 + 1
+
+
+def rolling_quarters(
+    start: date | None = None, *, count: int = 4
+) -> list[tuple[int, int]]:
+    """Next ``count`` quarters starting from the quarter that contains ``start``.
+
+    Defaults to today. Example: 2026-09-18 → Q3'26, Q4'26, Q1'27, Q2'27.
+    """
+    if count < 1:
+        raise ValueError("count must be a positive integer")
+    year, quarter = calendar_quarter(start or date.today())
+    out: list[tuple[int, int]] = []
+    for _ in range(count):
+        out.append((year, quarter))
+        year, quarter = next_quarter(year, quarter)
+    return out
+
+
 def quarter_label_cs(year: int, quarter: int) -> str:
     validate_quarter(quarter)
     return f"{quarter}. ČTVRTLETÍ {year}"

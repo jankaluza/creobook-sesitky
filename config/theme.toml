@@ -4,11 +4,13 @@ width_mm = 148.0
 height_mm = 210.0
 
 [margins]
-# Mirrored for duplex: inner is binding edge
-inner_mm = 13.0
-outer_mm = 9.0
-top_mm = 11.0
-bottom_mm = 11.0
+# Mirrored for duplex: inner is binding edge.
+# Outer/top/bottom leave room so home lasers do not clip header/footer
+# (CreoBook label + page numbers) when printing imposed booklets.
+inner_mm = 12.0
+outer_mm = 11.0
+top_mm = 18.0
+bottom_mm = 16.0
 
 [colors]
 # High-contrast black & white for reliable laser printing.
@@ -16,7 +18,8 @@ bottom_mm = 11.0
 ink = "#000000"
 muted = "#1a1a1a"
 light = "#333333"
-rule = "#000000"
+# Writing rules (linky / seznam / …): light-medium gray (test on your laser)
+rule = "#9a9a9a"
 accent = "#000000"
 weekend = "#000000"
 holiday = "#000000"
@@ -44,7 +47,7 @@ checkbox_size_mm = 3.5
 checkbox_stroke_mm = 0.40
 
 [defaults]
-ruled_spacing_mm = 7.0
+ruled_spacing_mm = 8.0
 dotted_spacing_mm = 5.0
 grid_spacing_mm = 5.0
 checklist_rows = 16

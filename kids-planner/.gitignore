@@ -1,0 +1,20 @@
+# Generated PDFs and previews
+output/*.pdf
+output/*.png
+output/*.jpg
+output/preview/
+!output/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# OS / editor
+.DS_Store
+*.swp
+*~
+.idea/
+.vscode/

@@ -26,7 +26,7 @@ def theme():
 @pytest.fixture(scope="module")
 def ruled_pdf(tmp_path_factory, theme):
     out = tmp_path_factory.mktemp("pdf") / "ruled.pdf"
-    compile_page("ruled", out, theme=theme, spacing_mm=7.0, page_count=1)
+    compile_page("ruled", out, theme=theme, spacing_mm=8.0, page_count=1)
     return out
 
 
@@ -40,10 +40,10 @@ def calendar_2026_pdf(tmp_path_factory, theme):
 def test_theme_defaults(theme):
     assert theme.page.width_mm == 148.0
     assert theme.page.height_mm == 210.0
-    assert theme.margins.inner_mm == 13.0
-    assert theme.margins.outer_mm == 9.0
-    assert theme.margins.top_mm == 11.0
-    assert theme.margins.bottom_mm == 11.0
+    assert theme.margins.inner_mm == 12.0
+    assert theme.margins.outer_mm == 11.0
+    assert theme.margins.top_mm == 18.0
+    assert theme.margins.bottom_mm == 16.0
 
 
 def test_ruled_a5_dimensions(ruled_pdf):
@@ -88,7 +88,7 @@ def test_repeating_insert_booklet_numbered_pages(tmp_path, theme):
     from creobook.imposition import BOOKLET_A5_PAGES
 
     src = tmp_path / "linky.pdf"
-    compile_page("ruled", src, theme=theme, page_count=BOOKLET_A5_PAGES, spacing_mm=7.0)
+    compile_page("ruled", src, theme=theme, page_count=BOOKLET_A5_PAGES, spacing_mm=8.0)
     assert check_page_count(src, BOOKLET_A5_PAGES).ok
     out = tmp_path / "linky-booklet.pdf"
     impose_booklet(src, out, theme=theme, fold_guide=False)
@@ -98,7 +98,7 @@ def test_repeating_insert_booklet_numbered_pages(tmp_path, theme):
 
 def test_single_page_booklet_pads_to_one_sheet(tmp_path, theme):
     src = tmp_path / "one.pdf"
-    compile_page("ruled", src, theme=theme, page_count=1, spacing_mm=7.0)
+    compile_page("ruled", src, theme=theme, page_count=1, spacing_mm=8.0)
     assert check_page_count(src, 1).ok
     out = tmp_path / "one-booklet.pdf"
     impose_booklet(src, out, theme=theme, fold_guide=False)
@@ -114,7 +114,7 @@ def test_single_page_booklet_pads_to_one_sheet(tmp_path, theme):
         ("grid", {"spacing_mm": 5.0}),
         ("checklist", {}),
         ("cornell", {}),
-        ("ruled", {"margin_line": True, "spacing_mm": 7.0}),
+        ("ruled", {"margin_line": True, "spacing_mm": 8.0}),
     ],
 )
 def test_page_types_a5(tmp_path, theme, page_type, kwargs):

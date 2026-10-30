@@ -59,6 +59,23 @@ def test_q4_points_to_q1_next_year():
     assert data["next_quarter"]["start"] == "2028-01-01"
 
 
+def test_calendar_quarter_and_rolling():
+    from datetime import date
+
+    from creobook.planner import calendar_quarter, rolling_quarters
+
+    assert calendar_quarter(date(2026, 9, 18)) == (2026, 3)
+    assert calendar_quarter(date(2026, 1, 1)) == (2026, 1)
+    assert calendar_quarter(date(2026, 12, 31)) == (2026, 4)
+    assert rolling_quarters(date(2026, 9, 18), count=4) == [
+        (2026, 3),
+        (2026, 4),
+        (2027, 1),
+        (2027, 2),
+    ]
+    assert rolling_quarters(date(2026, 12, 1), count=2) == [(2026, 4), (2027, 1)]
+
+
 def test_booklet_order_twenty_eight_pages():
     spreads = booklet_spreads(28)
     assert len(spreads) == PLANNER_A4_SIDES
@@ -214,7 +231,7 @@ def test_planner_pdf_dimensions_and_imposition(tmp_path):
 def test_mirrored_margins_in_theme_data():
     data = build_planner_data(2027, 1)
     margins = data["theme"]["margins"]
-    assert margins["inner_mm"] == 13.0
-    assert margins["outer_mm"] == 9.0
-    assert 10.0 <= margins["top_mm"] <= 12.0
-    assert 10.0 <= margins["bottom_mm"] <= 12.0
+    assert margins["inner_mm"] == 12.0
+    assert margins["outer_mm"] == 11.0
+    assert margins["top_mm"] == 18.0
+    assert margins["bottom_mm"] == 16.0

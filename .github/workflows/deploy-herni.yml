@@ -1,0 +1,116 @@
+# Po každém pushi do main (a master) nasadí generátor na server.
+# Sešitky se tím nenahrají, to dál dělá páteční časovač v 06:00.
+#
+# Secrets v repozitáři (Settings → Secrets and variables → Actions):
+#   SSH_HOST             adresa serveru
+#   SSH_PRIVATE_KEY      privátní klíč účtu, který má sudo
+#   SSH_USER             volitelné, výchozí je ubuntu
+#   SSH_KNOWN_HOSTS      volitelné, výstup příkazu ssh-keyscan -H adresa
+#   SSH_BECOME_PASSWORD  volitelné, jen když sudo vyžaduje heslo
+#   WP_USER              účet WordPressu
+#   WP_APP_PASSWORD      heslo aplikace
+#   WP_URL               volitelné, výchozí je https://www.creobook.cz
+
+name: Deploy herní sešitky
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-herni
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Ansible
+        run: sudo apt-get update && sudo apt-get install -y ansible-core
+
+      - name: Prepare SSH and Ansible inputs
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          SSH_BECOME_PASSWORD: ${{ secrets.SSH_BECOME_PASSWORD }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_URL: ${{ secrets.WP_URL }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import subprocess
+          from pathlib import Path
+
+          def required(name: str) -> str:
+              value = os.environ.get(name, "").strip()
+              if not value:
+                  raise SystemExit(f"Chybí secret {name}.")
+              return value
+
+          def quote(value: str) -> str:
+              escaped = (
+                  value.replace("\\", "\\\\")
+                  .replace('"', '\\"')
+                  .replace("\n", "\\n")
+                  .replace("\r", "\\r")
+              )
+              return f'"{escaped}"'
+
+          host = required("SSH_HOST")
+          user = os.environ.get("SSH_USER", "").strip() or "ubuntu"
+          key_text = required("SSH_PRIVATE_KEY").replace("\\n", "\n").strip() + "\n"
+          wp_user = required("WP_USER")
+          wp_password = required("WP_APP_PASSWORD")
+          wp_url = os.environ.get("WP_URL", "").strip()
+          become = os.environ.get("SSH_BECOME_PASSWORD", "")
+
+          ssh_dir = Path.home() / ".ssh"
+          ssh_dir.mkdir(mode=0o700, exist_ok=True)
+          key_path = ssh_dir / "creobook"
+          key_path.write_text(key_text)
+          key_path.chmod(0o600)
+
+          known_path = ssh_dir / "known_hosts"
+          known = os.environ.get("SSH_KNOWN_HOSTS", "").strip()
+          if known:
+              known_path.write_text(known + "\n")
+          else:
+              with known_path.open("w") as handle:
+                  subprocess.run(["ssh-keyscan", "-H", host], check=True, stdout=handle)
+          known_path.chmod(0o644)
+
+          inventory = ["herni:", "  hosts:", "    shop:", f"      ansible_host: {quote(host)}"]
+          inventory.append(f"      ansible_user: {quote(user)}")
+          inventory.append(f"      ansible_ssh_private_key_file: {quote(str(key_path))}")
+          inventory.append(
+              '      ansible_ssh_common_args: "-o StrictHostKeyChecking=yes"'
+          )
+          if become:
+              inventory.append(f"      ansible_become_password: {quote(become)}")
+          inventory_path = Path("ansible/inventory.yml")
+          inventory_path.write_text("\n".join(inventory) + "\n")
+          inventory_path.chmod(0o600)
+
+          vault = [
+              f"wp_user: {quote(wp_user)}",
+              f"wp_app_password: {quote(wp_password)}",
+          ]
+          if wp_url:
+              vault.append(f"wp_url: {quote(wp_url)}")
+          vault_path = Path("ansible/vault.yml")
+          vault_path.write_text("\n".join(vault) + "\n")
+          vault_path.chmod(0o600)
+          PY
+
+      - name: Deploy
+        run: ansible-playbook -i ansible/inventory.yml ansible/publish-herni.yml

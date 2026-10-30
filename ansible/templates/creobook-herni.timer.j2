@@ -1,0 +1,12 @@
+[Unit]
+Description=Kazdy patek v 06:00 (Europe/Prague) nahrat nove herni sesitky
+
+[Timer]
+OnCalendar=Fri *-*-* 06:00:00
+Timezone=Europe/Prague
+AccuracySec=1s
+Persistent=false
+Unit=creobook-herni.service
+
+[Install]
+WantedBy=timers.target

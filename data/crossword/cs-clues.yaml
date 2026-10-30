@@ -1,0 +1,6703 @@
+version: 1.0.0
+language: cs
+themes:
+  animals: Zvířata
+  nature: Příroda
+  everyday: Každodenní život
+  school: Škola
+  mixed: Smíšené
+clues:
+- answer: KOČKA
+  clue: Domácí mazlíček, který mňouká
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PES
+  clue: Věrný domácí mazlíček, štěká
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+- answer: KŮŇ
+  clue: Kopytník, na kterém se jezdí
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KRÁVA
+  clue: Hospodářské zvíře, dává mléko
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: OVCE
+  clue: Chlupaté zvíře, dává vlnu
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PRASE
+  clue: Hospodářské zvíře, říhá se mu vepř
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HUSA
+  clue: Velký vodní pták, často bílý
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KACHNA
+  clue: Vodní pták s plochým zobákem
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: RYBA
+  clue: Žije ve vodě, má ploutve
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+- answer: ŽÁBA
+  clue: Skáče a kváká u rybníka
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: MYŠ
+  clue: Malý hlodavec, má ráda sýr
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+- answer: JEŽEK
+  clue: Má ostny na hřbetě
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: LIŠKA
+  clue: Chytrá šelma s rezavou srstí
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: VLK
+  clue: Divoký příbuzný psa
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: MEDVĚD
+  clue: Velká šelma, miluje med
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+  - hard
+- answer: SLON
+  clue: Největší suchozemský savec
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ŽIRAFA
+  clue: Má velmi dlouhý krk
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+  - hard
+- answer: LEV
+  clue: Král zvířat
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+- answer: TYGR
+  clue: Pruhovaná velká kočka
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: OPICE
+  clue: Šplhá po stromech, podobná člověku
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PAPOUŠEK
+  clue: Barevný pták, umí napodobovat řeč
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: MOTÝL
+  clue: Hmyz s barevnými křídly
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: VČELA
+  clue: Dělá med
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: MRAVENEC
+  clue: Drobný hmyz žijící v mraveništi
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: PAVOUK
+  clue: Tkají sítě
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HAD
+  clue: Plaz bez nohou
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+- answer: ŽELVA
+  clue: Plaz s krunýřem
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KŘEČEK
+  clue: Malý hlodavec v kleci
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KRÁLÍK
+  clue: Dlouhé uši, skáče
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: VEVERKA
+  clue: Sbírá oříšky na stromě
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: SRNA
+  clue: Plachá lesní zvěř
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: JELEN
+  clue: Samec s parožím
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: KANEC
+  clue: Divoké prase
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: OREL
+  clue: Dravý pták s ostrým zobákem
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: SOVA
+  clue: Noční pták, houkání
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: VRABEC
+  clue: Malý městský pták
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HOLUB
+  clue: Městský pták, často šedý
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LABUŤ
+  clue: Velký bílý vodní pták
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: KOZA
+  clue: Hospodářské zvíře s vousky
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+- answer: OSĚL
+  clue: Soumar s dlouhýma ušima
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: OSLÍK
+  clue: Malý osel
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TUČŇÁK
+  clue: Pták, který neumí létat, žije v chladu
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: DELFÍN
+  clue: Chytrý mořský savec
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: VELRYBA
+  clue: Obrovský mořský savec
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: ŽRALOK
+  clue: Dravá mořská ryba
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: KROKODÝL
+  clue: Velký plaz s dlouhými čelistmi
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: HROCH
+  clue: Těžký africký savec žijící u vody
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: NOSOROŽEC
+  clue: Má roh na nose
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - hard
+- answer: KLOKAN
+  clue: Skáče a má vak
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: NETOPÝR
+  clue: Létající savec aktivní v noci
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: JEZEVEC
+  clue: Pruhovaný noční savec
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- answer: VYDRA
+  clue: Plavající šelma u řeky
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: LASICE
+  clue: Úzká šelmička
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- answer: KUNA
+  clue: Šelma, která někdy vniká na půdu
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: SYSĚL
+  clue: Hlodavec žijící v norách na louce
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- answer: ČÁP
+  clue: Dlouhonohý pták, údajně nosí děti
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: VOLAVKA
+  clue: Vysoký vodní pták
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- answer: DATĚL
+  clue: Pták, který tluče do kůry stromů
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: VČELKA
+  clue: Zdrobněle včela
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+- answer: BERUŠKA
+  clue: Červený brouček s tečkami
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: SLUNÉČKO
+  clue: Jiný název pro berušku
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: KOMÁR
+  clue: Malý hmyz, který bodá
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: MOUCHA
+  clue: Otravný létající hmyz
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: VOSA
+  clue: Žlutě černý bodavý hmyz
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ČMELÁK
+  clue: Chlupatý příbuzný včely
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: ŠNEK
+  clue: Plž s ulitou
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: ŽÍŽALA
+  clue: Červ v hlíně
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: RAK
+  clue: Korýš s klepety
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: ŠTIKA
+  clue: Dravá říční ryba
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: KAPR
+  clue: Častá rybníkářská ryba
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PSTRUH
+  clue: Ryba studených potoků
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: ÚHOŘ
+  clue: Hadovitá ryba
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- answer: STROM
+  clue: Má kmen, větve a listí
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: KVĚT
+  clue: Barevná část rostliny
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: LIST
+  clue: Roste na větvi stromu
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: TRÁVA
+  clue: Zelený porost na louce
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: HORA
+  clue: Vysoký vrchol v krajině
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: LES
+  clue: Místo plné stromů
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: ŘEKA
+  clue: Tekoucí voda v krajině
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: JEZERO
+  clue: Stojatá voda obklopená pevninou
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: MOŘE
+  clue: Velká slaná voda
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: NEBE
+  clue: Nad námi, bývá modré
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: SLUNCE
+  clue: Hvězda, která nám svítí ve dne
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: MĚSÍC
+  clue: Svítí v noci na obloze
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: HVĚZDA
+  clue: Zářící bod na noční obloze
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: DÉŠŤ
+  clue: Padá z mraků v kapkách
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: SNÍH
+  clue: Bílý zimní pokrývka
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: VÍTR
+  clue: Pohybující se vzduch
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: BOUŘE
+  clue: Bouřlivé počasí s hromy
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: MLHA
+  clue: Hustá bílá oblaka u země
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: SKÁLA
+  clue: Tvrdý kamenný útvar
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: ÚDOLÍ
+  clue: Prostor mezi horami
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: POLE
+  clue: Zemědělská plocha
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: LOUKA
+  clue: Travnatá plocha s květy
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: ZAHRADA
+  clue: Místo u domu s květinami a zeleninou
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: HOUBA
+  clue: Roste v lese, někdy jedlá
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: MECH
+  clue: Měkký zelený porost na kamenech
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: KAPKA
+  clue: Malá částice vody
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: ROSA
+  clue: Ranní vlhkost na trávě
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: JARO
+  clue: Roční období po zimě
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: LÉTO
+  clue: Nejteplejší roční období
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: PODZIM
+  clue: Období padajícího listí
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: ZIMA
+  clue: Nejchladnější roční období
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: POTOK
+  clue: Malý vodní tok
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: VODPÁD
+  clue: Voda padající ze skály
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: OSTROV
+  clue: Pevnina obklopená vodou
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: PLÁŽ
+  clue: Písčitý břeh u moře
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: PÍSEK
+  clue: Drobná zrnka na pláži
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: KÁMEN
+  clue: Tvrdý přírodní kousek horniny
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: HLÍNA
+  clue: Zemina na zahradě
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: KOŘEN
+  clue: Část rostliny v zemi
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: VĚTEV
+  clue: Část stromu, na ní rostou listy
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: KMEN
+  clue: Hlavní část stromu
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: JEHLIČÍ
+  clue: Listy jehličnatých stromů
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: ŠIŠKA
+  clue: Plod jehličnanu
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: ŽALUĎ
+  clue: Plod dubu
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: DUB
+  clue: Strom se žaludy
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: BUK
+  clue: Lesní listnatý strom
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: BOROVICE
+  clue: Jehličnan s dlouhým jehličím
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: SMRK
+  clue: Jehličnan často na Vánoce
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: BŘÍZA
+  clue: Strom s bílou kůrou
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: JAVOR
+  clue: Strom s typickým listem
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: LÍPA
+  clue: Národní strom Čechů
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: TULIPÁN
+  clue: Jarní květina z cibule
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: RŮŽE
+  clue: Trnitá květina, symbol lásky
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: KOPRETINA
+  clue: Bílá louční květina se žlutým středem
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: POMLEŇKA
+  clue: Drobná modrá kytička
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- answer: SEDMIKRÁSKA
+  clue: Malá bílá květinka na trávníku
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: PAMPĚLIŠKA
+  clue: Žlutá louční květina s chmýřím
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: KOPŘIVA
+  clue: Pálivá bylina
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: MÁTA
+  clue: Voníá bylina do čaje
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: HEŘMÁNEK
+  clue: Léčivá květina do čaje
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: OBLAK
+  clue: Bílý útvar na obloze
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: MRAK
+  clue: Tmavší oblak před deštěm
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: DUHA
+  clue: Barevný oblouk po dešti
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: HROM
+  clue: Hlasitý zvuk při bouřce
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: BLESK
+  clue: Záblesk při bouřce
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: LED
+  clue: Zmrzlá voda
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: MRAZ
+  clue: Velká zima ve vzduchu
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: TEPLO
+  clue: Opak chladu
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: STÍN
+  clue: Místo bez přímého slunce
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: JESKYNĚ
+  clue: Dutina ve skále
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: SOPKA
+  clue: Hora, z níž může téct láva
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: POUŠŤ
+  clue: Suchá krajina s pískem
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: PRALES
+  clue: Hustý divoký les
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: SAVANA
+  clue: Africká travnatá krajina
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- answer: DŮM
+  clue: Místo k bydlení
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: BYT
+  clue: Obytná jednotka v činžáku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: STŮL
+  clue: Nábytek, u kterého se jí
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: ŽIDLE
+  clue: Sedací nábytek
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: POSTEL
+  clue: Nábytek na spaní
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SKŘÍŇ
+  clue: Nábytek na oblečení
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: OKNO
+  clue: Prosklený otvor ve zdi
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: DVEŘE
+  clue: Vchod do místnosti
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: KLÍČ
+  clue: Otevírá zámek
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: LAMPA
+  clue: Svítidlo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: KNIHA
+  clue: Svázané stránky ke čtení
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: TUŽKA
+  clue: Psací potřeba s grafitem
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: PAPÍR
+  clue: List na psaní
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: HODINY
+  clue: Ukazují čas
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TELEFON
+  clue: Voláme jím na dálku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TAŠKA
+  clue: Nosíme v ní věci
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: BOTA
+  clue: Obuv na nohu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: BOTY
+  clue: Pár obuvi
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: KABÁT
+  clue: Svrchní oděv do chladu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ČEPICE
+  clue: Pokrytí hlavy
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: RUKAVICE
+  clue: Chrání ruce před zimou
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: CHLÉB
+  clue: Pečivo z mouky
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: MÁSLO
+  clue: Roztírá se na chleba
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: MLÉKO
+  clue: Bílý nápoj od krávy
+  themes:
+  - animals
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: SÝR
+  clue: Mléčný výrobek
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: VAJCE
+  clue: Snáší je slepice
+  themes:
+  - animals
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: JABLKO
+  clue: Ovoce, bývá červené nebo zelené
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: HRUŠKA
+  clue: Sladké ovoce podobné jablku
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: BANÁN
+  clue: Žluté tropické ovoce
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: VODA
+  clue: Základní nápoj bez chuti
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: ČAJ
+  clue: Teplý nápoj z bylin nebo lístků
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: KÁVA
+  clue: Hořký ranní nápoj
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: POLÉVKA
+  clue: Tekuté jídlo na začátek oběda
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: MASO
+  clue: Pokrm ze zvířat
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: RÝŽE
+  clue: Bílá příloha z zrn
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: NŮŽ
+  clue: Nástroj na krájení
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: VIDLIČKA
+  clue: Příbor se zuby
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LŽÍCE
+  clue: Příbor na polévku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TALÍŘ
+  clue: Nádoba na jídlo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HRNEC
+  clue: Nádoba na vaření
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PÁNEV
+  clue: Na smažení
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SKLENICE
+  clue: Nádoba na pití
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HRNEK
+  clue: Šálek na čaj
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: MÝDLO
+  clue: Na mytí rukou
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: RUČNÍK
+  clue: Utíráme se jím po koupeli
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KARTÁČEK
+  clue: Čistíme jím zuby
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PASTA
+  clue: Zubní …
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: ZRCADLO
+  clue: Vidíme v něm svůj odraz
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KOŠ
+  clue: Na odpadky
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: VYSAVAČ
+  clue: Čistí koberec
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: PRAČKA
+  clue: Pere prádlo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LEDNICE
+  clue: Udržuje jídlo studené
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TROUBA
+  clue: Pečeme v ní
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SPORÁK
+  clue: Vaříme na něm
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KOŠÍK
+  clue: Proutěná nádoba na nákup
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: NÁKUP
+  clue: Co přineseme z obchodu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: OBCHOD
+  clue: Místo, kde se nakupuje
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PENÍZE
+  clue: Platíme jimi
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: MINCE
+  clue: Kovové peníze
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: BANKOVKA
+  clue: Papírové peníze
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: DOPIS
+  clue: Psaní v obálce
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: OBÁLKA
+  clue: Do ní se vkládá dopis
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ZNÁMKA
+  clue: Lepí se na dopis nebo ve škole
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: BALÍK
+  clue: Zásilka z pošty
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KOLA
+  clue: Jízdní …
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: KOLO
+  clue: Jízdní prostředek se dvěma koly
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: AUTO
+  clue: Silniční vozidlo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: AUTOBUS
+  clue: Veřejný dopravní prostředek
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: VLAK
+  clue: Jede po kolejích
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: TRAMVAJ
+  clue: Městská kolejová doprava
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LETADLO
+  clue: Létá vzduchem
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LOĎ
+  clue: Pluje po vodě
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: CESTA
+  clue: Po ní chodíme nebo jedeme
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: ULICE
+  clue: Cesta ve městě mezi domy
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: NÁMĚSTÍ
+  clue: Otevřený prostor ve městě
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: PARK
+  clue: Městská zeleň k odpočinku
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: LAVIČKA
+  clue: Sedátko v parku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: FONTÁNA
+  clue: Vodotrysk na náměstí
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: MOST
+  clue: Spojuje břehy přes řeku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: VĚŽ
+  clue: Vysoká stavba
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: HRAD
+  clue: Stará pevnost
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: ZÁMEK
+  clue: Šlechtické sídlo nebo zamykací mechanizmus
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KOSTEL
+  clue: Bohoslužebná stavba
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: NEMOCNICE
+  clue: Léčí se v ní
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: LÉKAŘ
+  clue: Léčí nemocné
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SESTRA
+  clue: Zdravotní …
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LÉK
+  clue: Pomáhá při nemoci
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: TEPLOMĚR
+  clue: Měří teplotu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: SPRCHA
+  clue: Tekoucí voda v koupelně
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: VANA
+  clue: Velká nádoba na koupání
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: ZÁCHOD
+  clue: Toaleta
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KOUPELNA
+  clue: Místnost s umyvadlem
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KUCHYNĚ
+  clue: Místnost na vaření
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: OBÝVÁK
+  clue: Hlavní obývací pokoj
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LOŽNICE
+  clue: Pokoj na spaní
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PŮDA
+  clue: Prostor pod střechou
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SKLEP
+  clue: Prostor pod domem
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SEKAČKA
+  clue: Stroj na stříhání trávy
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: KONEV
+  clue: Nádoba na zalévání
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HRÁBĚ
+  clue: Zahradní nářadí na listí
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: LOPATA
+  clue: Nářadí na kopání
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KLADIVO
+  clue: Nářadí na zatloukání hřebíků
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ŠROUBOVÁK
+  clue: Nářadí na šrouby
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: HŘEBÍK
+  clue: Zatlouká se kladivem
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PROVAZ
+  clue: Silný šňůra
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: NŮŽKY
+  clue: Stříháme jimi
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: JEHLA
+  clue: Šijeme jí
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: NÍŤ
+  clue: Do jehly se navléká …
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LÁTKA
+  clue: Materiál na šití
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KOŠILE
+  clue: Oblečení na horní část těla
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KALHOTY
+  clue: Oblečení na nohy
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SUKNĚ
+  clue: Dámský oděv
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ŠATY
+  clue: Dámský kompletní oděv
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: PONOŽKY
+  clue: Na nohy do bot
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TRIČKO
+  clue: Lehké letní triko
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SVETR
+  clue: Teplý pletený oděv
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ŠÁLA
+  clue: Omotává se kolem krku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: DEŠTNÍK
+  clue: Chrání před deštěm
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: BRÝLE
+  clue: Pomáhají lépe vidět
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HODINKY
+  clue: Nosí se na zápěstí
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PRSTEN
+  clue: Šperk na prstu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: NÁHRDELNÍK
+  clue: Šperk kolem krku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: HŘEBEN
+  clue: Učesáváme jím vlasy
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ŠAMPON
+  clue: Na mytí vlasů
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: POLŠTÁŘ
+  clue: Pod hlavu při spánku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: DEKA
+  clue: Zahřívá v posteli
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: PROSTĚRADLO
+  clue: Pokrytí matrace
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: MATRACE
+  clue: Měkká část postele
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: BUDIK
+  clue: Zvukem budí ze spánku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: RÁDIO
+  clue: Přístroj na poslech vysílání
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TELEVIZE
+  clue: Sledujeme na ní pořady
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: POČÍTAČ
+  clue: Elektronický stroj na práci i hry
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: MYŠKA
+  clue: Ovladač u počítače
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: KLÁVESNICE
+  clue: Psaní na počítači
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: OBRAZOVKA
+  clue: Displej počítače nebo televize
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: ŠKOLA
+  clue: Místo, kam chodí žáci
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: UČITEL
+  clue: Vyučuje ve třídě
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: UČITELKA
+  clue: Žena, která učí
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ŽÁK
+  clue: Chodí do školy
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: ŽÁKYNĚ
+  clue: Dívka ve škole
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: TŘÍDA
+  clue: Místnost nebo skupina žáků
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: TABULE
+  clue: Černá nebo bílá plocha vpředu
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: KŘÍDA
+  clue: Píše se jí na tabuli
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: SEŠIT
+  clue: Do něj se píšou poznámky
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: GUMÁ
+  clue: Maže tužku
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: PRAVÍTKO
+  clue: Měří délku a rýsuje rovné čáry
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: BATOH
+  clue: Taška na záda
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: PŘESTÁVKA
+  clue: Čas mezi hodinami
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ZKOUŠKA
+  clue: Ověření znalostí
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ÚKOL
+  clue: Domácí práce do školy
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: PŘEDMĚT
+  clue: Například matematika nebo dějepis
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: DĚJEPIS
+  clue: Předmět o minulosti
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: ZEMĚPIS
+  clue: Předmět o zemích a mapách
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: MATEMATIKA
+  clue: Předmět o číslech
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: ČEŠTINA
+  clue: Předmět o českém jazyce
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: TĚLOCVIK
+  clue: Hodina pohybu
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: PŘÍRODOPIS
+  clue: Předmět o přírodě
+  themes:
+  - mixed
+  - nature
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: FYZIKA
+  clue: Předmět o silách a energii
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: CHEMIE
+  clue: Předmět o látkách
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: ANGLIČTINA
+  clue: Cizí jazyk
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: SLOVNÍK
+  clue: Kniha s významy slov
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ATLAS
+  clue: Kniha map
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: MAPA
+  clue: Zobrazení krajiny
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: GLÓBUS
+  clue: Model Země jako koule
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: PERO
+  clue: Psací potřeba s inkoustem
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: FIXA
+  clue: Popisovač
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: PASTELKA
+  clue: Barevná tužka
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ŠTĚTEC
+  clue: Malujeme jím
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: BARVA
+  clue: Používá se při malování
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: LEPIDLO
+  clue: Lepí papír
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ČTVRTKA
+  clue: Tlustší papír na výtvarnou výchovu
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: AKTÓVKA
+  clue: Školní brašna
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: AKTOVKA
+  clue: Brašna do školy
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: SVAČINA
+  clue: Jídlo o přestávce
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: JÍDELNA
+  clue: Místo školního oběda
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ŠATNA
+  clue: Odkládají se v ní kabáty
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: TĚLOCVIČNA
+  clue: Místnost na sport
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: HŘIŠTĚ
+  clue: Venkovní plocha na hry
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: MÍČ
+  clue: Hraje se s ním
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: ŠVIHADLO
+  clue: Na skákání
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: LAVICE
+  clue: Školní sedadlo s deskou
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: KATEDRA
+  clue: Stůl učitele
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: ZVONEK
+  clue: Oznamuje začátek hodiny
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ROZVRH
+  clue: Plán hodin v týdnu
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: VÝSLEDEK
+  clue: Co zjistíme po výpočtu
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: PŘÍKLAD
+  clue: Úloha v matematice
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ČÍSLO
+  clue: Například jedna, dvě, tři
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: PÍSMENO
+  clue: Část abecedy
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ABECEDA
+  clue: Pořadí písmen
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: VĚTA
+  clue: Soubor slov s významem
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: BÁSEŇ
+  clue: Poetický text
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: POHÁDKA
+  clue: Příběh pro děti
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ČTENÍ
+  clue: Dovednost s knížkou
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: PSANÍ
+  clue: Dovednost s tužkou
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: POČÍTÁNÍ
+  clue: Práce s čísly
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: KAMARÁD
+  clue: Přítel
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: KAMARÁDKA
+  clue: Přítelkyně
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: HRÁČ
+  clue: Ten, kdo hraje hru
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: HRA
+  clue: Zábava podle pravidel
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: VÝHRA
+  clue: Opak prohry
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: PROHRA
+  clue: Opak výhry
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ANO
+  clue: Souhlasné slovo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: NE
+  clue: Záporné slovo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: MÁMA
+  clue: Matka
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: TÁTA
+  clue: Otec
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: BRATR
+  clue: Sourozenec mužského pohlaví
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: BABIČKA
+  clue: Matka rodičů
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: DĚDEČEK
+  clue: Otec rodičů
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: RODINA
+  clue: Nejbližší příbuzní
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PŘÍTEL
+  clue: Blízká osoba
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LÁSKA
+  clue: Silný kladný cit
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: RADOST
+  clue: Příjemný pocit
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SMÍCH
+  clue: Zvuk při vtipu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PLÁČ
+  clue: Slzy při smutku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: SPÁNEK
+  clue: Odpočinek v noci
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SEN
+  clue: To, co se zdá ve spánku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: DEN
+  clue: Čas od rána do večera
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: NOC
+  clue: Čas tmy
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: RÁNO
+  clue: Začátek dne
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: VEČER
+  clue: Konec dne
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TÝDEN
+  clue: Sedm dní
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ROK
+  clue: Dvanáct měsíců
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: HODINA
+  clue: Šedesát minut
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: MINUTA
+  clue: Šedesát sekund
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SEKUNDA
+  clue: Základní jednotka času
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: PONDĚLÍ
+  clue: První den školního týdne
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: ÚTERÝ
+  clue: Druhý den týdne
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: STŘEDA
+  clue: Prostřední všední den
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ČTVRTEK
+  clue: Den před pátkem
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: PÁTEK
+  clue: Poslední všední den
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SOBOTA
+  clue: První den víkendu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: NEDĚLE
+  clue: Druhý den víkendu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SVÁTEK
+  clue: Zvláštní slavnostní den
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: NAROZENINY
+  clue: Výročí narození
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: DÁREK
+  clue: Co dáváme k svátku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: OSLAVA
+  clue: Slavnostní setkání
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: DORT
+  clue: Sladký pečený zákusek
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: ZMRZLINA
+  clue: Studený sladký dezert
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ČOKOLÁDA
+  clue: Sladkost z kakaa
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: BONBON
+  clue: Malá sladkost
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KOLÁČ
+  clue: Pečený moučník
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ROHLÍK
+  clue: Pečivo podlouhlého tvaru
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HOUSKA
+  clue: Pečivo kulatého tvaru
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: MED
+  clue: Sladký výrobek včel
+  themes:
+  - animals
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: CUKR
+  clue: Sladidlo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: SŮL
+  clue: Dochucovadlo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: PEPŘ
+  clue: Pálivé koření
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: OVOCE
+  clue: Sladké plody rostlin
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: ZELENINA
+  clue: Například mrkev nebo okurka
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: MRKEV
+  clue: Oranžová kořenová zelenina
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: OKURKA
+  clue: Zelená podlouhlá zelenina
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: RAJČE
+  clue: Červená zelenina do salátu
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: BRAMBOR
+  clue: Hlízová zelenina
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: CIBULE
+  clue: Pálivá zelenina do jídel
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ČESNEK
+  clue: Silně vonící zelenina
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HRÁŠEK
+  clue: Malá zelená semínka v lusku
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: FAZOLE
+  clue: Luštěnina
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: ČOČKA
+  clue: Drobná luštěnina
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: JÍDLO
+  clue: Co jíme
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: SNÍDANĚ
+  clue: Ranní jídlo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: OBĚD
+  clue: Polední jídlo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: VEČEŘE
+  clue: Večerní jídlo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HLAD
+  clue: Pocit, když chceme jíst
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: ŽÍZEŇ
+  clue: Pocit, když chceme pít
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ÚHEL
+  clue: Geometrický útvar mezi dvěma přímkami
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: ÚSMĚV
+  clue: Výraz veselé tváře
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ÚSTA
+  clue: Část obličeje na jídlo a řeč
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: UCHO
+  clue: Orgán sluchu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: OKO
+  clue: Orgán zraku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: NOS
+  clue: Orgán čichu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: RUKA
+  clue: Horní končetina
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: NOHA
+  clue: Dolní končetina
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: PRST
+  clue: Část ruky
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: VLASY
+  clue: Rostou na hlavě
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ZUBY
+  clue: V ústech, kouseme jimi
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: SRDCE
+  clue: Orgán pohánějící krev
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: MOZEK
+  clue: Orgán myšlení
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KOST
+  clue: Tvrdá součást kostry
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: KŮŽE
+  clue: Povrch těla
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KRK
+  clue: Spojuje hlavu a tělo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: ZÁDA
+  clue: Zadní část trupu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: HRUĎ
+  clue: Přední část trupu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: BŘICHO
+  clue: Část těla pod hrudí
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KOLENO
+  clue: Kloub na noze
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LOKET
+  clue: Kloub na ruce
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: RAMENO
+  clue: Spoj paže a trupu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ČELO
+  clue: Část obličeje nad očima
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TVÁŘ
+  clue: Boční část obličeje
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: BRADA
+  clue: Spodní část obličeje
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: JAZYK
+  clue: V ústech, ochutnáváme jím
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: HRDLO
+  clue: Vnitřek krku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ŽÍLA
+  clue: Céva v těle
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: KREV
+  clue: Tekutina v cévách
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: DOKTOR
+  clue: Jiný výraz pro lékaře
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: NEMOCNÝ
+  clue: Člověk, kterému není dobře
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: ZDRAVÍ
+  clue: Dobrý stav těla
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: NÁPLAST
+  clue: Lepí se na odřeninu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: OBVAZ
+  clue: Omotává se kolem zranění
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: RÁNA
+  clue: Poranění kůže
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: KAŠEL
+  clue: Zvuk při nachlazení
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: RÝMA
+  clue: Ucpaný nos
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: HORKO
+  clue: Vysoká teplota vzduchu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: CHLAPEC
+  clue: Mladý muž, kluk
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: CHODBA
+  clue: Úzká místnost spojující pokoje
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: CHYBA
+  clue: Omyl
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: CHVÁLA
+  clue: Pochvala
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: CHUTNÝ
+  clue: Dobře chutná
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: CHUŤ
+  clue: Vjem při jídle
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: CHOBOT
+  clue: Nos slona
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: CHROUST
+  clue: Brouk létající v květnu
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- answer: CHATA
+  clue: Jednoduchý domek na venkově
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: CHODNÍK
+  clue: Cesta pro pěší
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: CHOVÁNÍ
+  clue: Jak se někdo chová
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: CHŘEST
+  clue: Zelenina, zelené výhonky
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- answer: MĚCH
+  clue: Vak na vzduch u nástrojů
+  themes:
+  - mixed
+  difficulty:
+  - hard
+- answer: VRCH
+  clue: Horní část kopce
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: PRACH
+  clue: Drobné nečistoty ve vzduchu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: STRACH
+  clue: Nepříjemný pocit nebezpečí
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: VÝCHOD
+  clue: Opak západu, nebo dveře ven
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: ZÁPAD
+  clue: Směr, kde slunce zapadá
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: SEVER
+  clue: Směr nahoru na mapě
+  themes:
+  - mixed
+  - nature
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: JIH
+  clue: Směr dolů na mapě
+  themes:
+  - mixed
+  - nature
+  - school
+  difficulty:
+  - easy
+- answer: KAMARÁDSTVÍ
+  clue: Přátelský vztah
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - hard
+- answer: DOBRODRUŽSTVÍ
+  clue: Vzrušující příběh nebo cesta
+  themes:
+  - mixed
+  difficulty:
+  - hard
+- answer: POHÁDKOVÝ
+  clue: Jako z pohádky
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - hard
+- answer: NEJVĚTŠÍ
+  clue: Opak nejmenšího
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - hard
+- answer: NEJMENŠÍ
+  clue: Opak největšího
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - hard
+- answer: PŘEKVAPENÍ
+  clue: Neočekávaná věc
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- answer: BEZPEČNOST
+  clue: Stav bez nebezpečí
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - hard
+- answer: PŘÍRODA
+  clue: Svět rostlin a zvířat
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: KRAJINA
+  clue: Podoba okolní země
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: POČASÍ
+  clue: Stav ovzduší
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: TEPLOTA
+  clue: Míra tepla a chladu
+  themes:
+  - mixed
+  - nature
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: VLHKOST
+  clue: Míra vody ve vzduchu
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- answer: SLUNEČNÍ
+  clue: Týkající se slunce
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: MĚSÍČNÍ
+  clue: Týkající se měsíce
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: HVĚZDNÝ
+  clue: Plný hvězd
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: BAREVNÝ
+  clue: Mající více barev
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: ZELENÝ
+  clue: Barva trávy
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: MODRÝ
+  clue: Barva nebe
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: ČERVENÝ
+  clue: Barva jahody
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ŽLUTÝ
+  clue: Barva slunce
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ČERNÝ
+  clue: Nejtmavší barva
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: BÍLÝ
+  clue: Barva sněhu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: ORANŽOVÝ
+  clue: Barva pomeranče
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: FIALOVÝ
+  clue: Barva fialky
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: RŮŽOVÝ
+  clue: Světle červená barva
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HNĚDÝ
+  clue: Barva čokolády
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ŠEDÝ
+  clue: Barva mezi černou a bílou
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: VELKÝ
+  clue: Opak malého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: MALÝ
+  clue: Opak velkého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: DLOUHÝ
+  clue: Opak krátkého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KRÁTKÝ
+  clue: Opak dlouhého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ŠIROKÝ
+  clue: Opak úzkého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: ÚZKÝ
+  clue: Opak širokého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TĚŽKÝ
+  clue: Opak lehkého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LEHKÝ
+  clue: Opak těžkého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: RYCHLÝ
+  clue: Opak pomalého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: POMALÝ
+  clue: Opak rychlého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: STARÝ
+  clue: Opak nového
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: NOVÝ
+  clue: Opak starého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: ČISTÝ
+  clue: Opak špinavého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ŠPINAVÝ
+  clue: Opak čistého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: VESELÝ
+  clue: Opak smutného
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SMUTNÝ
+  clue: Opak veselého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HODNÝ
+  clue: Chová se dobře
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ZLOBIVÝ
+  clue: Nedělá, co má
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: MOUDRÝ
+  clue: Má hodně moudrosti
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: CHYTRÝ
+  clue: Dobře přemýšlí
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: SILNÝ
+  clue: Má velkou sílu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SLABÝ
+  clue: Opak silného
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ODVAHA
+  clue: Nebát se
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PRAVDA
+  clue: Opak lži
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: LEŽ
+  clue: Nepravda
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: POMOC
+  clue: Když někomu přispějeme
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: HRAČKA
+  clue: Věc na hraní
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PANENKA
+  clue: Hračka pro děti
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: AUTÍČKO
+  clue: Malé hračkové auto
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KOSTKA
+  clue: Hrací … nebo stavební dílek
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SKLÁDAČKA
+  clue: Puzzle
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: OMALOVÁNKA
+  clue: Obrázky k vybarvení
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: POHLEDNICE
+  clue: Lístek z výletu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: VÝLET
+  clue: Cesta za zábavou
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: PRÁZDNINY
+  clue: Volno od školy
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: TÁBOR
+  clue: Letní pobyt dětí
+  themes:
+  - mixed
+  - nature
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: STAN
+  clue: Přenosný přístřešek
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: BATOŽINA
+  clue: Zavazadlo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- answer: KUFR
+  clue: Zavazadlo na cesty
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: JÍZDENKA
+  clue: Lístek na vlak nebo autobus
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: NÁDRAŽÍ
+  clue: Stanice vlaků
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: ZASTÁVKA
+  clue: Místo nástupu do autobusu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ŘIDIČ
+  clue: Ovládá vozidlo
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: CESTUJÍCÍ
+  clue: Ten, kdo jede dopravním prostředkem
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- answer: TURISTA
+  clue: Cestovatel za poznáním
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: MAPKA
+  clue: Malá mapa
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: KOMPAS
+  clue: Ukazuje sever
+  themes:
+  - mixed
+  - nature
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: BATŮŽEK
+  clue: Malý batoh
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: LÁHEV
+  clue: Nádoba na pití
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: BOX
+  clue: Krabice
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: KRABICE
+  clue: Obal z kartonu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: BALÍČEK
+  clue: Malý balík
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: MAŠLE
+  clue: Ozdoba na dárku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PŘÁNÍ
+  clue: Co si někdo přeje
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PŘÁNÍČKO
+  clue: Psané blahopřání
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: POZDRAV
+  clue: Ahoj nebo dobrý den
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: DĚKUJI
+  clue: Zdvořilé poděkování
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: PROSÍM
+  clue: Zdvořilá prosba
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: AHOJ
+  clue: Neformální pozdrav
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: NAZDAR
+  clue: Kamarádský pozdrav
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: VEJCE
+  clue: Snáší je slepice
+  themes:
+  - animals
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: FIALKA
+  clue: Drobná fialová kytička
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: PUPEN
+  clue: Základ budoucího listu nebo květu
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: PUPEK
+  clue: Značka uprostřed břicha
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: ŠÁTEK
+  clue: Látka kolem krku nebo hlavy
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PAŽE
+  clue: Horní končetina od ramene
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: DLAŇ
+  clue: Vnitřní strana ruky
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: NEHET
+  clue: Na konci prstu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ŘASA
+  clue: Chloupek na očním víčku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: OBOČÍ
+  clue: Chloupky nad okem
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: SLUCHÁTKA
+  clue: Nasazují se na uši
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: REPRODUKTOR
+  clue: Pouští zvuk
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- answer: HUDBA
+  clue: Melodie a rytmus
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: PÍSEŇ
+  clue: Text s melodií
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: TANEC
+  clue: Pohyb do hudby
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: DIVADLO
+  clue: Představení na jevišti
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KINO
+  clue: Sál na filmy
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: FILM
+  clue: Příběh na plátně
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: HEREC
+  clue: Hraje ve filmu nebo divadle
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HEREČKA
+  clue: Žena hrající ve filmu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ZPĚVÁK
+  clue: Zpívá písně
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ZPĚVAČKA
+  clue: Žena, která zpívá
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: KAPELA
+  clue: Skupina hudebníků
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: KYTARA
+  clue: Strunný nástroj
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: KLAVÍR
+  clue: Velký klávesový nástroj
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: FLÉTNA
+  clue: Dechový nástroj
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: BUBEN
+  clue: Bicí nástroj
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: NOTA
+  clue: Značka v notovém zápisu
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: RYTMUS
+  clue: Pravidelný řád v hudbě
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: MELODIE
+  clue: Nápěv písně
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: OBRAZ
+  clue: Malba nebo fotografie
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: SOCHA
+  clue: Výtvarné dílo z kamene nebo kovu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: GALERIE
+  clue: Místo s vystavenými obrazy
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: MUZEUM
+  clue: Místo s historickými předměty
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: KNIHOVNA
+  clue: Půjčují se v ní knihy
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ČTENÁŘ
+  clue: Ten, kdo čte
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: SPISOVATEL
+  clue: Píše knihy
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: BÁSNÍK
+  clue: Píše básně
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: KOMIKS
+  clue: Příběh v obrázcích
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: NOVINY
+  clue: Tištěné zprávy
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ČASOPIS
+  clue: Periodický tisk
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ZPRÁVA
+  clue: Informace o události
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: OTÁZKA
+  clue: To, na co se ptáme
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ODPOVĚĎ
+  clue: Reakce na otázku
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: PRAVIDLO
+  clue: Určuje, jak se má postupovat
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: POVINNOST
+  clue: To, co máme udělat
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - hard
+- answer: PRÁVO
+  clue: Nárok chráněný zákonem
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: ZÁKON
+  clue: Pravidlo státu
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: STÁT
+  clue: Země se správou
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: MĚSTO
+  clue: Větší obec
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: VESNICE
+  clue: Menší obec
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: OBEC
+  clue: Samosprávné území
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: KRAJ
+  clue: Část země
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ZEMĚ
+  clue: Stát nebo půda pod nohama
+  themes:
+  - mixed
+  - nature
+  - school
+  difficulty:
+  - easy
+- answer: SVĚT
+  clue: Celá planeta a lidé
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: PLANETA
+  clue: Těleso obíhající kolem slunce
+  themes:
+  - mixed
+  - nature
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: ZEMĚKOULE
+  clue: Naše planeta
+  themes:
+  - mixed
+  - nature
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: VESMÍR
+  clue: Prostor za Zemí
+  themes:
+  - mixed
+  - nature
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: RAKETA
+  clue: Létá do vesmíru
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ASTRONAUT
+  clue: Člověk ve vesmíru
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: DALEKOHLED
+  clue: Přibližuje vzdálené objekty
+  themes:
+  - mixed
+  - nature
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: MIKROSKOP
+  clue: Zvětšuje drobné věci
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - hard
+- answer: MAGNET
+  clue: Přitahuje železo
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ELEKTŘINA
+  clue: Energie v zásuvce
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: ZÁSUVKA
+  clue: Do ní se zapojuje kabel
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: KABEL
+  clue: Šňůra s proudem
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ŽÁROVKA
+  clue: Svítí v lampě
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SVÍČKA
+  clue: Hoří voskem
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: OHEŇ
+  clue: Hořící plamen
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: POPEL
+  clue: Zůstane po ohni
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: KOUŘ
+  clue: Stoupá z ohně
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- answer: POPELÁŘ
+  clue: Odváží odpadky
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: HASIČ
+  clue: Hasí oheň
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: POLICISTA
+  clue: Dbá na pořádek
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: HASIČI
+  clue: Sbor hasičů
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ZÁCHRANÁŘ
+  clue: Pomáhá v nouzi
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- answer: SANITKA
+  clue: Vůz záchranné služby
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LÉKÁRNA
+  clue: Prodávají se v ní léky
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: RECEPT
+  clue: Pokyn od lékaře na lék, nebo postup vaření
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: VITAMÍN
+  clue: Látka důležitá pro zdraví
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: CVIČENÍ
+  clue: Pohyb pro zdraví
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: SPORT
+  clue: Tělesná aktivita
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: FOTBAL
+  clue: Hra s míčem a brankami
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: HOKEJ
+  clue: Hra na ledě s pukem
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TENIS
+  clue: Hra s raketou a míčkem
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PLAVÁNÍ
+  clue: Pohyb ve vodě
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: BĚH
+  clue: Rychlý pohyb nohama
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: SKOK
+  clue: Odraz do vzduchu
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: ZÁVOD
+  clue: Soutěž o nejrychlejšího
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: MEDAILE
+  clue: Ocenění za sportovní výkon
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: POHÁR
+  clue: Trofej pro vítěze
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TÝM
+  clue: Družstvo
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: TRENÉR
+  clue: Vede sportovce
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: ROZHODČÍ
+  clue: Hlídá pravidla ve hře
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: BRANKA
+  clue: Cíl ve fotbale
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: GÓL
+  clue: Bod ve fotbale
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: MÍČEK
+  clue: Malý míč
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LYŽE
+  clue: Jízda na sněhu
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: BRUSLE
+  clue: Jízda na ledě
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SÁŇKY
+  clue: Jízda z kopce sněhem
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: SNĚHULÁK
+  clue: Postava ze sněhu
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: VÁNOCE
+  clue: Zimní svátky se stromečkem
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: VELIKONOCE
+  clue: Jarní svátky s vajíčky
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: STROMEČEK
+  clue: Ozdobený strom o Vánocích
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- answer: OZDOBA
+  clue: Dekorace na stromeček
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: ZVONEČEK
+  clue: Malý zvonek
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: DÁREČEK
+  clue: Malý dárek
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: PŘÁTELSTVÍ
+  clue: Vztah mezi kamarády
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - hard
+- answer: ŠŤASTNÝ
+  clue: Plný radosti
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: KLIDNÝ
+  clue: Bez spěchu a hluku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: HLUČNÝ
+  clue: Opak tichého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: TICHÝ
+  clue: Bez hluku
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: JASNÝ
+  clue: Dobře viditelný, srozumitelný
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TMAVÝ
+  clue: Opak světlého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: SVĚTLÝ
+  clue: Opak tmavého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: TEPLÝ
+  clue: Opak studeného
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: STUDENÝ
+  clue: Opak teplého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: MOKRÝ
+  clue: Namočený vodou
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- answer: SUCHÝ
+  clue: Bez vlhkosti
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: PLNÝ
+  clue: Opak prázdného
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: PRÁZDNÝ
+  clue: Opak plného
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: OTEVŘENÝ
+  clue: Opak zavřeného
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: ZAVŘENÝ
+  clue: Opak otevřeného
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: HORNÍ
+  clue: Nahoře
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: DOLNÍ
+  clue: Dole
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- answer: LEVÝ
+  clue: Opak pravého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: PRAVÝ
+  clue: Opak levého
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- answer: PROSTŘEDNÍ
+  clue: Uprostřed
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- answer: PRVNÍ
+  clue: Na začátku pořadí
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: POSLEDNÍ
+  clue: Na konci pořadí
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: DRUHÝ
+  clue: Hned po prvním
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: TŘETÍ
+  clue: Po druhém
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: ČTVRTÝ
+  clue: Po třetím
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: PÁTÝ
+  clue: Po čtvrtém
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: DESÁTÝ
+  clue: Po devátém
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- answer: STO
+  clue: Deset desítek
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: TISÍC
+  clue: Deset stovek
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: NULA
+  clue: Číslice nic
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: JEDNA
+  clue: Číslovka 1
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: DVA
+  clue: Číslovka 2
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: TŘI
+  clue: Číslovka 3
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: ČTYŘI
+  clue: Číslovka 4
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: PĚT
+  clue: Číslovka 5
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: ŠEST
+  clue: Číslovka 6
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: SEDM
+  clue: Číslovka 7
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: OSM
+  clue: Číslovka 8
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- answer: DEVĚT
+  clue: Číslovka 9
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- answer: DESET
+  clue: Číslovka 10
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+tajenky:
+- phrase: ZLATÝ KLÍČ
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: DOBRÝ DEN
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- phrase: MALÝ PES
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+- phrase: ČISTÝ LES
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- phrase: NOVÝ ROK
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- phrase: BÍLÝ SNÍH
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- phrase: MODRÉ NEBE
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: TEPLÝ ČAJ
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- phrase: SLADKÝ MED
+  themes:
+  - animals
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- phrase: VESELÝ DEN
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: ŠŤASTNÝ DEN
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- phrase: DOMÁCÍ PES
+  themes:
+  - animals
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- phrase: LESNÍ MED
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: ŠKOLNÍ DEN
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- phrase: NOVÁ KNIHA
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- phrase: ČISTÁ VODA
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: ZLATÁ RYBA
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: MALÁ KOČKA
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+- phrase: VELKÝ DŮM
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- phrase: STARÝ HRAD
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: NOVÝ MOST
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- phrase: TICHÝ LES
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: JARNÍ DÉŠŤ
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: ZIMNÍ SEN
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- phrase: LETNÍ DEN
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- phrase: PODZIMNÍ LIST
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: ŠKOLNÍ TAŠKA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- phrase: NOVÝ SEŠIT
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- phrase: OSTRÁ TUŽKA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- phrase: ČISTÁ TABULE
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+- phrase: DOBRÁ ZNÁMKA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+- phrase: KRÁSNÝ SEN
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: PLNÝ HRNEK
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- phrase: TEPLÁ POLÉVKA
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: SLADKÝ DORT
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: ČERSTVÝ CHLÉB
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- phrase: ZDRAVÉ JABLKO
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: LESNÍ STEZKA
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: HORSKÝ POTOK
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: MOŘSKÁ VLNA
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: NOČNÍ HVĚZDA
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: JARNÍ KVĚT
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: LETNÍ LOUKA
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: ZIMNÍ ČEPICE
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: TEPLÝ SVETR
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: NOVÉ BOTY
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- phrase: ČISTÉ RUCE
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: DOBRÝ KAMARÁD
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- phrase: VESELÁ HRA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- phrase: ČESTNÁ HRA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- phrase: RYCHLÝ BĚH
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: DLOUHÝ SKOK
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: SILNÝ TÝM
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: VELKÁ VÝHRA
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: MALÁ PROHRA
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: NOVÝ FILM
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- phrase: HEZKÝ FILM
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: STARÁ KNIHA
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- phrase: NOVÁ POHÁDKA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+- phrase: KRÁSNÁ BÁSEŇ
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- phrase: TICHÁ NOC
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: JASNÝ DEN
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- phrase: MODRÝ MÍČ
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- phrase: ČERVENÝ MÍČ
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: ZELENÝ LIST
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: ŽLUTÝ KVĚT
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: BÍLÁ LABUŤ
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: ČERNÝ HAVRAN
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: MALÝ JEŽEK
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: CHYTRÁ LIŠKA
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: VELKÝ MEDVĚD
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: RYCHLÝ KŮŇ
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: VĚRNÝ PES
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: HEZKÁ KOČKA
+  themes:
+  - animals
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: DIVOKÝ VLK
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: LESNÍ SOVA
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: MOŘSKÁ RYBA
+  themes:
+  - animals
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: ŠKOLNÍ ZVONEK
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- phrase: NOVÝ ROZVRH
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+- phrase: TĚŽKÝ ÚKOL
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+- phrase: LEHKÝ ÚKOL
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+  - medium
+- phrase: DOBRÝ UČITEL
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- phrase: MILÁ UČITELKA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- phrase: PLNÁ TŘÍDA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+- phrase: ČISTÁ TŘÍDA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+- phrase: NOVÁ MAPA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - easy
+- phrase: STARÝ ATLAS
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+- phrase: PEVNÝ MOST
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: VYSOKÁ VĚŽ
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: STARÝ ZÁMEK
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: NOVÝ PARK
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+- phrase: TICHÝ PARK
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: MĚSTSKÝ PARK
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- phrase: VENKOVSKÝ DŮM
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- phrase: RODINNÝ DŮM
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- phrase: TEPLÝ DOMOV
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: BEZPEČNÝ DOMOV
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- phrase: ŠŤASTNÝ DOMOV
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- phrase: ČISTÝ VZDUCH
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: SVĚŽÍ VZDUCH
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- phrase: JARNÍ VÍTR
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: OSTRÝ VÍTR
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: MĚKKÝ SNÍH
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: TVRDÝ LED
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: HLUBOKÝ LES
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: ŠIROKÁ ŘEKA
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: ÚZKÝ POTOK
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: VYSOKÁ HORA
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: KRÁSNÁ KRAJINA
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- phrase: DIVOKÁ PŘÍRODA
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- phrase: ŽIVÁ PŘÍRODA
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: ŠKOLNÍ HŘIŠTĚ
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - hard
+- phrase: NOVÉ HŘIŠTĚ
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- phrase: VESELÁ TŘÍDA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+- phrase: TICHÁ TŘÍDA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+- phrase: DOBRÁ SVAČINA
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - medium
+- phrase: ZDRAVÁ SVAČINA
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- phrase: SLADKÁ SVAČINA
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - medium
+- phrase: ČERSTVÉ MLÉKO
+  themes:
+  - animals
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- phrase: TEPLÉ MLÉKO
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: BÍLÉ MLÉKO
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+- phrase: ČERSTVÉ MÁSLO
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- phrase: DOBRÝ SÝR
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: SLADKÝ BANÁN
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: ŠŤAVNATÉ JABLKO
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- phrase: ZRALÁ HRUŠKA
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: ČERVENÉ RAJČE
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: ZELENÁ OKURKA
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: ORANŽOVÁ MRKEV
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- phrase: VOŇAVÁ MÁTA
+  themes:
+  - everyday
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: PÁLIVÁ KOPŘIVA
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- phrase: MĚKKÝ MECH
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: TVRDÝ KÁMEN
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: HLADKÝ KÁMEN
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: OSTRÝ KÁMEN
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: TEPLÉ SLUNCE
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: JASNÉ SLUNCE
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: STŘÍBRNÝ MĚSÍC
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - hard
+- phrase: ZLATÉ SLUNCE
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: BAREVNÁ DUHA
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: SILNÁ BOUŘE
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: TICHÁ MLHA
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: HUSTÁ MLHA
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: CHLADNÝ DÉŠŤ
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+  - hard
+- phrase: TEPLÝ DÉŠŤ
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: PRVNÍ SNÍH
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - easy
+  - medium
+- phrase: POSLEDNÍ LIST
+  themes:
+  - mixed
+  - nature
+  difficulty:
+  - medium
+- phrase: NOVÝ ZAČÁTEK
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- phrase: ŠŤASTNÝ KONEC
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- phrase: DOBRÁ CESTA
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: DLOUHÁ CESTA
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: KRÁTKÁ CESTA
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: BEZPEČNÁ CESTA
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- phrase: SPOLEČNÁ HRA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- phrase: POCTIVÁ HRA
+  themes:
+  - mixed
+  - school
+  difficulty:
+  - hard
+- phrase: NOVÁ HRAČKA
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: STARÁ HRAČKA
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: OBLÍBENÁ HRA
+  themes:
+  - everyday
+  - mixed
+  - school
+  difficulty:
+  - medium
+  - hard
+- phrase: HEZKÝ DÁREK
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: VELKÝ DÁREK
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: MALÝ DÁREK
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - easy
+  - medium
+- phrase: PĚKNÉ PŘÁNÍ
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- phrase: SRDEČNÉ PŘÁNÍ
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- phrase: VELKÝ ÚSMĚV
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: ŠŤASTNÝ ÚSMĚV
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- phrase: DOBRÁ NÁLADA
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard
+- phrase: SKVĚLÁ NÁLADA
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- phrase: KLIDNÁ NOC
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+- phrase: HLUBOKÝ SPÁNEK
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - hard
+- phrase: SLADKÝ SPÁNEK
+  themes:
+  - everyday
+  - mixed
+  difficulty:
+  - medium
+  - hard

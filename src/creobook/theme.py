@@ -34,17 +34,17 @@ class PageTheme(BaseModel):
 
 
 class MarginsTheme(BaseModel):
-    inner_mm: float = 13.0
-    outer_mm: float = 9.0
-    top_mm: float = 11.0
-    bottom_mm: float = 11.0
+    inner_mm: float = 12.0
+    outer_mm: float = 11.0
+    top_mm: float = 18.0
+    bottom_mm: float = 16.0
 
 
 class ColorsTheme(BaseModel):
     ink: str = "#000000"
     muted: str = "#1a1a1a"
     light: str = "#333333"
-    rule: str = "#000000"
+    rule: str = "#9a9a9a"
     accent: str = "#000000"
     weekend: str = "#000000"
     holiday: str = "#000000"
@@ -72,7 +72,7 @@ class LinesTheme(BaseModel):
 
 
 class DefaultsTheme(BaseModel):
-    ruled_spacing_mm: float = 7.0
+    ruled_spacing_mm: float = 8.0
     dotted_spacing_mm: float = 5.0
     grid_spacing_mm: float = 5.0
     checklist_rows: int = 16

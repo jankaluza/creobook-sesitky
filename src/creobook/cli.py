@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import shutil
 import subprocess
 from pathlib import Path
@@ -30,6 +31,8 @@ page_app = typer.Typer(help="Render a single page type to an A5 PDF.")
 app.add_typer(page_app, name="page")
 games_app = typer.Typer(help="Generate pencil-and-paper game booklets and puzzles.")
 app.add_typer(games_app, name="games")
+game_app = typer.Typer(help="Generate dedicated game booklets (osmisměrky, bludiště, křížovky).")
+app.add_typer(game_app, name="game")
 planner_app = typer.Typer(help="Generate modular quarterly planner booklets.")
 app.add_typer(planner_app, name="planner")
 
@@ -166,34 +169,16 @@ def calendar_cmd(
     typer.echo(f"Wrote {out} ({len(data['months'])} months)")
 
 
-@planner_app.command("quarter")
-def planner_quarter_cmd(
-    year: int = typer.Option(..., "--year", "-y", help="Calendar year"),
-    quarter: int = typer.Option(
-        ..., "--quarter", "-q", help="Quarter number (1–4)"
-    ),
-    locale: str = typer.Option("cs-CZ", "--locale", help="Locale (cs-CZ)"),
-    accent_color: Optional[str] = typer.Option(
-        None, "--accent-color", help="Accent colour hex"
-    ),
-    show_holidays: bool = typer.Option(
-        True, "--show-holidays/--no-show-holidays", help="Mark Czech public holidays"
-    ),
-    fold_guide: bool = typer.Option(
-        True, "--fold-guide/--no-fold-guide", help="Centre fold marks on booklet"
-    ),
-    output: Optional[Path] = typer.Option(
-        None,
-        "--output",
-        "-o",
-        help="Optional A5 pages PDF path (booklet uses default booklet path)",
-    ),
+def _generate_planner_quarter(
+    year: int,
+    quarter: int,
+    *,
+    locale: str,
+    accent_color: Optional[str],
+    show_holidays: bool,
+    fold_guide: bool,
+    output: Optional[Path] = None,
 ) -> None:
-    """
-    Generate a 28-page A5 quarterly planner and impose it as a 7-sheet booklet.
-
-    Physical format: 7 duplex A4 sheets → 14 A4 landscape PDF pages → 28 A5 pages.
-    """
     from creobook.planner import (
         PLANNER_A4_SIDES,
         PLANNER_A5_PAGES,
@@ -246,6 +231,101 @@ def planner_quarter_cmd(
     typer.echo(
         "Print duplex, flip on the short edge, 100% scale (A4 landscape booklet)."
     )
+
+
+@planner_app.command("quarter")
+def planner_quarter_cmd(
+    year: int = typer.Option(..., "--year", "-y", help="Calendar year"),
+    quarter: int = typer.Option(
+        ..., "--quarter", "-q", help="Quarter number (1–4)"
+    ),
+    locale: str = typer.Option("cs-CZ", "--locale", help="Locale (cs-CZ)"),
+    accent_color: Optional[str] = typer.Option(
+        None, "--accent-color", help="Accent colour hex"
+    ),
+    show_holidays: bool = typer.Option(
+        True, "--show-holidays/--no-show-holidays", help="Mark Czech public holidays"
+    ),
+    fold_guide: bool = typer.Option(
+        True, "--fold-guide/--no-fold-guide", help="Centre fold marks on booklet"
+    ),
+    output: Optional[Path] = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="Optional A5 pages PDF path (booklet uses default booklet path)",
+    ),
+) -> None:
+    """
+    Generate a 28-page A5 quarterly planner and impose it as a 7-sheet booklet.
+
+    Physical format: 7 duplex A4 sheets → 14 A4 landscape PDF pages → 28 A5 pages.
+    """
+    _generate_planner_quarter(
+        year,
+        quarter,
+        locale=locale,
+        accent_color=accent_color,
+        show_holidays=show_holidays,
+        fold_guide=fold_guide,
+        output=output,
+    )
+
+
+@planner_app.command("upcoming")
+def planner_upcoming_cmd(
+    count: int = typer.Option(
+        4, "--count", "-n", help="How many consecutive quarters to generate"
+    ),
+    from_date: Optional[str] = typer.Option(
+        None,
+        "--from",
+        help="Anchor date YYYY-MM-DD or YYYYMMDD (default: today)",
+    ),
+    locale: str = typer.Option("cs-CZ", "--locale", help="Locale (cs-CZ)"),
+    accent_color: Optional[str] = typer.Option(
+        None, "--accent-color", help="Accent colour hex"
+    ),
+    show_holidays: bool = typer.Option(
+        True, "--show-holidays/--no-show-holidays", help="Mark Czech public holidays"
+    ),
+    fold_guide: bool = typer.Option(
+        True, "--fold-guide/--no-fold-guide", help="Centre fold marks on booklet"
+    ),
+) -> None:
+    """Generate the next N quarterly planners starting from today's quarter."""
+    from datetime import date
+
+    from creobook.planner import rolling_quarters
+
+    anchor: date | None = None
+    if from_date is not None:
+        raw = from_date.strip().replace("-", "")
+        if len(raw) != 8 or not raw.isdigit():
+            raise typer.BadParameter(
+                "--from must be YYYY-MM-DD or YYYYMMDD", param_hint="--from"
+            )
+        try:
+            anchor = date(int(raw[0:4]), int(raw[4:6]), int(raw[6:8]))
+        except ValueError as exc:
+            raise typer.BadParameter(str(exc), param_hint="--from") from exc
+
+    try:
+        quarters = rolling_quarters(anchor, count=count)
+    except ValueError as exc:
+        raise typer.BadParameter(str(exc)) from exc
+
+    labels = ", ".join(f"{y} Q{q}" for y, q in quarters)
+    typer.echo(f"Generating {count} quarterly planner(s): {labels}")
+    for year, quarter in quarters:
+        _generate_planner_quarter(
+            year,
+            quarter,
+            locale=locale,
+            accent_color=accent_color,
+            show_holidays=show_holidays,
+            fold_guide=fold_guide,
+        )
 
 
 @app.command("booklet")
@@ -538,6 +618,372 @@ def games_maze(
 ) -> None:
     """Generate a single maze page."""
     _game_single("maze", difficulty, seed, output)
+
+
+@game_app.command("maze")
+def game_maze_booklet(
+    easy: int = typer.Option(6, "--easy"),
+    medium: int = typer.Option(6, "--medium"),
+    hard: int = typer.Option(6, "--hard"),
+    seed: int = typer.Option(20270101, "--seed"),
+    locale: str = typer.Option("cs-CZ", "--locale"),
+    maze_style: str = typer.Option("rectangular", "--maze-style"),
+    solutions: bool = typer.Option(True, "--solutions/--no-solutions"),
+    fold_guide: bool = typer.Option(True, "--fold-guide/--no-fold-guide"),
+    output: Optional[Path] = typer.Option(None, "--output", "-o"),
+) -> None:
+    """Generate the 24-page Czech maze booklet (BLUDIŠTĚ)."""
+    from creobook.games.maze_booklet import compile_maze_booklet
+
+    result = compile_maze_booklet(
+        seed=seed,
+        locale=locale,
+        easy=easy,
+        medium=medium,
+        hard=hard,
+        maze_style=maze_style,
+        solutions=solutions,
+        fold_guide=fold_guide,
+        output=output,
+    )
+    for label, path in result.items():
+        typer.echo(f"Wrote {label}: {path}")
+    typer.echo("Print duplex, flip on the short edge, 100% scale (A4 landscape).")
+
+
+@game_app.command("math-grade1")
+def game_math_grade1_booklet(
+    seed: int = typer.Option(20270101, "--seed", help="Seed pro opakovatelnost vydání"),
+    fold_guide: bool = typer.Option(
+        True, "--fold-guide/--no-fold-guide", help="Středová vodicí linka na A4"
+    ),
+    preview: bool = typer.Option(
+        False, "--preview/--no-preview", help="PNG náhled 1. strany (pdftoppm)"
+    ),
+    output: Optional[Path] = typer.Option(
+        None, "--output", "-o", help="Cesta k tiskovému A4 PDF"
+    ),
+    pages_output: Optional[Path] = typer.Option(
+        None, "--pages-output", help="Cesta k A5 PDF (32 stran)"
+    ),
+    answers_output: Optional[Path] = typer.Option(
+        None, "--answers-output", help="Cesta k PDF s řešením pro rodiče"
+    ),
+) -> None:
+    """Vygenerovat 32stránkový sešit Matematika – 1. třída (A5 + 8 listů A4)."""
+    from creobook.games.math_grade1_booklet import (
+        PRINT_INSTRUCTIONS_CS,
+        compile_math_grade1_booklet,
+    )
+
+    result = compile_math_grade1_booklet(
+        seed=seed,
+        fold_guide=fold_guide,
+        output=output,
+        pages_output=pages_output,
+        answers_output=answers_output,
+    )
+    labels = {
+        "pages": "A5 PDF (32 stran)",
+        "booklet": "A4 PDF (tisk sešitu, 8 listů / 16 stran)",
+        "answers": "Řešení pro rodiče",
+        "json": "JSON",
+    }
+    for key, path in result.items():
+        typer.echo(f"{labels.get(key, key)}: {path}")
+
+    if preview and "pages" in result:
+        preview_dir = project_root() / "output" / "preview"
+        preview_dir.mkdir(parents=True, exist_ok=True)
+        preview_png = preview_dir / (result["pages"].stem + "-p1.png")
+        if shutil.which("pdftoppm") is None:
+            typer.echo("Náhled přeskočen: nainstalujte Poppler (pdftoppm).", err=True)
+        else:
+            web_preview_cmd(pdf=result["pages"], output=preview_png, dpi=144, page=1)
+            typer.echo(f"Náhled: {preview_png}")
+
+    typer.echo("")
+    typer.echo(PRINT_INSTRUCTIONS_CS)
+
+
+@game_app.command("math-grade2")
+def game_math_grade2_booklet(
+    seed: int = typer.Option(20261026, "--seed", help="Seed pro opakovatelnost vydání"),
+    fold_guide: bool = typer.Option(
+        True, "--fold-guide/--no-fold-guide", help="Středová vodicí linka na A4"
+    ),
+    preview: bool = typer.Option(
+        False, "--preview/--no-preview", help="PNG náhledy všech 20 stran (pdftoppm)"
+    ),
+    output: Optional[Path] = typer.Option(
+        None, "--output", "-o", help="Cesta k tiskovému A4 PDF"
+    ),
+    pages_output: Optional[Path] = typer.Option(
+        None, "--pages-output", help="Cesta k A5 PDF (8 stran)"
+    ),
+    answers_output: Optional[Path] = typer.Option(
+        None, "--answers-output", help="Cesta k PDF s řešením pro rodiče"
+    ),
+) -> None:
+    """Vygenerovat sešit Matematika – 2. třída (20 stran A5, 5 listů A4)."""
+    from creobook.games.math_grade2_booklet import (
+        PRINT_INSTRUCTIONS_CS,
+        compile_math_grade2_booklet,
+    )
+
+    result = compile_math_grade2_booklet(
+        seed=seed,
+        fold_guide=fold_guide,
+        output=output,
+        pages_output=pages_output,
+        answers_output=answers_output,
+    )
+    labels = {
+        "pages": "A5 PDF (20 stran)",
+        "booklet": "A4 PDF (tisk sešitu, 5 listů / 10 stran)",
+        "answers": "Řešení pro rodiče",
+        "json": "JSON",
+    }
+    for key, path in result.items():
+        typer.echo(f"{labels.get(key, key)}: {path}")
+
+    if preview and "pages" in result:
+        preview_dir = project_root() / "output" / "preview"
+        preview_dir.mkdir(parents=True, exist_ok=True)
+        if shutil.which("pdftoppm") is None:
+            typer.echo("Náhled přeskočen: nainstalujte Poppler (pdftoppm).", err=True)
+        else:
+            for page_no in range(1, 21):
+                preview_png = preview_dir / f"{result['pages'].stem}-p{page_no}.png"
+                web_preview_cmd(pdf=result["pages"], output=preview_png, dpi=120, page=page_no)
+            typer.echo(f"Náhledy: {preview_dir}/{result['pages'].stem}-p1.png … p20.png")
+
+    typer.echo("")
+    typer.echo(PRINT_INSTRUCTIONS_CS)
+
+
+@game_app.command("math-set")
+def game_math_set(
+    which: str = typer.Argument(..., help="cisla, nasobilka nebo kolem"),
+    seed: int = typer.Option(20261026, "--seed", help="Seed pro opakovatelnost vydání"),
+    fold_guide: bool = typer.Option(
+        True, "--fold-guide/--no-fold-guide", help="Středová vodicí linka na A4"
+    ),
+    preview: bool = typer.Option(
+        False, "--preview/--no-preview", help="PNG náhledy všech 8 stran (pdftoppm)"
+    ),
+    output: Optional[Path] = typer.Option(
+        None, "--output", "-o", help="Cesta k tiskovému A4 PDF"
+    ),
+    pages_output: Optional[Path] = typer.Option(
+        None, "--pages-output", help="Cesta k A5 PDF (8 stran)"
+    ),
+    answers_output: Optional[Path] = typer.Option(
+        None, "--answers-output", help="Cesta k PDF s řešením pro rodiče"
+    ),
+) -> None:
+    """Vygenerovat sešit Čísla do 100, Násobilka, nebo Matematika kolem nás."""
+    from creobook.games.math_sets import SETS
+    from creobook.games.math_sets_booklet import (
+        PRINT_INSTRUCTIONS_CS,
+        compile_math_set_booklet,
+    )
+
+    if which not in SETS:
+        raise typer.BadParameter(
+            f"Neznámý sešit {which!r}. Povolené: {', '.join(SETS)}"
+        )
+    result = compile_math_set_booklet(
+        which,
+        seed=seed,
+        fold_guide=fold_guide,
+        output=output,
+        pages_output=pages_output,
+        answers_output=answers_output,
+    )
+    spec = SETS[which]
+    summary = json.loads(result["json"].read_text(encoding="utf-8"))
+    typer.echo(
+        f"Položek: {summary['item_count']} "
+        f"(strany {', '.join(str(n) for n in summary['page_counts'])})"
+    )
+    labels = {
+        "pages": f"A5 PDF (8 stran) — {spec['title']}",
+        "booklet": "A4 PDF (tisk sešitu, 2 listy / 4 strany)",
+        "answers": "Řešení pro rodiče",
+        "json": "JSON",
+    }
+    for key, path in result.items():
+        typer.echo(f"{labels.get(key, key)}: {path}")
+    if preview and "pages" in result:
+        preview_dir = project_root() / "output" / "preview"
+        preview_dir.mkdir(parents=True, exist_ok=True)
+        if shutil.which("pdftoppm") is None:
+            typer.echo("Náhled přeskočen: nainstalujte Poppler (pdftoppm).", err=True)
+        else:
+            for page_no in range(1, 9):
+                preview_png = preview_dir / f"{result['pages'].stem}-p{page_no}.png"
+                web_preview_cmd(pdf=result["pages"], output=preview_png, dpi=120, page=page_no)
+            typer.echo(f"Náhledy: {preview_dir}/{result['pages'].stem}-p1.png … p8.png")
+    typer.echo("")
+    typer.echo(PRINT_INSTRUCTIONS_CS)
+
+
+@game_app.command("crossword")
+def game_crossword_booklet(
+    obtiznost: str = typer.Option(
+        "mixed",
+        "--obtiznost",
+        "--difficulty",
+        help="Obtížnost: easy / medium / hard / mixed",
+    ),
+    tema: Optional[str] = typer.Option(
+        None,
+        "--tema",
+        "--theme",
+        help="Téma: animals, nature, everyday, school, mixed (nebo český název)",
+    ),
+    seed: int = typer.Option(20270101, "--seed", help="Volitelný seed pro opakovatelnost"),
+    easy: Optional[int] = typer.Option(None, "--easy", help="Počet lehkých křížovek"),
+    medium: Optional[int] = typer.Option(None, "--medium", help="Počet středních křížovek"),
+    hard: Optional[int] = typer.Option(None, "--hard", help="Počet těžkých křížovek"),
+    solutions: bool = typer.Option(
+        True, "--solutions/--no-solutions", help="Zahrnout stránky s řešením"
+    ),
+    fold_guide: bool = typer.Option(
+        True, "--fold-guide/--no-fold-guide", help="Středová vodicí linka na A4"
+    ),
+    preview: bool = typer.Option(
+        False, "--preview/--no-preview", help="Vytvořit PNG náhled titulní strany"
+    ),
+    output: Optional[Path] = typer.Option(
+        None, "--output", "-o", help="Cesta k tiskovému A4 PDF"
+    ),
+    pages_output: Optional[Path] = typer.Option(
+        None, "--pages-output", help="Cesta k A5 PDF v pořadí čtení"
+    ),
+) -> None:
+    """Vygenerovat 24stránkový sešit Křížovky (A5 + imposed A4)."""
+    from creobook.games.crossword_booklet import (
+        PRINT_INSTRUCTIONS_CS,
+        compile_crossword_booklet,
+    )
+    from creobook.games.crossword_data import THEME_TITLES_CS
+
+    preferred_theme = None
+    if tema:
+        if tema in THEME_TITLES_CS:
+            preferred_theme = tema
+        else:
+            rev = {v.lower(): k for k, v in THEME_TITLES_CS.items()}
+            preferred_theme = rev.get(tema.lower(), tema)
+            if preferred_theme not in THEME_TITLES_CS:
+                raise typer.BadParameter(
+                    f"Neznámé téma {tema!r}. Povolené: {', '.join(sorted(THEME_TITLES_CS))}"
+                )
+
+    result = compile_crossword_booklet(
+        seed=seed,
+        difficulty=obtiznost,
+        theme=preferred_theme,
+        easy=easy,
+        medium=medium,
+        hard=hard,
+        solutions=solutions,
+        fold_guide=fold_guide,
+        output=output,
+        pages_output=pages_output,
+    )
+    labels = {
+        "pages": "A5 PDF (náhled / čtení)",
+        "booklet": "A4 PDF (tisk sešitu)",
+        "json": "JSON (reprodukce)",
+    }
+    for key, path in result.items():
+        typer.echo(f"{labels.get(key, key)}: {path}")
+
+    if preview and "pages" in result:
+        preview_dir = project_root() / "output" / "preview"
+        preview_dir.mkdir(parents=True, exist_ok=True)
+        preview_png = preview_dir / (result["pages"].stem + "-cover.png")
+        if shutil.which("pdftoppm") is None:
+            typer.echo(
+                "Náhled přeskočen: nainstalujte Poppler (pdftoppm).",
+                err=True,
+            )
+        else:
+            web_preview_cmd(pdf=result["pages"], output=preview_png, dpi=144, page=1)
+            typer.echo(f"Náhled: {preview_png}")
+
+    typer.echo("")
+    typer.echo(PRINT_INSTRUCTIONS_CS)
+
+
+@game_app.command("word-search")
+def game_word_search_booklet(
+    language: str = typer.Option("cs", "--language", help="Vocabulary locale"),
+    easy: int = typer.Option(6, "--easy", help="Number of easy puzzles"),
+    medium: int = typer.Option(6, "--medium", help="Number of medium puzzles"),
+    hard: int = typer.Option(6, "--hard", help="Number of hard puzzles"),
+    seed: int = typer.Option(20270101, "--seed", help="Deterministic seed"),
+    theme: Optional[str] = typer.Option(
+        None,
+        "--theme",
+        help="Optional semantic category (e.g. animals) or accent hex (#RRGGBB)",
+    ),
+    grid_diacritics: bool = typer.Option(
+        False,
+        "--grid-diacritics/--no-grid-diacritics",
+        help="Keep Czech diacritics inside the letter grid",
+    ),
+    solutions: bool = typer.Option(
+        True, "--solutions/--no-solutions", help="Include solution pages"
+    ),
+    fold_guide: bool = typer.Option(
+        True, "--fold-guide/--no-fold-guide", help="Draw center fold guide on A4 sheets"
+    ),
+    output: Optional[Path] = typer.Option(
+        None, "--output", "-o", help="Output A4 booklet PDF path"
+    ),
+) -> None:
+    """Generate the 24-page Czech word-search booklet (OSMISMĚRKY)."""
+    from creobook.games.vocab import THEME_TITLES_CS, count_pools, load_vocabulary
+    from creobook.games.word_search_booklet import compile_word_search_booklet
+    from creobook.theme import load_theme
+
+    accent = None
+    preferred_theme = None
+    if theme:
+        if theme.startswith("#") or (len(theme) in (3, 6) and all(c in "0123456789abcdefABCDEF" for c in theme.lstrip("#"))):
+            accent = theme if theme.startswith("#") else f"#{theme}"
+        elif theme in THEME_TITLES_CS:
+            preferred_theme = theme
+        else:
+            # Czech title → category id
+            rev = {v: k for k, v in THEME_TITLES_CS.items()}
+            preferred_theme = rev.get(theme, theme)
+
+    th = load_theme().with_accent(accent)
+    result = compile_word_search_booklet(
+        seed=seed,
+        language=language,
+        easy=easy,
+        medium=medium,
+        hard=hard,
+        grid_diacritics=grid_diacritics,
+        solutions=solutions,
+        fold_guide=fold_guide,
+        output=output,
+        theme=th,
+        preferred_theme=preferred_theme,
+    )
+    pools = count_pools(load_vocabulary())
+    for label, path in result.items():
+        typer.echo(f"Wrote {label}: {path}")
+    typer.echo(
+        f"Word pools — easy: {pools['easy']}, medium: {pools['medium']}, hard: {pools['hard']}"
+    )
+    typer.echo("Print duplex, flip on the short edge, 100% scale (A4 landscape).")
 
 
 @games_app.command("word-search")

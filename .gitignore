@@ -11,11 +11,16 @@ build/
 .venv/
 venv/
 
+# Generated puzzle JSON (seeded booklets)
+generated/*.json
+!generated/.gitkeep
+
 # Generated outputs (keep directory structure via .gitkeep)
 output/pages/*.pdf
 output/booklet/*.pdf
 output/preview/
 build/*.pdf
+$PREV/
 
 # OS / editor
 .DS_Store
@@ -26,3 +31,16 @@ build/*.pdf
 # Temp
 tmp/
 *.tmp
+.coverage
+htmlcov/
+
+# Secrets
+.env
+.env.*
+heslo-sesitky
+
+# Ansible: server a heslo aplikace WordPressu
+ansible/inventory.ini
+ansible/inventory.yml
+ansible/vault.yml
+*.retry

@@ -79,8 +79,11 @@
     footer: if show-footer {
       page-footer(subtitle: subtitle)
     } else { none },
-    header-ascent: 3mm,
-    footer-descent: 2mm,
+    // Ascent/descent = gap between header/footer and the body.
+    // Keep these small so the brand line sits near the body and far
+    // from the physical page edge (avoids printer clipping).
+    header-ascent: 1.5mm,
+    footer-descent: 1.5mm,
   )
   set text(
     font: theme.fonts.family,

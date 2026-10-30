@@ -1,0 +1,205 @@
+---
+# Nasadí generátor herních sešitků a každý pátek v 06:00 (Europe/Prague)
+# ho spustí. Nové Sudoku, Osmisměrky a Bludiště se tím nahrají na e-shop.
+#
+#   cp ansible/inventory.example.ini ansible/inventory.ini   # doplňte adresu serveru
+#   cp ansible/vault.yml.example ansible/vault.yml           # doplňte účet a heslo aplikace
+#   ansible-vault encrypt ansible/vault.yml
+#   ansible-playbook -i ansible/inventory.ini ansible/publish-herni.yml --ask-vault-pass
+#
+# Po pushi do main totéž spouští .github/workflows/deploy-herni.yml.
+#
+# Dnešní vydání playbook sám nezakládá. Jednorázově:
+#   ssh SERVER sudo systemctl start creobook-herni.service
+# Log: journalctl -u creobook-herni.service
+
+- name: Nasadit páteční generování herních sešitků
+  hosts: herni
+  become: true
+  gather_facts: false
+  vars:
+    creobook_root: /opt/creobook-sesity
+    creobook_user: creobook
+    creobook_home: /var/lib/creobook
+    wp_url: https://www.creobook.cz
+    deploy_archive: /tmp/creobook-herni-deploy.tgz
+  vars_files:
+    - "{{ playbook_dir }}/vault.yml"
+
+  pre_tasks:
+    - name: Nainstalovat Python, pokud na serveru ještě není
+      ansible.builtin.raw: |
+        set -e
+        if ! command -v python3 >/dev/null 2>&1; then
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y python3
+        fi
+      changed_when: false
+
+    - name: Načíst fakta o serveru
+      ansible.builtin.setup:
+
+    - name: Ověřit přihlašovací údaje WordPressu
+      ansible.builtin.assert:
+        that:
+          - wp_user | default('') | length > 0
+          - wp_app_password | default('') | length > 0
+        fail_msg: >-
+          V ansible/vault.yml chybí wp_user nebo wp_app_password.
+          Heslo aplikace se vytváří ve WordPressu v profilu uživatele.
+
+  tasks:
+    - name: Nainstalovat balíčky pro stahování a časovou zónu
+      ansible.builtin.apt:
+        name:
+          - ca-certificates
+          - curl
+          - tzdata
+        state: present
+        update_cache: true
+
+    - name: Nainstalovat uv
+      ansible.builtin.shell: |
+        set -euo pipefail
+        curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin INSTALLER_NO_MODIFY_PATH=1 sh
+      args:
+        creates: /usr/local/bin/uv
+        executable: /bin/bash
+
+    - name: Založit systémového uživatele creobook
+      ansible.builtin.user:
+        name: "{{ creobook_user }}"
+        system: true
+        home: "{{ creobook_home }}"
+        create_home: true
+        shell: /usr/sbin/nologin
+
+    - name: Připravit adresáře projektu
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ creobook_user }}"
+        group: "{{ creobook_user }}"
+        mode: "0755"
+      loop:
+        - "{{ creobook_root }}"
+        - "{{ creobook_root }}/output/booklet"
+        - "{{ creobook_root }}/output/pages"
+        - "{{ creobook_root }}/generated"
+        - /etc/creobook
+
+    - name: Sbalit generátor na řídicím stroji
+      delegate_to: localhost
+      become: false
+      run_once: true
+      changed_when: false
+      ansible.builtin.command:
+        argv:
+          - tar
+          - -C
+          - "{{ playbook_dir | dirname }}"
+          - -czf
+          - "{{ deploy_archive }}"
+          - --exclude=.git
+          - --exclude=.venv
+          - --exclude=output
+          - --exclude=kids-planner
+          - --exclude=ansible
+          - --exclude=__pycache__
+          - --exclude=.pytest_cache
+          - --exclude=.mypy_cache
+          - --exclude=.ruff_cache
+          - --exclude=$PREV
+          - --exclude=tests
+          - src
+          - templates
+          - config
+          - assets
+          - data
+          - scripts
+          - pyproject.toml
+          - uv.lock
+          - generated/.gitkeep
+
+    - name: Nahrát archiv na server
+      ansible.builtin.copy:
+        src: "{{ deploy_archive }}"
+        dest: "{{ deploy_archive }}"
+        mode: "0644"
+
+    - name: Rozbalit generátor
+      ansible.builtin.unarchive:
+        src: "{{ deploy_archive }}"
+        dest: "{{ creobook_root }}"
+        remote_src: true
+        owner: "{{ creobook_user }}"
+        group: "{{ creobook_user }}"
+
+    - name: Smazat archiv
+      ansible.builtin.file:
+        path: "{{ deploy_archive }}"
+        state: absent
+      delegate_to: "{{ item }}"
+      loop:
+        - "{{ inventory_hostname }}"
+        - localhost
+      become: "{{ item != 'localhost' }}"
+
+    - name: Nainstalovat Python 3.13 a závislosti projektu
+      become_user: "{{ creobook_user }}"
+      ansible.builtin.command:
+        argv:
+          - /usr/local/bin/uv
+          - sync
+          - --frozen
+          - --no-dev
+          - --python
+          - "3.13"
+        chdir: "{{ creobook_root }}"
+      environment:
+        HOME: "{{ creobook_home }}"
+        UV_CACHE_DIR: "{{ creobook_home }}/.cache/uv"
+        UV_PYTHON_INSTALL_DIR: "{{ creobook_home }}/.local/share/uv/python"
+      register: uv_sync
+      changed_when: "'Installed' in uv_sync.stdout or 'Updated' in uv_sync.stdout or 'Downloading' in uv_sync.stderr"
+
+    - name: Uložit přihlášení k WordPressu
+      ansible.builtin.template:
+        src: herni.env.j2
+        dest: /etc/creobook/herni.env
+        owner: root
+        group: "{{ creobook_user }}"
+        mode: "0640"
+      no_log: true
+      diff: false
+
+    - name: Nasadit službu a páteční časovač
+      ansible.builtin.template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: root
+        group: root
+        mode: "0644"
+      loop:
+        - src: creobook-herni.service.j2
+          dest: /etc/systemd/system/creobook-herni.service
+        - src: creobook-herni.timer.j2
+          dest: /etc/systemd/system/creobook-herni.timer
+      loop_control:
+        label: "{{ item.dest }}"
+      notify: Obnovit páteční časovač
+
+    - name: Zapnout páteční časovač
+      ansible.builtin.systemd:
+        name: creobook-herni.timer
+        enabled: true
+        state: started
+        daemon_reload: true
+
+  handlers:
+    - name: Obnovit páteční časovač
+      ansible.builtin.systemd:
+        name: creobook-herni.timer
+        daemon_reload: true
+        enabled: true
+        state: restarted

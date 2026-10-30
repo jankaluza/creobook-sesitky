@@ -1,0 +1,3 @@
+# Optional: install into the active environment
+typst>=0.13.0
+pypdf>=4.0.0

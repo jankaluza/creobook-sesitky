@@ -8,7 +8,7 @@ from creobook.games.models import Difficulty
 from creobook.games.nonogram import clues_for, verify_clues
 from creobook.games.sudoku import count_solutions
 from creobook.games.validation import validate_puzzle
-from creobook.games.word_search import load_theme_words
+from creobook.games.word_search_legacy import load_theme_words
 
 
 def test_registry_has_core_games():
@@ -17,6 +17,7 @@ def test_registry_has_core_games():
         "sudoku",
         "maze",
         "word_search",
+        "crossword",
         "nonogram",
         "connect_dots",
         "spot_difference",
@@ -80,6 +81,19 @@ def test_word_search_themes_and_placements():
     )
     validate_puzzle(p)
     assert {x["word"] for x in p.answer["placements"]} == set(p.data["words"])
+
+
+def test_crossword_tajenka_column():
+    p = get_generator("crossword").generate(
+        seed=17, difficulty=Difficulty.easy, params={"theme": "animals"}
+    )
+    validate_puzzle(p)
+    col = p.data["tajenka_col"]
+    built = "".join(
+        row[col] for row in p.answer["grid"] if row[col] != "#"
+    )
+    assert built == "".join(p.data["tajenka_letters"])
+    assert built == "".join(ch for ch in p.answer["tajenka"] if not ch.isspace())
 
 
 def test_nonogram_clues():

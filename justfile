@@ -40,8 +40,8 @@ preview pdf:
 
 # Generate sample PDFs for visual inspection
 samples year=YEAR: install
-    uv run creobook page ruled --spacing 7 -n 20
-    uv run creobook page ruled --spacing 7 --margin-line -n 20
+    uv run creobook page ruled --spacing 8 -n 20
+    uv run creobook page ruled --spacing 8 --margin-line -n 20
     uv run creobook page dotted --spacing 5 -n 20
     uv run creobook page grid --spacing 5 -n 20
     uv run creobook page blank -n 20

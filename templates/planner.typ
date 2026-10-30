@@ -57,10 +57,16 @@
     #grid(
       columns: 7 * (1fr,),
       column-gutter: 0.2mm,
-      row-gutter: 0.25mm,
       ..data.weekday_names.map(n => align(center)[
         #text(size: 4.8pt, fill: muted, upper(n))
       ]),
+    )
+    // Extra gap so weekday labels don't crowd the first number row
+    #v(2.2mm)
+    #grid(
+      columns: 7 * (1fr,),
+      column-gutter: 0.2mm,
+      row-gutter: 0.4mm,
       ..month.weeks.map(week => week.days.map(day => {
         let fill = if not day.in_month {
           adjacent-color
@@ -70,11 +76,25 @@
           weekend-color
         } else { ink }
         let weight = if day.holiday and day.in_month { "bold" } else { "regular" }
+        // Laser-safe holiday marker: heavier ink border around the day cell
+        let cell-stroke = if day.holiday and day.in_month {
+          (mm(theme.lines.rule_width_mm) * 1.8) + ink
+        } else {
+          none
+        }
         align(center)[
-          #box(width: 3.4mm, height: 3.4mm)[
-            #if day.in_month {
-              text(size: 5.2pt, fill: fill, weight: weight, str(day.day))
-            }
+          #box(
+            width: 4.1mm,
+            height: 4.1mm,
+            stroke: cell-stroke,
+            radius: 0.3mm,
+            inset: 0.15mm,
+          )[
+            #align(center + horizon)[
+              #if day.in_month {
+                text(size: 6pt, fill: fill, weight: weight, str(day.day))
+              }
+            ]
           ]
         ]
       })).flatten(),
@@ -83,9 +103,6 @@
 }
 
 #let annotate-days(days) = {
-  let first-month = days.at(0).month
-  let first-year = days.at(0).year
-  let multi = days.any(d => d.month != first-month or d.year != first-year)
   days.map(d => (
     iso: d.iso,
     day: d.day,
@@ -98,7 +115,6 @@
     holiday: d.holiday,
     holiday_name: d.holiday_name,
     active: d.active,
-    show_month: multi,
   ))
 }
 
@@ -109,8 +125,7 @@
   } else if day.weekend and day.active {
     weekend-color
   } else if day.active { ink } else { adjacent-color }
-  let label = str(day.day) + "."
-  if day.show_month { label = label + " " + day.month_label }
+  let label = str(day.day) + ". " + day.month_label
   block(width: 100%, breakable: false, below: 1.2mm)[
     #grid(
       columns: (1fr, auto),
@@ -164,11 +179,7 @@
 
   #v(2mm)
   #section-title(labels.milestones)
-  #writing-lines(3, checkbox: true)
-
-  #v(2mm)
-  #section-title(labels.notes)
-  #writing-lines(3)
+  #writing-lines(2, checkbox: true)
 ]
 
 #let week-header(week) = {
@@ -270,17 +281,17 @@
     column-gutter: 3.5mm,
     {
       section-title(labels.keep)
-      writing-lines(5)
+      writing-lines(4)
     },
     {
       section-title(labels.change)
-      writing-lines(5)
+      writing-lines(4)
     },
   )
   #v(2.5mm)
 
   #section-title(labels.first_steps)
-  #writing-lines(5, checkbox: true)
+  #writing-lines(4, checkbox: true)
 ]
 
 #show: creobook-page.with(

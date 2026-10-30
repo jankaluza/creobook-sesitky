@@ -33,6 +33,7 @@ packages = ["src/creobook"]
 "templates" = "creobook/templates"
 "config" = "creobook/config"
 "assets" = "creobook/assets"
+"data" = "creobook/data"
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -40,6 +41,7 @@ include = [
     "/templates",
     "/config",
     "/assets",
+    "/data",
     "/tests",
     "/README.md",
 ]
