@@ -15,7 +15,7 @@
 
 - name: Nasadit páteční generování herních sešitků
   hosts: herni
-  become: true
+  remote_user: root
   gather_facts: false
   vars:
     creobook_root: /opt/creobook-sesity
@@ -143,12 +143,16 @@
       loop:
         - "{{ inventory_hostname }}"
         - localhost
-      become: "{{ item != 'localhost' }}"
+      become: false
 
     - name: Nainstalovat Python 3.13 a závislosti projektu
-      become_user: "{{ creobook_user }}"
       ansible.builtin.command:
         argv:
+          - runuser
+          - --preserve-environment
+          - -u
+          - "{{ creobook_user }}"
+          - --
           - /usr/local/bin/uv
           - sync
           - --frozen

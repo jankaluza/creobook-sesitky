@@ -3,10 +3,8 @@
 #
 # Secrets v repozitáři (Settings → Secrets and variables → Actions):
 #   SSH_HOST             adresa serveru
-#   SSH_PRIVATE_KEY      privátní klíč účtu, který má sudo
-#   SSH_USER             volitelné, výchozí je ubuntu
+#   SSH_PRIVATE_KEY      privátní klíč roota
 #   SSH_KNOWN_HOSTS      volitelné, výstup příkazu ssh-keyscan -H adresa
-#   SSH_BECOME_PASSWORD  volitelné, jen když sudo vyžaduje heslo
 #   WP_USER              účet WordPressu
 #   WP_APP_PASSWORD      heslo aplikace
 #   WP_URL               volitelné, výchozí je https://www.creobook.cz
@@ -39,9 +37,7 @@ jobs:
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
-          SSH_BECOME_PASSWORD: ${{ secrets.SSH_BECOME_PASSWORD }}
           WP_USER: ${{ secrets.WP_USER }}
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
           WP_URL: ${{ secrets.WP_URL }}
@@ -67,12 +63,10 @@ jobs:
               return f'"{escaped}"'
 
           host = required("SSH_HOST")
-          user = os.environ.get("SSH_USER", "").strip() or "ubuntu"
           key_text = required("SSH_PRIVATE_KEY").replace("\\n", "\n").strip() + "\n"
           wp_user = required("WP_USER")
           wp_password = required("WP_APP_PASSWORD")
           wp_url = os.environ.get("WP_URL", "").strip()
-          become = os.environ.get("SSH_BECOME_PASSWORD", "")
 
           ssh_dir = Path.home() / ".ssh"
           ssh_dir.mkdir(mode=0o700, exist_ok=True)
@@ -90,13 +84,11 @@ jobs:
           known_path.chmod(0o644)
 
           inventory = ["herni:", "  hosts:", "    shop:", f"      ansible_host: {quote(host)}"]
-          inventory.append(f"      ansible_user: {quote(user)}")
+          inventory.append('      ansible_user: "root"')
           inventory.append(f"      ansible_ssh_private_key_file: {quote(str(key_path))}")
           inventory.append(
               '      ansible_ssh_common_args: "-o StrictHostKeyChecking=yes"'
           )
-          if become:
-              inventory.append(f"      ansible_become_password: {quote(become)}")
           inventory_path = Path("ansible/inventory.yml")
           inventory_path.write_text("\n".join(inventory) + "\n")
           inventory_path.chmod(0o600)
