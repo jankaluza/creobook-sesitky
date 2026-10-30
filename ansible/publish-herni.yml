@@ -119,6 +119,7 @@
           - scripts
           - pyproject.toml
           - uv.lock
+          - README.md
           - generated/.gitkeep
 
     - name: Nahrát archiv na server
