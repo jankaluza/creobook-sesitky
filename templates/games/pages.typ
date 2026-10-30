@@ -855,8 +855,11 @@
     let other-items = items.filter(it => it.kind != "sudoku")
 
     if sudoku-items.len() > 0 {
-      // Split bands keep item counts modest so grids stay readable
-      let sol-cols = if sudoku-items.len() > 14 { 3 } else { 2 }
+      // 12 řešení 6×6 ve dvou sloupcích přeteče na skoro prázdnou stránku.
+      let sample-n = sudoku-items.at(0).answer.grid.len()
+      let sol-cols = if sample-n == 6 and sudoku-items.len() > 8 { 3 }
+        else if sudoku-items.len() > 14 { 3 }
+        else { 2 }
       let col-spec = if sol-cols == 3 { (1fr, 1fr, 1fr) } else { (1fr, 1fr) }
       grid(
         columns: col-spec,

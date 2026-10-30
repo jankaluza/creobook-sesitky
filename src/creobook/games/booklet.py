@@ -38,6 +38,39 @@ def _page_seed(base: int, index: int) -> int:
     return base * 1009 + index * 9176 + 13
 
 
+_SUDOKU_FILLERS = (
+    (4, Difficulty.easy, "Sudoku 4×4 · snadné"),
+    (6, Difficulty.medium, "Sudoku 6×6 · střední"),
+    (9, Difficulty.hard, "Sudoku 9×9 · těžké"),
+)
+
+
+def _pad_page(pack: PackConfig, seed: int, index: int, pad_index: int) -> PuzzleBase:
+    """Fill a short booklet. Sudoku packs get another puzzle page, not a blank one."""
+    if any(spec.kind == "sudoku" for spec in pack.pages):
+        size, difficulty, title = _SUDOKU_FILLERS[pad_index % len(_SUDOKU_FILLERS)]
+        return build_page(
+            PageSpec(
+                kind="sudoku",
+                title=title,
+                difficulty=difficulty,
+                params={"size": size, "fill": True},
+            ),
+            seed=_page_seed(seed, index),
+            difficulty=difficulty,
+            pack=pack,
+            puzzle_index=index,
+        )
+    return _meta_page(
+        "free_grid",
+        "Volná stránka",
+        _page_seed(seed, index),
+        Difficulty.easy,
+        instructions="Volná stránka pro poznámky.",
+        data={"grid": 10},
+    )
+
+
 def _meta_page(
     kind: str,
     title: str,
@@ -132,6 +165,38 @@ def build_page(
     return puzzle
 
 
+def _solution_entries(page_index: int, puzzle: PuzzleBase) -> list[dict[str, Any]]:
+    puzzles = puzzle.data.get("puzzles") or []
+    answers = (puzzle.answer or {}).get("puzzles") or []
+    if puzzle.kind == "sudoku" and len(puzzles) > 1 and len(answers) == len(puzzles):
+        entries = []
+        for slot, (puz, ans) in enumerate(zip(puzzles, answers, strict=True), start=1):
+            entries.append(
+                {
+                    "page": page_index,
+                    "sub": slot,
+                    "title": f"{puzzle.title} · {slot}",
+                    "kind": "sudoku",
+                    "answer": {"grid": ans["grid"]},
+                    "data": {
+                        "size": puzzle.data["size"],
+                        "grid": puz["grid"],
+                        "box": puzzle.data["box"],
+                    },
+                }
+            )
+        return entries
+    return [
+        {
+            "page": page_index,
+            "title": puzzle.title,
+            "kind": puzzle.kind,
+            "answer": puzzle.answer,
+            "data": puzzle.data,
+        }
+    ]
+
+
 def build_booklet_pages(
     pack: PackConfig,
     *,
@@ -216,18 +281,24 @@ def build_booklet_pages(
             page.data["items"] = []
             page.instructions = "Řešení v tomto vydání nejsou zahrnuta."
 
-    # Pad / trim to exact sheet capacity
+    # Pad / trim to exact sheet capacity. A sudoku booklet fills the gap
+    # with more puzzles instead of a blank page.
+    pad_index = 0
     while len(pages_out) < target:
-        pages_out.append(
-            _meta_page(
-                "free_grid",
-                "Volná stránka",
-                _page_seed(seed, len(pages_out)),
-                Difficulty.easy,
-                instructions="Volná stránka pro poznámky.",
-                data={"grid": 10},
-            )
-        )
+        page = _pad_page(pack, seed, len(pages_out), pad_index)
+        pad_index += 1
+        if pages_out and pages_out[-1].kind == "back":
+            pages_out.insert(-1, page)
+            page_index = len(pages_out) - 1
+        else:
+            pages_out.append(page)
+            page_index = len(pages_out)
+        if include_answers and page.kind == "sudoku":
+            solution_pages = [item for item in pages_out if item.kind == "solutions"]
+            if solution_pages:
+                solution_pages[-1].data.setdefault("items", []).extend(
+                    _solution_entries(page_index, page)
+                )
     if len(pages_out) > target:
         pages_out = pages_out[:target]
 

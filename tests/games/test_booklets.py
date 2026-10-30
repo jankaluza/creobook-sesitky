@@ -99,6 +99,63 @@ def test_sudoku_pack_pdf(tmp_path, theme):
     assert check_page_count(one, 1).ok
 
 
+def test_medium_solutions_stay_on_one_page(tmp_path, theme):
+    def grid(n: int) -> list[list[int]]:
+        return [[(r + c) % n + 1 for c in range(n)] for r in range(n)]
+
+    items = [
+        {
+            "page": 8,
+            "sub": i + 1,
+            "title": f"Sudoku 6×6 · {i + 1}",
+            "kind": "sudoku",
+            "answer": {"grid": grid(6)},
+            "data": {"size": 6, "grid": grid(6), "box": [2, 3]},
+        }
+        for i in range(12)
+    ]
+    pdf = tmp_path / "solutions-6.pdf"
+    compile_template(
+        "games/booklet.typ",
+        {
+            "page_type": "games_booklet",
+            "pages": [
+                {
+                    "kind": "solutions",
+                    "title": "Řešení 6×6 (str. 8–10)",
+                    "instructions": "Kompaktní řešení vybraných stran.",
+                    "difficulty": "medium",
+                    "data": {"items": items},
+                    "answer": {},
+                }
+            ],
+            "theme": theme.to_typst_dict(),
+            "title": "Sudoku",
+        },
+        pdf,
+        theme=theme,
+    )
+    assert check_page_count(pdf, 1).ok
+
+
+def test_short_sudoku_booklet_fills_empty_pages_with_puzzles():
+    pack = PackConfig(
+        id="sudoku",
+        title="CreoBook Sudoku",
+        sheets=1,
+        pages=[
+            PageSpec(kind="cover", title="CreoBook Sudoku"),
+            PageSpec(kind="sudoku", title="Sudoku 4×4 · snadné", difficulty=Difficulty.easy, params={"size": 4, "fill": True}),
+            PageSpec(kind="back", title="CreoBook"),
+        ],
+    )
+    pages = build_booklet_pages(pack, sheets=1, seed=1)
+    assert [page["kind"] for page in pages] == ["cover", "sudoku", "sudoku", "back"]
+    assert pages[2]["data"]["size"] == 4
+    assert pages[2]["data"]["count"] == 6
+    assert "free_grid" not in {page["kind"] for page in pages}
+
+
 def test_cover_stores_the_same_number_as_the_product_name():
     pack = PackConfig(
         id="sudoku",
