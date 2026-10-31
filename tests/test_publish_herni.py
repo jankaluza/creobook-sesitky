@@ -126,3 +126,111 @@ def test_payload_uses_the_new_preview_and_keeps_the_description():
         {"id": 44, "key": "_somdn_included", "value": "yes"},
         {"id": 88, "key": "_creobook_seed", "value": "20261030"},
     ]
+
+
+def _template_product() -> dict:
+    theme = publish_herni.COLORING_THEMES[0]
+    return {"id": 900, "name": theme.product_name, "slug": theme.slug}
+
+
+def test_coloring_themes_match_the_shop_slug_and_cover_the_list():
+    titles = publish_herni.COLORING_THEME_TITLES
+    assert len(titles) == 100
+    assert len(set(titles)) == 100
+    assert titles[0] == "Lesní kamarádi"
+    assert titles[-1] == "Můj vysněný svět"
+    assert publish_herni.COLORING_THEMES[0].slug == "omalovanky-lesni-kamaradi"
+    assert publish_herni.COLORING_THEMES[0].product_name == "Omalovánky – Lesní kamarádi"
+
+
+def test_plan_coloring_skips_themes_already_in_the_shop():
+    products = [
+        _template_product(),
+        {
+            "id": 901,
+            "name": "Omalovánky - Zvířátka na farmě",
+            "slug": "jiny-slug",
+        },
+    ]
+    edition = publish_herni.plan_coloring(products, 20261031)
+    assert edition is not None
+    assert edition.theme.title == "Život pod hladinou moře"
+    assert edition.source_id == 900
+    assert edition.update_id is None
+
+
+def test_plan_coloring_updates_the_theme_with_todays_seed():
+    products = [
+        _template_product(),
+        {
+            "id": 901,
+            "name": "Omalovánky – Zvířátka na farmě",
+            "slug": "omalovanky-zviratka-na-farme",
+            "sku": "omalovanky-20261031",
+            "meta_data": [{"key": "_creobook_seed", "value": "20261031"}],
+        },
+    ]
+    edition = publish_herni.plan_coloring(products, 20261031)
+    assert edition is not None
+    assert (edition.theme.title, edition.update_id, edition.source_id) == (
+        "Zvířátka na farmě",
+        901,
+        900,
+    )
+
+
+def test_plan_coloring_stops_when_every_theme_exists():
+    products = [
+        {"id": index, "name": theme.product_name, "slug": theme.slug}
+        for index, theme in enumerate(publish_herni.COLORING_THEMES, start=1)
+    ]
+    assert publish_herni.plan_coloring(products, 20261031) is None
+    with pytest.raises(SystemExit, match="vzor"):
+        publish_herni.plan_coloring([], 20261031)
+
+
+def test_coloring_payload_copies_the_template_and_uses_the_theme_name():
+    edition = publish_herni.ColoringEdition(
+        theme=publish_herni.COLORING_THEMES[1],
+        source_id=900,
+        source_name="Omalovánky – Lesní kamarádi",
+    )
+    source = {
+        "description": "<p>Vezměte pastelky</p>",
+        "short_description": "<p>Omalovánky</p>",
+        "regular_price": "0",
+        "categories": [{"id": 23}, {"id": 40}, {"id": 19}],
+        "meta_data": [{"id": 44, "key": "_somdn_included", "value": "yes"}],
+    }
+    payload = publish_herni.coloring_payload(
+        source,
+        edition,
+        "https://example.test/farm.pdf",
+        777,
+        20261031,
+    )
+    assert payload["name"] == "Omalovánky – Zvířátka na farmě"
+    assert payload["slug"] == "omalovanky-zviratka-na-farme"
+    assert payload["sku"] == "omalovanky-20261031"
+    assert payload["description"] == source["description"]
+    assert payload["short_description"] == source["short_description"]
+    assert payload["categories"] == [{"id": 23}, {"id": 40}, {"id": 19}]
+    assert payload["images"] == [{"id": 777}]
+    assert payload["downloads"] == [
+        {"name": "Omalovánky – Zvířátka na farmě.pdf", "file": "https://example.test/farm.pdf"}
+    ]
+
+
+def test_selected_jobs_can_limit_the_run_to_coloring():
+    series, coloring = publish_herni.selected_jobs("")
+    assert [item.key for item in series] == ["sudoku", "osmismerky", "bludiste"]
+    assert coloring is True
+    series, coloring = publish_herni.selected_jobs("omalovanky")
+    assert series == ()
+    assert coloring is True
+    series, coloring = publish_herni.selected_jobs("sudoku")
+    assert [item.key for item in series] == ["sudoku"]
+    assert coloring is False
+    with pytest.raises(SystemExit, match="Neznámý"):
+        publish_herni.selected_jobs("piskvorky")
+

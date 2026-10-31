@@ -1,5 +1,5 @@
 [Unit]
-Description=Pregenerovat herni sesitky a nahrat je na creobook.cz
+Description=Pregenerovat herni sesitky a omalovanky a nahrat je na creobook.cz
 After=network-online.target
 Wants=network-online.target
 
@@ -11,7 +11,7 @@ WorkingDirectory={{ creobook_root }}
 Environment=HOME={{ creobook_home }}
 EnvironmentFile=/etc/creobook/herni.env
 ExecStart={{ creobook_root }}/.venv/bin/python {{ creobook_root }}/scripts/publish_herni.py
-TimeoutStartSec=45min
+TimeoutStartSec=180min
 Nice=10
 StandardOutput=journal
 StandardError=journal

@@ -1,6 +1,7 @@
 ---
 # Nasadí generátor herních sešitků a každý pátek v 06:00 (Europe/Prague)
-# ho spustí. Nové Sudoku, Osmisměrky a Bludiště se tím nahrají na e-shop.
+# ho spustí. Nové Sudoku, Osmisměrky, Bludiště a jedno nové téma omalovánek
+# se tím nahrají na e-shop.
 #
 #   cp ansible/inventory.example.ini ansible/inventory.ini   # doplňte adresu serveru
 #   cp ansible/vault.yml.example ansible/vault.yml           # doplňte účet a heslo aplikace

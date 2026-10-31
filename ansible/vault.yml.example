@@ -1,2 +1,4 @@
 wp_user: "vas-wordpress-ucet"
 wp_app_password: "xxxx xxxx xxxx xxxx"
+# Volitelné. Bez tohoto klíče páteční běh omalovánky přeskočí.
+# openai_api_key: "sk-..."

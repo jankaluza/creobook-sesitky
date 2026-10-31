@@ -19,6 +19,7 @@ generated/*.json
 output/pages/*.pdf
 output/booklet/*.pdf
 output/preview/
+output/coloring/
 build/*.pdf
 $PREV/
 

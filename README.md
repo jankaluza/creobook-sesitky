@@ -165,6 +165,23 @@ using today’s date as both the filename infix and the default `--seed` (overri
 
 Logical pages are always a multiple of four (`sheets × 4`). Imposition stays a separate step from puzzle generation.
 
+### Coloring booklets (omalovánky)
+
+Original black-and-white line art is planned and drawn with the OpenAI Images API, then placed with the same Typst pages and booklet imposition. Paid image calls run only with `--generate`. Setup, caching, and print steps are in [docs/coloring.md](docs/coloring.md).
+
+```bash
+uv run creobook game coloring \
+  --theme "Forest animals" \
+  --title "Lesní kamarádi" \
+  --age-group 6-8 \
+  --illustrations 16 \
+  --format A5 \
+  --output output/coloring/lesni-kamaradi \
+  --dry-run
+```
+
+Sixteen illustrations plus the cover is seventeen pages, so the planner raises the count to nineteen and the booklet has twenty pages with no blanks.
+
 ### Czech word-search booklet (OSMISMĚRKY)
 
 Dedicated 24-page A5 booklet with 6 easy + 6 medium + 6 hard thematic puzzles and

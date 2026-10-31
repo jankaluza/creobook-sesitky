@@ -8,6 +8,7 @@
 #   WP_USER              účet WordPressu
 #   WP_APP_PASSWORD      heslo aplikace
 #   WP_URL               volitelné, výchozí je https://www.creobook.cz
+#   OPENAI_API_KEY       volitelné, bez něj se páteční omalovánky přeskočí
 
 name: Deploy herní sešitky
 
@@ -41,6 +42,7 @@ jobs:
           WP_USER: ${{ secrets.WP_USER }}
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
           WP_URL: ${{ secrets.WP_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           python3 - <<'PY'
           import os
@@ -67,6 +69,7 @@ jobs:
           wp_user = required("WP_USER")
           wp_password = required("WP_APP_PASSWORD")
           wp_url = os.environ.get("WP_URL", "").strip()
+          openai_api_key = os.environ.get("OPENAI_API_KEY", "").strip()
 
           ssh_dir = Path.home() / ".ssh"
           ssh_dir.mkdir(mode=0o700, exist_ok=True)
@@ -99,6 +102,8 @@ jobs:
           ]
           if wp_url:
               vault.append(f"wp_url: {quote(wp_url)}")
+          if openai_api_key:
+              vault.append(f"openai_api_key: {quote(openai_api_key)}")
           vault_path = Path("ansible/vault.yml")
           vault_path.write_text("\n".join(vault) + "\n")
           vault_path.chmod(0o600)

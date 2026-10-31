@@ -12,6 +12,8 @@ dependencies = [
     "pypdf>=5.1.0",
     "pyyaml>=6.0.2",
     "typst==0.13.2",
+    "pillow>=11.0.0",
+    "openai>=1.70.0",
 ]
 
 [project.optional-dependencies]

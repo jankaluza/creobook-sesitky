@@ -31,7 +31,9 @@ page_app = typer.Typer(help="Render a single page type to an A5 PDF.")
 app.add_typer(page_app, name="page")
 games_app = typer.Typer(help="Generate pencil-and-paper game booklets and puzzles.")
 app.add_typer(games_app, name="games")
-game_app = typer.Typer(help="Generate dedicated game booklets (osmisměrky, bludiště, křížovky).")
+game_app = typer.Typer(
+    help="Generate dedicated game booklets (osmisměrky, bludiště, křížovky, hry pro dva)."
+)
 app.add_typer(game_app, name="game")
 planner_app = typer.Typer(help="Generate modular quarterly planner booklets.")
 app.add_typer(planner_app, name="planner")
@@ -649,6 +651,117 @@ def game_maze_booklet(
     for label, path in result.items():
         typer.echo(f"Wrote {label}: {path}")
     typer.echo("Print duplex, flip on the short edge, 100% scale (A4 landscape).")
+
+
+@game_app.command("hry-pro-dva")
+def game_hry_pro_dva(
+    output_dir: Optional[Path] = typer.Option(
+        None,
+        "--output-dir",
+        "-o",
+        help="Directory for hry-pro-dva-a5.pdf and hry-pro-dva-tisk-a4.pdf",
+    ),
+    previews: bool = typer.Option(True, "--previews/--no-previews"),
+) -> None:
+    """Generate the 32-page Hry pro dva booklet and its A4 print imposition."""
+    from creobook.games.two_player_booklet import compile_hry_pro_dva
+
+    result = compile_hry_pro_dva(output_dir=output_dir, previews=previews)
+    notes = result.pop("notes")
+    for label, path in result.items():
+        typer.echo(f"Wrote {label}: {path}")
+    for note in notes:
+        typer.echo(note)
+    typer.echo("Tisk: A4 na šířku, oboustranně, převracet po krátké hraně, měřítko 100 %.")
+
+
+@game_app.command("coloring")
+def game_coloring(
+    ctx: typer.Context,
+    theme: Optional[str] = typer.Option(None, "--theme"),
+    title: Optional[str] = typer.Option(None, "--title"),
+    age_group: Optional[str] = typer.Option(None, "--age-group", help="3-5, 6-8, or 9-12"),
+    illustrations: Optional[int] = typer.Option(None, "--illustrations"),
+    page_format: Optional[str] = typer.Option(None, "--format", help="A5 or A6"),
+    output: Optional[Path] = typer.Option(None, "--output", "-o"),
+    config: Optional[Path] = typer.Option(None, "--config"),
+    model: Optional[str] = typer.Option(None, "--model", help="gpt-image-2.5-flare or sunburst"),
+    quality: Optional[str] = typer.Option(None, "--quality", help="low, medium, or high"),
+    text_model: Optional[str] = typer.Option(None, "--text-model"),
+    single_sided: Optional[bool] = typer.Option(None, "--single-sided/--no-single-sided"),
+    generate: bool = typer.Option(False, "--generate", help="Call the paid image API"),
+    pdf_only: bool = typer.Option(False, "--pdf-only", help="Rebuild PDFs from cached images"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Plan and validate, do not generate images"),
+    force_regenerate: bool = typer.Option(False, "--force-regenerate"),
+    regenerate_image: Optional[int] = typer.Option(None, "--regenerate-image"),
+    max_new: Optional[int] = typer.Option(None, "--max-new"),
+) -> None:
+    """Plan and bind a coloring booklet. Image API calls require --generate."""
+    from creobook.coloring.models import ColoringConfig, ColoringError
+    from creobook.coloring.workflow import run_coloring_book, slugify
+
+    def passed(name: str) -> bool:
+        source = ctx.get_parameter_source(name)
+        return source is not None and source.name == "COMMANDLINE"
+
+    if config is not None:
+        loaded = ColoringConfig.model_validate_json(config.read_text(encoding="utf-8"))
+        loaded.output_directory = str(config.parent.resolve())
+    else:
+        if not theme or not title:
+            raise typer.BadParameter("Pass --theme and --title, or --config")
+        destination = output or (project_root() / "output" / "coloring" / slugify(title))
+        loaded = ColoringConfig(
+            theme=theme,
+            title=title,
+            output_directory=str(destination),
+        )
+    overrides: dict[str, object] = {}
+    if passed("theme") and theme is not None:
+        overrides["theme"] = theme
+    if passed("title") and title is not None:
+        overrides["title"] = title
+    if passed("age_group") and age_group is not None:
+        overrides["age_group"] = age_group
+    if passed("illustrations") and illustrations is not None:
+        overrides["illustration_count"] = illustrations
+    if passed("page_format") and page_format is not None:
+        overrides["page_format"] = page_format
+    if passed("output") and output is not None:
+        overrides["output_directory"] = str(output)
+    if passed("model") and model is not None:
+        overrides["image_model"] = model
+    if passed("quality") and quality is not None:
+        overrides["image_quality"] = quality
+    if passed("text_model") and text_model is not None:
+        overrides["text_model"] = text_model
+    if passed("single_sided") and single_sided is not None:
+        overrides["single_sided"] = single_sided
+    if passed("max_new") and max_new is not None:
+        overrides["max_new"] = max_new
+    if overrides:
+        loaded = loaded.model_copy(update=overrides)
+    try:
+        result = run_coloring_book(
+            loaded,
+            generate=generate,
+            pdf_only=pdf_only,
+            dry_run=dry_run,
+            regenerate_image=regenerate_image,
+            force_regenerate=force_regenerate,
+        )
+    except ColoringError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(1) from exc
+    for note in result.notes:
+        typer.echo(note)
+    if result.reading_pdf:
+        typer.echo(f"Wrote reading PDF: {result.reading_pdf}")
+    if result.print_pdf:
+        sheet = "A4" if loaded.page_format == "A5" else "A5"
+        typer.echo(
+            f"Wrote print PDF: {result.print_pdf} — {sheet} landscape, duplex, short edge, 100%."
+        )
 
 
 @game_app.command("math-grade1")

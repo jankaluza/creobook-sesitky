@@ -61,10 +61,14 @@ def booklet_spreads(page_count: int) -> list[tuple[int | None, int | None]]:
     return spreads
 
 
-def _fold_guide_overlay(theme: Theme) -> PageObject:
-    """Build a vector A4-landscape page with a subtle centre fold guide via Typst."""
-    w = theme.booklet.sheet_width_mm
-    h = theme.booklet.sheet_height_mm
+def _fold_guide_overlay(
+    theme: Theme,
+    width_mm: float | None = None,
+    height_mm: float | None = None,
+) -> PageObject:
+    """Build a vector landscape page with a subtle centre fold guide via Typst."""
+    w = theme.booklet.sheet_width_mm if width_mm is None else width_mm
+    h = theme.booklet.sheet_height_mm if height_mm is None else height_mm
     stroke = theme.lines.fold_guide_width_mm
     color = theme.colors.fold_guide
     source = f"""
@@ -90,6 +94,8 @@ def impose_booklet(
     *,
     theme: Theme | None = None,
     fold_guide: bool | None = None,
+    sheet_width_mm: float | None = None,
+    sheet_height_mm: float | None = None,
 ) -> Path:
     """
     Impose a sequential A5 PDF onto A4 landscape sheets in booklet order.
@@ -111,12 +117,14 @@ def impose_booklet(
     page_count = len(pages)
     spreads = booklet_spreads(page_count)
 
-    sheet_w = mm_to_pt(theme.booklet.sheet_width_mm)
-    sheet_h = mm_to_pt(theme.booklet.sheet_height_mm)
+    width_mm = theme.booklet.sheet_width_mm if sheet_width_mm is None else sheet_width_mm
+    height_mm = theme.booklet.sheet_height_mm if sheet_height_mm is None else sheet_height_mm
+    sheet_w = mm_to_pt(width_mm)
+    sheet_h = mm_to_pt(height_mm)
     half_w = sheet_w / 2.0
 
     show_guide = theme.booklet.fold_guide if fold_guide is None else fold_guide
-    guide_page = _fold_guide_overlay(theme) if show_guide else None
+    guide_page = _fold_guide_overlay(theme, width_mm, height_mm) if show_guide else None
 
     writer = PdfWriter()
 

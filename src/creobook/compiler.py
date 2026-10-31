@@ -69,6 +69,7 @@ def compile_template(
     output_pdf: Path | str,
     *,
     theme: Theme | None = None,
+    extra_files: dict[str, Path] | None = None,
 ) -> Path:
     """
     Write JSON data and compile a Typst template to PDF.
@@ -93,6 +94,10 @@ def compile_template(
         shutil.copytree(templates_dir(), work_templates)
         data_path = work_templates / "data.json"
         data_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+        for relative, source in (extra_files or {}).items():
+            dest = work_templates / relative
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, dest)
 
         # Also expose project assets (fonts referenced relatively from theme)
         work_root = tmp_path / "root"
