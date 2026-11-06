@@ -1,7 +1,8 @@
 """32-page CreoBook booklet „Hry pro dva“.
 
-Four pencil-and-paper games, mixed so the same game does not form a long
-block. Lodě and Město, jméno, zvíře, věc stay in facing pairs for two players.
+Four pencil-and-paper games. Lodě pairs sit on the same side of one physical
+A4 sheet so both players can open that sheet and use the inner sheets as a
+screen. Město, jméno, zvíře, věc stays in facing reading pairs.
 """
 
 from __future__ import annotations
@@ -25,39 +26,58 @@ from creobook.validation import (
 PAGE_COUNT = 32
 SHEET_COUNT = 8
 
-# After the cover and the rules page. Counts: 10 + 8 + 6 + 6 = 30.
-GAME_PATTERN: tuple[str, ...] = (
+# Each Lodě match uses one A4 side (left = player 1, right = player 2).
+# Sheet numbers are 1-based physical sheets of the nested booklet.
+LODE_MATCHES: tuple[dict[str, int], ...] = (
+    {"match": 1, "sheet": 2, "player1": 4, "player2": 29},
+    {"match": 2, "sheet": 3, "player1": 6, "player2": 27},
+    {"match": 3, "sheet": 4, "player1": 8, "player2": 25},
+    {"match": 4, "sheet": 5, "player1": 10, "player2": 23},
+)
+
+# Full reading-order kinds. Lodě pages are fixed by LODE_MATCHES; the rest
+# mix the other games so the same game does not form a long block.
+PAGE_KINDS: tuple[str, ...] = (
+    "cover",
+    "rules",
     "piskvorky",
+    "lode",
+    "piskvorky",
+    "lode",
     "ctverecky",
     "lode",
+    "piskvorky",
     "lode",
+    "ctverecky",
+    "mesto",
+    "mesto",
+    "piskvorky",
+    "ctverecky",
+    "piskvorky",
     "piskvorky",
     "mesto",
     "mesto",
+    "piskvorky",
     "ctverecky",
     "piskvorky",
     "lode",
+    "ctverecky",
+    "lode",
+    "piskvorky",
     "lode",
     "ctverecky",
-    "piskvorky",
-    "piskvorky",
+    "lode",
     "mesto",
     "mesto",
-    "piskvorky",
-    "lode",
-    "lode",
-    "ctverecky",
-    "piskvorky",
-    "mesto",
-    "mesto",
-    "ctverecky",
-    "piskvorky",
-    "lode",
-    "lode",
-    "ctverecky",
-    "piskvorky",
     "piskvorky",
 )
+
+GAME_TITLES = {
+    "piskvorky": "PIŠKVORKY",
+    "lode": "LODĚ",
+    "ctverecky": "ČTVEREČKY",
+    "mesto": "MĚSTO, JMÉNO, ZVÍŘE, VĚC",
+}
 
 EXPECTED_COUNTS = {
     "cover": 1,
@@ -88,6 +108,7 @@ LAYOUT: dict[str, Any] = {
         "size": 10,
         "cell_mm": 7.5,
         "label_mm": 4.2,
+        "caption_mm": 5.0,
         "title_mm": 8.0,
         "fleet_mm": 0.0,
         "sample_mm": 5.0,
@@ -160,14 +181,23 @@ def validate_layout(layout: dict[str, Any] | None = None) -> None:
         errors.append(f"piškvorky page height {pisk_h:.1f} mm exceeds {height:.1f} mm")
 
     lode = layout["lode"]
-    board_w = lode["label_mm"] + lode["size"] * lode["cell_mm"]
-    board_h = lode["label_mm"] + lode["size"] * lode["cell_mm"]
+    # Labels on all four sides, plus a rotated caption on the outer edge.
+    board_w = (
+        2 * lode["label_mm"]
+        + lode["caption_mm"]
+        + lode["size"] * lode["cell_mm"]
+    )
+    board_h = 2 * lode["label_mm"] + lode["size"] * lode["cell_mm"]
+    # Each board also has an upright "Moje …" line above the top letters.
+    caption_h = 4.0
     lode_h = (
         lode["title_mm"]
         + lode["fleet_mm"]
         + lode["space_mm"]
+        + caption_h
         + board_h
         + lode["space_mm"]
+        + caption_h
         + board_h
     )
     if lode["columns"] != list("ABCDEFGHIJ") or lode["rows"] != list(range(1, 11)):
@@ -237,6 +267,49 @@ def validate_layout(layout: dict[str, Any] | None = None) -> None:
         raise ValueError("\n".join(errors))
 
 
+def physical_sheets(page_count: int = PAGE_COUNT) -> list[dict[str, Any]]:
+    """Describe each nested A4 sheet from the booklet imposition.
+
+    Sheet 1 is the outermost leaf. Each sheet has a front side and a back side
+    with a left and right A5 page. Indexes are 1-based reading-order pages.
+    """
+    spreads = booklet_spreads(page_count)
+    if len(spreads) % 2:
+        raise ValueError("booklet spreads must come in front/back pairs")
+    sheets: list[dict[str, Any]] = []
+    for sheet_index in range(0, len(spreads), 2):
+        front = spreads[sheet_index]
+        back = spreads[sheet_index + 1]
+        sheets.append(
+            {
+                "sheet": sheet_index // 2 + 1,
+                "front": {"left": front[0], "right": front[1]},
+                "back": {"left": back[0], "right": back[1]},
+            }
+        )
+    return sheets
+
+
+def page_sheet_side(page: int, page_count: int = PAGE_COUNT) -> tuple[int, str, str]:
+    """Return (sheet number, side, left|right) for a reading-order page."""
+    for sheet in physical_sheets(page_count):
+        for side in ("front", "back"):
+            half = sheet[side]
+            if half["left"] == page:
+                return sheet["sheet"], side, "left"
+            if half["right"] == page:
+                return sheet["sheet"], side, "right"
+    raise ValueError(f"page {page} is outside a {page_count}-page booklet")
+
+
+def sheets_toward_center(sheet: int, page_count: int = PAGE_COUNT) -> list[int]:
+    """Physical sheets nested between ``sheet`` and the booklet centre."""
+    total = page_count // 4
+    if not 1 <= sheet <= total:
+        raise ValueError(f"sheet {sheet} is outside 1..{total}")
+    return list(range(sheet + 1, total + 1))
+
+
 def _pair_heading(kind_pages: list[dict[str, Any]]) -> None:
     match = 0
     index = 0
@@ -253,41 +326,135 @@ def _pair_heading(kind_pages: list[dict[str, Any]]) -> None:
         index += 2
 
 
+def _assign_lode_headings(pages: list[dict[str, Any]]) -> None:
+    by_number = {page["number"]: page for page in pages}
+    for item in LODE_MATCHES:
+        first = by_number[item["player1"]]
+        second = by_number[item["player2"]]
+        if first["kind"] != "lode" or second["kind"] != "lode":
+            raise ValueError(
+                f"Lodě partie {item['match']} expects pages "
+                f"{item['player1']} and {item['player2']} to be Lodě"
+            )
+        for player, page in ((1, first), (2, second)):
+            _, _, hand = page_sheet_side(page["number"])
+            page["match"] = item["match"]
+            page["player"] = player
+            page["heading"] = f"Partie {item['match']} — Hráč {player}"
+            page["sheet"] = item["sheet"]
+            # Physical A4 half: secondary coords rotate opposite ways per side.
+            page["sheet_hand"] = hand
+
+
 def build_page_plan() -> list[dict[str, Any]]:
     """Return the 32 pages in reading order and check the brief before rendering."""
     validate_layout()
-    pages: list[dict[str, Any]] = [
-        {
-            "kind": "cover",
-            "number": 1,
-            "title": "HRY PRO DVA",
-            "subtitle": "Stačí tužka, papír a spoluhráč.",
-            "footer": "CreoBook.cz",
-        },
-        {
-            "kind": "rules",
-            "number": 2,
-            "title": "Pravidla",
-        },
-    ]
-    for offset, kind in enumerate(GAME_PATTERN, start=3):
-        page: dict[str, Any] = {"kind": kind, "number": offset}
-        if kind == "piskvorky":
-            page["title"] = "PIŠKVORKY"
-        elif kind == "lode":
-            page["title"] = "LODĚ"
-        elif kind == "ctverecky":
-            page["title"] = "ČTVEREČKY"
-        elif kind == "mesto":
-            page["title"] = "MĚSTO, JMÉNO, ZVÍŘE, VĚC"
+    if len(PAGE_KINDS) != PAGE_COUNT:
+        raise ValueError(f"PAGE_KINDS has {len(PAGE_KINDS)} entries, need {PAGE_COUNT}")
+    pages: list[dict[str, Any]] = []
+    for number, kind in enumerate(PAGE_KINDS, start=1):
+        page: dict[str, Any] = {"kind": kind, "number": number}
+        if kind == "cover":
+            page.update(
+                {
+                    "title": "HRY PRO DVA",
+                    "subtitle": "Stačí tužka, papír a spoluhráč.",
+                    "footer": "CreoBook.cz",
+                }
+            )
+        elif kind == "rules":
+            page["title"] = "Pravidla"
+        elif kind in GAME_TITLES:
+            page["title"] = GAME_TITLES[kind]
         else:
-            raise ValueError(f"unknown game {kind}")
+            raise ValueError(f"unknown page kind {kind}")
         pages.append(page)
 
-    _pair_heading([page for page in pages if page["kind"] == "lode"])
+    _assign_lode_headings(pages)
     _pair_heading([page for page in pages if page["kind"] == "mesto"])
     validate_plan(pages)
     return pages
+
+
+def validate_lode_sheet_layout(pages: list[dict[str, Any]] | None = None) -> list[str]:
+    """Check that every Lodě match shares one A4 side with a privacy stack."""
+    pages = pages or build_page_plan()
+    by_number = {page["number"]: page for page in pages}
+    notes: list[str] = []
+    errors: list[str] = []
+    for item in LODE_MATCHES:
+        left_page = item["player1"]
+        right_page = item["player2"]
+        first = by_number[left_page]
+        second = by_number[right_page]
+        sheet_a, side_a, hand_a = page_sheet_side(left_page)
+        sheet_b, side_b, hand_b = page_sheet_side(right_page)
+        if sheet_a != item["sheet"] or sheet_b != item["sheet"]:
+            errors.append(
+                f"Lodě partie {item['match']}: pages {left_page}/{right_page} "
+                f"are on sheets {sheet_a}/{sheet_b}, expected sheet {item['sheet']}"
+            )
+        if sheet_a != sheet_b or side_a != side_b:
+            errors.append(
+                f"Lodě partie {item['match']}: pages {left_page} and {right_page} "
+                f"are not on the same A4 side ({sheet_a}/{side_a} vs {sheet_b}/{side_b})"
+            )
+        if hand_a != "left" or hand_b != "right":
+            errors.append(
+                f"Lodě partie {item['match']}: expected player 1 on the left "
+                f"and player 2 on the right, got {hand_a}/{hand_b}"
+            )
+        if first.get("match") != item["match"] or first.get("player") != 1:
+            errors.append(f"page {left_page} is not labelled Partie {item['match']} — Hráč 1")
+        if second.get("match") != item["match"] or second.get("player") != 2:
+            errors.append(f"page {right_page} is not labelled Partie {item['match']} — Hráč 2")
+        privacy = sheets_toward_center(item["sheet"])
+        if not privacy:
+            errors.append(
+                f"Lodě partie {item['match']} on sheet {item['sheet']} "
+                "has no inner sheets to use as a screen"
+            )
+        notes.append(
+            f"Partie {item['match']}: list {item['sheet']} {side_a} "
+            f"({left_page}|{right_page}), přepážka listy {privacy}"
+        )
+    if errors:
+        raise ValueError("\n".join(errors))
+    return notes
+
+
+def sheet_overview(pages: list[dict[str, Any]] | None = None) -> list[str]:
+    """Human-readable map of all eight A4 sheets before printing."""
+    pages = pages or build_page_plan()
+    by_number = {page["number"]: page for page in pages}
+    labels = {
+        "cover": "Obálka",
+        "rules": "Pravidla",
+        "piskvorky": "Piškvorky",
+        "lode": "Lodě",
+        "ctverecky": "Čtverečky",
+        "mesto": "Město",
+    }
+
+    def label(number: int | None) -> str:
+        if number is None:
+            return "—"
+        page = by_number[number]
+        text = f"{number} {labels[page['kind']]}"
+        if page.get("match") is not None:
+            text += f" P{page['match']} H{page['player']}"
+        return text
+
+    lines = ["Fyzické listy A4 (vnořený sešitek):"]
+    for sheet in physical_sheets():
+        front = sheet["front"]
+        back = sheet["back"]
+        lines.append(
+            f"List {sheet['sheet']}: "
+            f"líc {label(front['left'])} | {label(front['right'])}; "
+            f"rub {label(back['left'])} | {label(back['right'])}"
+        )
+    return lines
 
 
 def validate_plan(pages: list[dict[str, Any]]) -> None:
@@ -326,18 +493,22 @@ def validate_plan(pages: list[dict[str, Any]]) -> None:
         if "ctverecky" in neighbors:
             errors.append(f"čtverečky on page {page['number']} touch another dots page")
 
-    for kind in ("lode", "mesto"):
-        grouped = [page for page in pages if page["kind"] == kind]
-        if len(grouped) % 2:
-            errors.append(f"{kind} page count is odd")
-        for index in range(0, len(grouped), 2):
-            first, second = grouped[index], grouped[index + 1]
-            if second["number"] != first["number"] + 1:
-                errors.append(f"{kind} pair is not on neighbouring pages")
-            if first.get("player") != 1 or second.get("player") != 2:
-                errors.append(f"{kind} pair is not labelled Hráč 1 then Hráč 2")
-            if first.get("match") != second.get("match"):
-                errors.append(f"{kind} pair does not share a match number")
+    mesto = [page for page in pages if page["kind"] == "mesto"]
+    if len(mesto) % 2:
+        errors.append("mesto page count is odd")
+    for index in range(0, len(mesto), 2):
+        first, second = mesto[index], mesto[index + 1]
+        if second["number"] != first["number"] + 1:
+            errors.append("mesto pair is not on neighbouring pages")
+        if first.get("player") != 1 or second.get("player") != 2:
+            errors.append("mesto pair is not labelled Hráč 1 then Hráč 2")
+        if first.get("match") != second.get("match"):
+            errors.append("mesto pair does not share a match number")
+
+    try:
+        validate_lode_sheet_layout(pages)
+    except ValueError as exc:
+        errors.extend(str(exc).splitlines())
 
     game_counts = {kind: counts.get(kind, 0) for kind in ("piskvorky", "lode", "ctverecky", "mesto")}
     if game_counts["piskvorky"] <= max(game_counts["lode"], game_counts["ctverecky"], game_counts["mesto"]):
@@ -397,7 +568,7 @@ def check_outputs(pages_pdf: Path, print_pdf: Path) -> list[str]:
     if len(texts) != PAGE_COUNT:
         raise ValueError("could not read 32 A5 pages")
     joined = "\n".join(texts)
-    for token in ("Piškvorky", "Lodě", "Čtverečky", "Město", "zvíře", "věc", "diagonálně"):
+    for token in ("Piškvorky", "Lodě", "Čtverečky", "Město", "zvíře", "věc", "šikmo", "přepážku"):
         if token not in joined:
             raise ValueError(f"Czech text {token!r} missing from the A5 PDF")
     notes.append("Czech diacritics present")
@@ -441,9 +612,13 @@ def check_outputs(pages_pdf: Path, print_pdf: Path) -> list[str]:
     imposed = extract_page_text(print_pdf)
     if "HRY PRO DVA" not in imposed[0] or "PIŠKVORKY" not in imposed[0]:
         raise ValueError("first A4 side should carry pages 32 and 1")
-    if "Pravidla" not in imposed[1] or "PIŠKVORKY" not in imposed[1]:
+    if "Pravidla" not in imposed[1] or "MĚSTO" not in imposed[1]:
         raise ValueError("second A4 side should carry pages 2 and 31")
     notes.append("booklet order (32|1) then (2|31)")
+
+    plan = build_page_plan()
+    notes.extend(validate_lode_sheet_layout(plan))
+    notes.extend(sheet_overview(plan))
     return notes
 
 

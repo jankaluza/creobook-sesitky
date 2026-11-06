@@ -57,6 +57,13 @@ def test_plan_parsing_flags_and_prompt_text(tmp_path):
     parsed = parse_plan(json.dumps(flagged), config)
     assert "pikachu" in parsed.illustrations[0].copyright_flags
 
+    accented = json.loads(_plan_json(2))
+    accented["illustrations"][0]["id"] = "morský-das-v-hlubine"
+    accented["illustrations"][1]["id"] = "morsky-das-v-hlubine"
+    cleaned = parse_plan(json.dumps(accented), config)
+    assert cleaned.illustrations[0].id == "morsky-das-v-hlubine"
+    assert cleaned.illustrations[1].id == "morsky-das-v-hlubine-2"
+
     drawn = image_prompt(plan.illustrations[0], "6-8")
     assert "Pure black outlines" in drawn
     assert "Medium-weight" in drawn

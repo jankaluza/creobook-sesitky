@@ -78,32 +78,52 @@
 }
 
 #let rule-block(heading, body) = {
-  block(width: 100%, breakable: false, above: 3.2mm)[
-    #text(size: 10pt, weight: "bold", heading)
-    #v(0.8mm)
-    #text(size: 8pt, body)
+  block(width: 100%, breakable: false, above: 6.5mm)[
+    #text(size: 11pt, weight: "bold", heading)
+    #v(1.6mm)
+    #set text(size: 9.2pt)
+    #set par(leading: 0.72em, spacing: 1.05em)
+    #set enum(tight: false, spacing: 0.95em)
+    #body
   ]
 }
 
 #let render-rules(page) = {
-  title-line(page.title, size: 12pt)
-  v(1mm)
-  text(size: 8pt, fill: quiet, "Čtyři hry. Stačí tužka a spoluhráč.")
+  title-line(page.title, size: 14pt)
+  v(2.5mm)
+  text(size: 9.5pt, fill: quiet, style: "italic", "Čtyři hry. Stačí tužka a spoluhráč.")
   rule-block(
     "Piškvorky",
-    [Hráči střídavě zapisují křížky a kolečka. Vyhrává ten, kdo jako první vytvoří pět svých značek v řadě vodorovně, svisle nebo diagonálně.],
+    [Hráči střídavě kreslí křížky a kolečka do prázdných políček. Vyhrává ten, kdo jako první vytvoří pět svých značek vedle sebe – vodorovně, svisle nebo šikmo.],
   )
   rule-block(
     "Lodě",
-    [Každý hráč má vlastní stránku. Do mřížky Moje lodě tajně rozmístěte flotilu: 1× loď o 4 polích, 2× o 3, 3× o 2 a 4× o 1 poli. Lodě leží vodorovně nebo svisle. Nesmějí se překrývat ani dotýkat, a to ani rohy. Střídáte se po jednom výstřelu. Zásah označte X, vodu tečkou. Střely pište do mřížky Moje střely. Vyhrává hráč, který potopí všechny lodě soupeře.],
+    [
+      Každý hráč si tajně rozmístí svou flotilu: 1× loď o 4 políčkách, 2× o 3 políčkách, 3× o 2 políčkách a 4× o 1 políčku. Lodě mohou být jen vodorovně nebo svisle a nesmějí se dotýkat ani rohy.
+
+      Hráči se střídají ve střelbě na souřadnice soupeře. Zásah označte křížkem, vodu tečkou. Své pokusy zaznamenávejte do mřížky „Moje střely“. Loď je potopená, když jsou zasažena všechna její políčka. Vyhrává ten, kdo jako první potopí celou soupeřovu flotilu.
+
+      #text(weight: "bold")[Jak připravit přepážku]
+      #v(1.4mm)
+      + *Povytáhněte listy.* Otevřete sešitek na stránkách s Loděmi. Zbývající vnitřní listy povytáhněte z~pruženky tak, aby pod ní zůstalo jen několik centimetrů papíru.
+      + *Vytvořte stříšku.* Povytáhnuté listy zvedněte a přehněte tak, aby mezi hráči vznikla přepážka.
+      + *Zajistěte přepážku.* Volný konec přehnutých listů zasuňte pod jejich část, kterou stále drží pruženka.
+
+      #v(0.6mm)
+      Hotovo! Přepážka drží na místě a hráči si navzájem nevidí do hry.
+    ],
   )
   rule-block(
     "Čtverečky",
-    [Hráči střídavě spojují dvě sousední tečky vodorovnou nebo svislou čarou. Kdo dokončí čtverec, označí ho svou iniciálou, získá bod a hraje znovu. Vyhrává hráč s největším počtem čtverců.],
+    [Hráči střídavě spojují dvě sousední tečky vodorovnou nebo svislou čarou. Kdo uzavře čtverec, napíše do něj svou značku, získá bod a hraje znovu. Vyhrává hráč s největším počtem čtverců.],
   )
   rule-block(
     "Město, jméno, zvíře, věc",
-    [Každý hráč vyplňuje vlastní tabulku. Zvolte písmeno a doplňte město, jméno, zvíře a věc, která na něj začíná. 10 bodů za platnou odpověď, kterou soupeř nemá. 5 bodů za stejnou platnou odpověď. 0 bodů za prázdnou nebo neplatnou. Dvě sousední stránky tvoří jednu partii.],
+    [
+      Zvolte písmeno a každý vyplňte svůj řádek: město, jméno, zvíře a věc. Jakmile jeden hráč dopíše, řekne STOP. Oba přestanou psát a porovnají odpovědi.
+
+      Za platnou odpověď, kterou soupeř nemá, získáte 10 bodů. Za stejnou odpověď 5 bodů, za prázdnou nebo neplatnou 0 bodů. Vyhrává hráč s nejvíce body po dohodnutém počtu kol.
+    ],
   )
 }
 
@@ -150,33 +170,106 @@
   ]
 }
 
-#let ship-board(name, spec) = {
+// Upright labels for normal booklet reading; rotated labels for sitting at the
+// short edge. Tops of secondary labels point outward toward each short edge:
+// +90° on the left half, −90° on the right.
+#let coord-plain(label, width, height) = {
+  box(width: width, height: height)[
+    #align(center + horizon)[
+      #text(size: 6.5pt, label)
+    ]
+  ]
+}
+
+#let coord-turned(label, turn, width, height) = {
+  box(width: width, height: height)[
+    #align(center + horizon)[
+      #rotate(turn, origin: center)[
+        #text(size: 6.5pt, label)
+      ]
+    ]
+  ]
+}
+
+// spine-right: true when the fold is on the right of this A5 (left half of A4).
+// Upright title + numbers sit toward the top / spine; rotated title + numbers
+// sit toward the outer short edge, same reading direction as the turned letters.
+#let ship-board(name, spec, turn: 90deg, spine-right: true) = {
   let n = spec.size
   let cell = spec.cell_mm * 1mm
   let lab = spec.label_mm * 1mm
+  let cap = spec.caption_mm * 1mm
   let letters = spec.columns
-  let cells = ()
-  cells.push([])
-  for letter in letters {
-    cells.push(text(size: 6.5pt, letter))
-  }
-  for (index, _) in spec.rows.enumerate() {
-    cells.push(text(size: 6.5pt, str(index + 1)))
+  let grid-cells = ()
+  for _ in range(n) {
     for _ in range(n) {
-      cells.push([])
+      grid-cells.push([])
     }
   }
+  let top = stack(dir: ltr, ..letters.map(letter => coord-plain(letter, cell, lab)))
+  // On the right A4 half, secondary labels read from the outer short edge, so
+  // reverse their sequence to match that viewing direction (primaries stay A–J / 1–10).
+  let bottom-letters = if spine-right { letters } else { letters.rev() }
+  let bottom = stack(dir: ltr, ..bottom-letters.map(letter => coord-turned(letter, turn, cell, lab)))
+  let upright-nums = stack(
+    dir: ttb,
+    ..range(n).map(index => coord-plain(str(index + 1), lab, cell)),
+  )
+  let turned-indexes = if spine-right { range(n) } else { range(n).rev() }
+  let turned-nums = stack(
+    dir: ttb,
+    ..turned-indexes.map(index => coord-turned(str(index + 1), turn, lab, cell)),
+  )
+  // Lay the caption out on a wide one-line box, then rotate it into the outer
+  // strip. The strip itself is only a few millimetres wide and would wrap.
+  let turned-title = box(width: cap, height: n * cell)[
+    #place(center + horizon)[
+      #rotate(turn, origin: center)[
+        #box(width: n * cell, height: cap)[
+          #align(center + horizon)[
+            #text(size: 8pt, weight: "bold")[#name]
+          ]
+        ]
+      ]
+    ]
+  ]
+  let board = table(
+    columns: n * (cell,),
+    rows: n * (cell,),
+    inset: 0pt,
+    align: center + horizon,
+    stroke: 0.28mm + gray,
+    ..grid-cells,
+  )
+  let upright-title = block(width: 100%)[
+    #align(center, text(size: 8pt, weight: "bold", name))
+  ]
   block(breakable: false)[
-    #text(size: 8pt, weight: "bold", name)
-    #v(0.6mm)
-    #table(
-      columns: (lab,) + (n * (cell,)),
-      rows: (lab,) + (n * (cell,)),
-      inset: 0pt,
-      align: center + horizon,
-      stroke: (x, y) => if x == 0 or y == 0 { none } else { 0.28mm + gray },
-      ..cells,
-    )
+    #upright-title
+    #v(0.5mm)
+    #if spine-right {
+      // Outer edge on the left: rotated title, then turned numbers.
+      grid(
+        columns: (cap, lab, n * cell, lab),
+        rows: (lab, n * cell, lab),
+        column-gutter: 0pt,
+        row-gutter: 0pt,
+        [], [], top, [],
+        turned-title, turned-nums, board, upright-nums,
+        [], [], bottom, [],
+      )
+    } else {
+      // Outer edge on the right: turned numbers, then rotated title.
+      grid(
+        columns: (lab, n * cell, lab, cap),
+        rows: (lab, n * cell, lab),
+        column-gutter: 0pt,
+        row-gutter: 0pt,
+        [], top, [], [],
+        upright-nums, board, turned-nums, turned-title,
+        [], bottom, [], [],
+      )
+    }
   ]
 }
 
@@ -211,7 +304,12 @@
 
 #let render-lode(page) = {
   let spec = layout.lode
-  let outer = if calc.odd(page.number) { right + horizon } else { left + horizon }
+  // Derive rotation from the physical A4 half (sheet_hand), not a shared angle.
+  // Outward toward the short-edge player: left +90°, right −90°.
+  let hand = page.at("sheet_hand")
+  let turn = if hand == "right" { -90deg } else { 90deg }
+  let spine-right = hand == "left"
+  let outer = if spine-right { left + horizon } else { right + horizon }
   place(outer, fleet-edge(spec))
   block(height: spec.title_mm * 1mm)[
     #grid(
@@ -222,9 +320,9 @@
     )
   ]
   v(spec.space_mm * 1mm)
-  align(center, ship-board("Moje lodě", spec))
+  align(center, ship-board("Moje lodě", spec, turn: turn, spine-right: spine-right))
   v(spec.space_mm * 1mm)
-  align(center, ship-board("Moje střely", spec))
+  align(center, ship-board("Moje střely", spec, turn: turn, spine-right: spine-right))
 }
 
 #let render-ctverecky(page) = {

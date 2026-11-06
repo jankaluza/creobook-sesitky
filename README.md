@@ -182,6 +182,36 @@ uv run creobook game coloring \
 
 Sixteen illustrations plus the cover is seventeen pages, so the planner raises the count to nineteen and the booklet has twenty pages with no blanks.
 
+### Connect-the-dots booklets (spojovačky)
+
+A silhouette is drawn with the OpenAI Images API, then the program places numbered dots along its outline. Paid image calls run only with `--generate`. Setup, caching, and print steps are in [docs/spojovacky.md](docs/spojovacky.md).
+
+```bash
+uv run creobook game spojovacky \
+  --theme "Animals" \
+  --title "Spojovačky – Zvířátka" \
+  --puzzles 16 \
+  --max-number 50 \
+  --format A5 \
+  --output output/spojovacky/zviratka \
+  --dry-run
+```
+
+### Find-the-elephant booklets (Najdi slona!)
+
+Each page is a busy black-and-white coloring scene. One elephant is drawn once, shown in the header, and composited into every scene. Paid image calls run only with `--generate`. Setup, caching, and print steps are in [docs/najdi-slona.md](docs/najdi-slona.md).
+
+```bash
+uv run creobook game najdi-slona \
+  --theme "Circus" \
+  --title "Najdi slona – Cirkus" \
+  --pages 12 \
+  --difficulty medium \
+  --format A5 \
+  --output output/najdi-slona/cirkus \
+  --dry-run
+```
+
 ### Czech word-search booklet (OSMISMĚRKY)
 
 Dedicated 24-page A5 booklet with 6 easy + 6 medium + 6 hard thematic puzzles and

@@ -20,6 +20,8 @@ output/pages/*.pdf
 output/booklet/*.pdf
 output/preview/
 output/coloring/
+output/spojovacky/
+output/najdi-slona/
 build/*.pdf
 $PREV/
 

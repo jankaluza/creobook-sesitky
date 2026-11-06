@@ -4,9 +4,29 @@ from __future__ import annotations
 
 import json
 import re
+import unicodedata
 
 from creobook.coloring.models import ColoringConfig, ColoringError, IllustrationPlan
 from creobook.coloring.prompts import find_flags, plan_prompt
+
+
+def slugify(text: str) -> str:
+    """ASCII lowercase slug; strips Czech diacritics from model-made ids."""
+    normalized = unicodedata.normalize("NFKD", text)
+    ascii_text = "".join(char for char in normalized if not unicodedata.combining(char))
+    slug = re.sub(r"[^A-Za-z0-9]+", "-", ascii_text).strip("-").lower()
+    return slug or "omalovanky"
+
+
+def _unique_id(raw: str, used: set[str]) -> str:
+    base = slugify(raw)
+    candidate = base
+    number = 2
+    while candidate in used:
+        candidate = f"{base}-{number}"
+        number += 1
+    used.add(candidate)
+    return candidate
 
 
 def strip_json(text: str) -> str:
@@ -72,6 +92,13 @@ def validate_plan(plan: IllustrationPlan, config: ColoringConfig) -> None:
         raise ColoringError("Illustration plan is not usable:\n" + "\n".join(errors))
 
 
+def sanitize_plan_ids(plan: IllustrationPlan) -> IllustrationPlan:
+    used: set[str] = set()
+    for item in plan.illustrations:
+        item.id = _unique_id(item.id, used)
+    return plan
+
+
 def parse_plan(payload: str, config: ColoringConfig) -> IllustrationPlan:
     try:
         raw = json.loads(strip_json(payload))
@@ -81,6 +108,7 @@ def parse_plan(payload: str, config: ColoringConfig) -> IllustrationPlan:
         plan = IllustrationPlan.model_validate(raw)
     except ValueError as exc:
         raise ColoringError(f"Illustration plan has the wrong shape: {exc}") from exc
+    sanitize_plan_ids(plan)
     apply_copyright_flags(plan, config)
     validate_plan(plan, config)
     return plan

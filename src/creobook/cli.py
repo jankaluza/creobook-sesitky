@@ -32,7 +32,7 @@ app.add_typer(page_app, name="page")
 games_app = typer.Typer(help="Generate pencil-and-paper game booklets and puzzles.")
 app.add_typer(games_app, name="games")
 game_app = typer.Typer(
-    help="Generate dedicated game booklets (osmisměrky, bludiště, křížovky, hry pro dva)."
+    help="Generate dedicated game booklets (osmisměrky, bludiště, křížovky, hry pro dva, spojovačky, Najdi slona)."
 )
 app.add_typer(game_app, name="game")
 planner_app = typer.Typer(help="Generate modular quarterly planner booklets.")
@@ -762,6 +762,211 @@ def game_coloring(
         typer.echo(
             f"Wrote print PDF: {result.print_pdf} — {sheet} landscape, duplex, short edge, 100%."
         )
+
+
+@game_app.command("spojovacky")
+def game_spojovacky(
+    ctx: typer.Context,
+    theme: Optional[str] = typer.Option(None, "--theme"),
+    title: Optional[str] = typer.Option(None, "--title"),
+    puzzles: Optional[int] = typer.Option(None, "--puzzles"),
+    max_number: Optional[int] = typer.Option(None, "--max-number"),
+    difficulty: Optional[str] = typer.Option(None, "--difficulty", help="easy, medium, or hard"),
+    mix: Optional[str] = typer.Option(None, "--mix", help="For example 30:4,50:8,75:4"),
+    page_format: Optional[str] = typer.Option(None, "--format", help="A5 or A6"),
+    output: Optional[Path] = typer.Option(None, "--output", "-o"),
+    config: Optional[Path] = typer.Option(None, "--config"),
+    model: Optional[str] = typer.Option(None, "--model", help="gpt-image-2.5-flare or sunburst"),
+    quality: Optional[str] = typer.Option(None, "--quality", help="low, medium, or high"),
+    include_answers: Optional[bool] = typer.Option(None, "--include-answers/--no-answers"),
+    generate: bool = typer.Option(False, "--generate", help="Call the paid image API"),
+    pdf_only: bool = typer.Option(False, "--pdf-only", help="Rebuild PDFs from saved dot geometry"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Write the subject plan only"),
+    force_regenerate: bool = typer.Option(False, "--force-regenerate"),
+    regenerate_puzzle: Optional[int] = typer.Option(None, "--regenerate-puzzle"),
+    max_new: Optional[int] = typer.Option(None, "--max-new"),
+) -> None:
+    """Plan and bind a connect-the-dots booklet. Image API calls require --generate."""
+    from creobook.coloring.workflow import slugify
+    from creobook.dots.models import DIFFICULTY_MAX, DotsConfig, DotsError, expand_mix
+    from creobook.dots.workflow import run_dots_book
+
+    def passed(name: str) -> bool:
+        source = ctx.get_parameter_source(name)
+        return source is not None and source.name == "COMMANDLINE"
+
+    if config is not None:
+        loaded = DotsConfig.model_validate_json(config.read_text(encoding="utf-8"))
+        loaded.output_directory = str(config.parent.resolve())
+    else:
+        if not theme or not title:
+            raise typer.BadParameter("Pass --theme and --title, or --config")
+        destination = output or (project_root() / "output" / "spojovacky" / slugify(title))
+        loaded = DotsConfig(theme=theme, title=title, output_directory=str(destination))
+    overrides: dict[str, object] = {}
+    if passed("theme") and theme is not None:
+        overrides["theme"] = theme
+    if passed("title") and title is not None:
+        overrides["title"] = title
+    if passed("puzzles") and puzzles is not None:
+        overrides["puzzle_count"] = puzzles
+    if passed("difficulty") and difficulty is not None:
+        if difficulty not in DIFFICULTY_MAX:
+            raise typer.BadParameter("Difficulty must be easy, medium, or hard")
+        overrides["difficulty"] = difficulty
+        if not passed("max_number"):
+            overrides["max_number"] = DIFFICULTY_MAX[difficulty]
+    if passed("max_number") and max_number is not None:
+        overrides["max_number"] = max_number
+    if passed("mix") and mix is not None:
+        numbers = expand_mix(mix)
+        overrides["max_numbers"] = numbers
+        if not passed("puzzles"):
+            overrides["puzzle_count"] = len(numbers)
+    if passed("page_format") and page_format is not None:
+        overrides["page_format"] = page_format
+    if passed("output") and output is not None:
+        overrides["output_directory"] = str(output)
+    if passed("model") and model is not None:
+        overrides["image_model"] = model
+    if passed("quality") and quality is not None:
+        overrides["image_quality"] = quality
+    if passed("include_answers") and include_answers is not None:
+        overrides["include_answers"] = include_answers
+    if passed("max_new") and max_new is not None:
+        overrides["max_new"] = max_new
+    if overrides:
+        loaded = loaded.model_copy(update=overrides)
+    try:
+        result = run_dots_book(
+            loaded,
+            generate=generate,
+            pdf_only=pdf_only,
+            dry_run=dry_run,
+            regenerate_puzzle=regenerate_puzzle,
+            force_regenerate=force_regenerate,
+        )
+    except DotsError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(1) from exc
+    for note in result.notes:
+        typer.echo(note)
+    if result.reading_pdf:
+        typer.echo(f"Wrote reading PDF: {result.reading_pdf}")
+    if result.print_pdf:
+        sheet = "A4" if loaded.page_format == "A5" else "A5"
+        typer.echo(
+            f"Wrote print PDF: {result.print_pdf} — {sheet} landscape, duplex, short edge, 100%."
+        )
+
+
+@game_app.command("najdi-slona")
+def game_najdi_slona(
+    ctx: typer.Context,
+    theme: Optional[str] = typer.Option(None, "--theme"),
+    title: Optional[str] = typer.Option(None, "--title"),
+    pages: Optional[int] = typer.Option(None, "--pages"),
+    age_group: Optional[str] = typer.Option(None, "--age-group"),
+    difficulty: Optional[str] = typer.Option(None, "--difficulty", help="easy, medium, or hard"),
+    mix: Optional[str] = typer.Option(None, "--mix", help="For example easy:4,medium:4,hard:4"),
+    page_format: Optional[str] = typer.Option(None, "--format", help="A5 or A6"),
+    output: Optional[Path] = typer.Option(None, "--output", "-o"),
+    config: Optional[Path] = typer.Option(None, "--config"),
+    model: Optional[str] = typer.Option(None, "--model", help="gpt-image-2.5-flare or sunburst"),
+    quality: Optional[str] = typer.Option(None, "--quality", help="low, medium, or high"),
+    include_solutions: Optional[bool] = typer.Option(None, "--include-solutions/--no-solutions"),
+    generate: bool = typer.Option(False, "--generate", help="Call the paid image API"),
+    pdf_only: bool = typer.Option(False, "--pdf-only", help="Rebuild PDFs from saved pictures"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Write the scene plan only"),
+    force_regenerate: bool = typer.Option(False, "--force-regenerate"),
+    regenerate_scene: Optional[int] = typer.Option(None, "--regenerate-scene"),
+    regenerate_elephant: bool = typer.Option(False, "--regenerate-elephant"),
+    move_elephant: Optional[int] = typer.Option(None, "--move-elephant"),
+    position: Optional[str] = typer.Option(None, "--position", help="x,y from 0 to 1"),
+    max_new: Optional[int] = typer.Option(None, "--max-new"),
+) -> None:
+    """Plan and bind a Najdi slona booklet. Image API calls require --generate."""
+    from creobook.coloring.workflow import slugify
+    from creobook.slon.models import SCALES, SlonConfig, SlonError, expand_mix
+    from creobook.slon.workflow import run_slon_book
+
+    def passed(name: str) -> bool:
+        source = ctx.get_parameter_source(name)
+        return source is not None and source.name == "COMMANDLINE"
+
+    if config is not None:
+        loaded = SlonConfig.model_validate_json(config.read_text(encoding="utf-8"))
+        loaded.output_directory = str(config.parent.resolve())
+    else:
+        if not theme or not title:
+            raise typer.BadParameter("Pass --theme and --title, or --config")
+        destination = output or (project_root() / "output" / "najdi-slona" / slugify(title))
+        loaded = SlonConfig(theme=theme, title=title, output_directory=str(destination))
+    overrides: dict[str, object] = {}
+    if passed("theme") and theme is not None:
+        overrides["theme"] = theme
+    if passed("title") and title is not None:
+        overrides["title"] = title
+    if passed("pages") and pages is not None:
+        overrides["puzzle_count"] = pages
+    if passed("age_group") and age_group is not None:
+        overrides["age_group"] = age_group
+    if passed("difficulty") and difficulty is not None:
+        if difficulty not in SCALES:
+            raise typer.BadParameter("Difficulty must be easy, medium, or hard")
+        overrides["difficulty"] = difficulty
+    if passed("mix") and mix is not None:
+        try:
+            levels = expand_mix(mix)
+        except SlonError as exc:
+            raise typer.BadParameter(str(exc)) from exc
+        overrides["difficulties"] = levels
+        if not passed("pages"):
+            overrides["puzzle_count"] = len(levels)
+    if passed("page_format") and page_format is not None:
+        overrides["page_format"] = page_format
+    if passed("output") and output is not None:
+        overrides["output_directory"] = str(output)
+    if passed("model") and model is not None:
+        overrides["image_model"] = model
+    if passed("quality") and quality is not None:
+        overrides["image_quality"] = quality
+    if passed("include_solutions") and include_solutions is not None:
+        overrides["include_solutions"] = include_solutions
+    if passed("max_new") and max_new is not None:
+        overrides["max_new"] = max_new
+    if overrides:
+        loaded = loaded.model_copy(update=overrides)
+    point: tuple[float, float] | None = None
+    if passed("position") and position is not None:
+        parts = [part.strip() for part in position.split(",")]
+        if len(parts) != 2:
+            raise typer.BadParameter("Position must look like 0.65,0.72")
+        try:
+            point = (float(parts[0]), float(parts[1]))
+        except ValueError as exc:
+            raise typer.BadParameter("Position must look like 0.65,0.72") from exc
+    try:
+        result = run_slon_book(
+            loaded,
+            generate=generate,
+            pdf_only=pdf_only,
+            dry_run=dry_run,
+            regenerate_scene=regenerate_scene,
+            regenerate_elephant=regenerate_elephant,
+            force_regenerate=force_regenerate,
+            move_elephant=move_elephant,
+            position=point,
+        )
+    except SlonError as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(1) from exc
+    for note in result.notes:
+        typer.echo(note)
+    if result.reading_pdf:
+        typer.echo(f"Wrote reading PDF: {result.reading_pdf}")
+    if result.print_pdf:
+        typer.echo(f"Wrote print PDF: {result.print_pdf}")
 
 
 @game_app.command("math-grade1")

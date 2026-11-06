@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import json
-import re
-import unicodedata
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -28,11 +26,20 @@ from creobook.coloring.models import (
     Illustration,
     IllustrationPlan,
 )
-from creobook.coloring.planner import apply_copyright_flags, parse_plan, request_plan, validate_plan
+from creobook.coloring.planner import (
+    apply_copyright_flags,
+    parse_plan,
+    request_plan,
+    sanitize_plan_ids,
+    slugify,
+    validate_plan,
+)
 from creobook.coloring.process import assess, open_png, png_bytes, process_line_art
 from creobook.coloring.prompts import image_prompt
 from creobook.coloring.review import write_review
 from creobook.theme import project_root
+
+__all__ = ["RunReport", "slugify", "run_coloring_book", "estimate_note"]
 
 
 @dataclass
@@ -46,13 +53,6 @@ class RunReport:
     new_images: int = 0
     cached_images: int = 0
     api_calls: int = 0
-
-
-def slugify(text: str) -> str:
-    normalized = unicodedata.normalize("NFKD", text)
-    ascii_text = "".join(char for char in normalized if not unicodedata.combining(char))
-    slug = re.sub(r"[^A-Za-z0-9]+", "-", ascii_text).strip("-").lower()
-    return slug or "omalovanky"
 
 
 def _now() -> str:
@@ -170,6 +170,7 @@ def _write_generation(
 
 def _load_plan(path: Path, config: ColoringConfig) -> IllustrationPlan:
     plan = IllustrationPlan.model_validate(json.loads(path.read_text(encoding="utf-8")))
+    sanitize_plan_ids(plan)
     apply_copyright_flags(plan, config)
     validate_plan(plan, config)
     return plan

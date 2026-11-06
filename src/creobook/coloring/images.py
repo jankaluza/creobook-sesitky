@@ -111,7 +111,15 @@ class OpenAIColoringClient:
 
         return call_with_retry(once)
 
-    def generate_image(self, *, prompt: str, model: str, size: str, quality: str) -> GeneratedImage:
+    def generate_image(
+        self,
+        *,
+        prompt: str,
+        model: str,
+        size: str,
+        quality: str,
+        background: str = "opaque",
+    ) -> GeneratedImage:
         def once() -> GeneratedImage:
             try:
                 result = self._client.images.generate(
@@ -120,7 +128,7 @@ class OpenAIColoringClient:
                     size=size,
                     quality=quality,
                     output_format="png",
-                    background="opaque",
+                    background=background,
                     n=1,
                 )
             except Exception as exc:
